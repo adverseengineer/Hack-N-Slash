@@ -20,11 +20,11 @@
 	DEX									int
 	WIS									int
 	CHA									int
+	HeatResistance			float
+	ColdResistance			float
 	EvasionRate					float
 	CriticalRate				float
 	CriticalMultiplier	float
-	HeatResistance			float
-	ColdResistance			float
 	Arcane							int
 	Alchemy							int
 	Survival						int
@@ -50,6 +50,12 @@
 	EquippedEarrings		Earring
 	EquippedAmulet			Amulet
 	EquippedBelt				Amulet
+	HeadCondition				float
+	TorsoCondition			float
+	LeftArmCondition		float
+	RightArmCondition		float
+	LeftLegCondition		float
+	RightLegCondition		float
 	<player>
 		XP										int
 		Karma									int

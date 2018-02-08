@@ -6,8 +6,8 @@ public sealed class Player : Actor {
 
 	public int XP;
 	[Range(-500,500)] public int karma;
-	public AnimationCurve  levelCurve;
-
+	public AnimationCurve levelCurve;
+	public AnimationCurve lootCurve;
 	private float MercantileFactor;
 
 	private float ArcaneProgress;
@@ -25,6 +25,18 @@ public sealed class Player : Actor {
 	private float OneHandedProgress;
 	private float TwoHandedProgress;
 	private float MarksmanProgress;
+
+	public Item BrewPotion(Ingredient ingred1, Ingredient ingred2)
+	{
+		//TODO: if any of a potions effects match the other potion, keep that effect
+		return null;
+	}
+
+	public Item BrewPotion(Ingredient ingred1, Ingredient ingred2, Ingredient ingred3)
+	{
+		//TODO: if any of a potions effects match the other potion, keep that effect. if it's a bust,
+		return null;
+	}
 
 	public sealed override void UpdateStatus(){}
 }

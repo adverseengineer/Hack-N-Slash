@@ -1,7 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Apparel/Belt")]
+[AddComponentMenu("Item/Apparel/Belt")]
 public class Belt : Apparel
 {
+	//OneHanded
+	//TwoHanded
+	//carryWeightLimit
+	//MediumArmor
+	//HeavyArmor
+	//SP
 }

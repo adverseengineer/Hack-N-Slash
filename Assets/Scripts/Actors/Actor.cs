@@ -5,7 +5,19 @@ using System.Collections.Generic;
 public abstract class Actor : MonoBehaviour {
 
 	public enum Sex { Male = 0, Female = 1 };
-	public enum Race {debug = 0, human1 = 1, human2 = 2, human3 = 3, elf = 4, dwarf = 5, halfling = 6, tiefling = 7, orc = 8};
+	public enum Race
+	{
+		debug = 0,
+		human1 = 1,
+		human2 = 2,
+		human3 = 3,
+		elf1 = 4,
+		elf2 = 5,
+		dwarf = 6,
+		halfling = 7,
+		tiefling = 8,
+		orc = 9
+	};
 
 	public String Name;
 	public Sex sex;
@@ -14,7 +26,7 @@ public abstract class Actor : MonoBehaviour {
 	public int gold;
 	public int carryWeightLimit;
 	public List<Item> inventory = new List<Item>();
-	public List<Effect> activeEffects = new List<Effect>();
+	public List<StatusEffect> activeEffects = new List<StatusEffect>();
 
 	[Space(6)]
 	public int maxHP;
@@ -48,11 +60,11 @@ public abstract class Actor : MonoBehaviour {
 
 	[Space(18)]
 
-	[Range(0,1f)] public float evasionRate;
-	[Range(0,1f)] public float criticalRate;
-	[Range(0,1f)] public float criticalMult;
-	[Range(0,1f)] public float heatResistance;
-	[Range(0,1f)] public float coldResistance;
+	[Range(0,1f)] public float heatResistance = 0.0f;
+	[Range(0,1f)] public float coldResistance = 0.0f;
+	[Range(0,1f)] public float evasionRate = 		0.05f;
+	[Range(0,1f)] public float criticalRate = 	0.05f;
+	[Range(1,2f)] public float criticalMult = 	1.0f;
 
 	[Space(18)]
 
@@ -73,28 +85,42 @@ public abstract class Actor : MonoBehaviour {
 	[Range(0,100)] public int Marksman;
 
 	[Space(18)]
-	
+
 	public Weapon 		EquippedWeapon;
+
 	public Head 			EquippedHead;
 	public Top 				EquippedTop;
 	public Bottom 		EquippedBottom;
 	public Shield 		EquippedShield;
+
 	public Ring 			EquippedRing;
 	public Earrings 	EquippedEarrings;
 	public Amulet 		EquippedAmulet;
 	public Belt 			EquippedBelt;
 
+	[Space(18)]
+
+	[Range(0,1f)] public float HeadCondition = 1f;			//concussion
+	[Range(0,1f)] public float TorsoCondition = 1f;			//broken ribs
+	[Range(0,1f)] public float LeftArmCondition = 1f;		//trauma
+	[Range(0,1f)] public float RightArmCondition = 1f;	//trauma
+	[Range(0,1f)] public float LeftLegCondition = 1f;		//trauma
+	[Range(0,1f)] public float RightLegCondition = 1f;	//trauma
+
+
 	void OnValidate()
 	{
-		if(currentHP > maxHP){currentHP = maxHP;}
-		if(currentSP > maxSP){currentSP = maxSP;}
-		if(currentMP > maxMP){currentMP = maxMP;}
-		if(currentFP > maxFP){currentFP = maxFP;}
+		if(currentHP > maxHP) currentHP = maxHP;
+		if(currentSP > maxSP) currentSP = maxSP;
+		if(currentMP > maxMP) currentMP = maxMP;
+		if(currentFP > maxFP) currentFP = maxFP;
 		//applyRaceBonuses(race);
 	}
 
+	/*
 	public void applyRaceBonuses(Race race)
 	{
+		//TODO: update the race bonuses to consider new features that have been added
 		maxHP = currentHP = 20;
 		maxSP = currentSP = maxMP = currentMP = maxFP = currentFP = 15;
 		ATK = DEF = SPD = LCK = 10;
@@ -174,6 +200,7 @@ public abstract class Actor : MonoBehaviour {
 			break;
 		}
 	}
+	*/
 
 	public abstract void UpdateStatus();
 

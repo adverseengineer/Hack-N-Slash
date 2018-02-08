@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Weapons/Spellbook")]
+[AddComponentMenu("Item/Weapons/Spellbook")]
 public class Spellbook : Weapon
 {
 	public enum Collection

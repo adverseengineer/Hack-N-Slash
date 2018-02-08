@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Apparel/Bottom")]
+[AddComponentMenu("Item/Apparel/Bottom")]
 public sealed class Bottom : Apparel
 {
 }

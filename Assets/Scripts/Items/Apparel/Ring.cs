@@ -1,7 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Apparel/Ring")]
+[AddComponentMenu("Item/Apparel/Ring")]
 public sealed class Ring : Apparel
 {
+	//Arcane
+	//Alchemy
+	//Speech
+	//Barter
+	//Sneak
+	//Marksman
 }

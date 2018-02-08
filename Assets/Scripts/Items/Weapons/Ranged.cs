@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Weapons/Ranged")]
+[AddComponentMenu("Item/Weapons/Ranged")]
 public sealed class Ranged : Weapon
 {
 	public enum WeaponType { Longbow = 0, Crossbow = 1 };

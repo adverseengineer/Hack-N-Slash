@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Weapons/Artifice")]
+[AddComponentMenu("Item/Weapons/Artifice")]
 public sealed class Artifice : Weapon
 {
 	//bomb

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Weapons/Melee")]
+[AddComponentMenu("Item/Weapons/Melee")]
 public sealed class Melee : Weapon
 {
 	//TODO:organize all this BULLSHIT
