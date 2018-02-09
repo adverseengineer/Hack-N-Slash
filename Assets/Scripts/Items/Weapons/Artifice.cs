@@ -6,8 +6,10 @@ public sealed class Artifice : Weapon
 {
 	//bomb
 	//caltrops
-	public sealed override void CalculateValue()
+	//beartraps
+	public sealed override int CalculateValue()
 	{
-		//TODO:fill in this
+		//TODO: write item value formula for artificies
+		return 0;
 	}
 }

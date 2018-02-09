@@ -4,8 +4,9 @@ using System.Collections;
 [AddComponentMenu("Item/Weapons/Staff")]
 public sealed class Staff : Weapon
 {
-	public sealed override void CalculateValue()
+	public sealed override int CalculateValue()
 	{
-		//TODO: fill this in
+		//TODO: staff value formula
+		return 0;
 	}
 }

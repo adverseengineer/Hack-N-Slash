@@ -54,6 +54,7 @@ public class PlayerControl : MonoBehaviour
 
 	void Update()
 	{
+		pushPower = originalPushPower;
 		if(controller.isGrounded)
 		{
 			pushPower = originalPushPower;
@@ -89,7 +90,6 @@ public class PlayerControl : MonoBehaviour
 				//if fovkick is enabled AND the player is moving AND they just pressed shift
 				if(FOVKickEnabled && controller.velocity != Vector3.zero && Input.GetButtonDown("Fire3"))
 				{
-					//TODO: increase the fov
 					StartCoroutine(kick.FOVKickUp());
 				}
 			}
@@ -101,7 +101,6 @@ public class PlayerControl : MonoBehaviour
 				moveDirection *= walkSpeed;
 				if(FOVKickEnabled && Input.GetButtonUp("Fire3"))
 				{
-					//TODO: decrease the fov
 					StartCoroutine(kick.FOVKickDown());
 				}
 			}

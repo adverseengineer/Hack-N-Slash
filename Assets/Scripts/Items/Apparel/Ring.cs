@@ -10,4 +10,8 @@ public sealed class Ring : Apparel
 	//Barter
 	//Sneak
 	//Marksman
+	void OnValidate()
+	{
+		value = CalculateValue();
+	}
 }

@@ -7,8 +7,9 @@ public sealed class Food : Consumable
 	public StatusEffect eff1;
 	public StatusEffect eff2;
 	public StatusEffect eff3;
-	public sealed override void CalculateValue()
+	public sealed override int CalculateValue()
 	{
-		//TODO: fill in
+		//TODO: food value formula
+		return 0;
 	}
 }

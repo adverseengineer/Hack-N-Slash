@@ -10,4 +10,8 @@ public class Belt : Apparel
 	//MediumArmor
 	//HeavyArmor
 	//SP
+	void OnValidate()
+	{
+		value = CalculateValue();
+	}
 }

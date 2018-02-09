@@ -5,4 +5,8 @@ using System.Collections;
 public sealed class Shield : Apparel
 {
 	//shields can have one socket
+	void OnValidate()
+	{
+		value = CalculateValue();
+	}
 }

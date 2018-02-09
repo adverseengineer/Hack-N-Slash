@@ -8,4 +8,8 @@ public sealed class Amulet : Apparel
 	//SP
 	//MP
 	//FP
+	void OnValidate()
+	{
+		value = CalculateValue();
+	}
 }

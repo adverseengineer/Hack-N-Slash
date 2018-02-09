@@ -5,8 +5,9 @@ using System.Collections;
 public class Scroll : Consumable
 {
 	//TODO: implement scrolls
-	public sealed override void CalculateValue()
+	public sealed override int CalculateValue()
 	{
-		//TODO: fill this in
+		//TODO: write item value formula for scroll
+		return 0;
 	}
 }

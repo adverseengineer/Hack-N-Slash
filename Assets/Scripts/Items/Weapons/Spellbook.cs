@@ -12,11 +12,17 @@ public class Spellbook : Weapon
 		Expert = 3,
 		Master = 4
 	};
-	public enum Element { Fire = 0, Ice = 1 };
+	public enum Element
+	{
+		 Fire = 0,
+		 Ice = 1
+	};
+
 	public Collection collection;
 	public Element element;
-	public sealed override void CalculateValue()
+	public sealed override int CalculateValue()
 	{
-		//TODO:fill in this
+		//TODO: write item value for Spellbook
+		return 0;
 	}
 }
