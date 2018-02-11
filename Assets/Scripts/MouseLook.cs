@@ -1,8 +1,12 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+
+[AddComponentMenu("Camera-Control/Mouse Look")]
 public class MouseLook : MonoBehaviour
 {
+	//FIXME: i get stuck on the bottom of the screen whenever the mouse goes very far beyond it's limit
+
 	public enum Axes { MouseX = 0, MouseY = 1, MouseXAndY = 2 };
 	public Axes axes = Axes.MouseX;
 
@@ -20,9 +24,9 @@ public class MouseLook : MonoBehaviour
 	private List<float> rotArrayY = new List<float>();
 	private float rotAverageY = 0f;
 
-	public int frameCounter;
+	public int frameCounter = 10;
 
-	public bool disable = false;
+	public bool disabled = false;
 
 	private Quaternion originalRotation;
 	private Quaternion xQuaternion = Quaternion.identity;
@@ -31,6 +35,11 @@ public class MouseLook : MonoBehaviour
 	void Start ()
 	{
 		originalRotation = transform.localRotation;
+
+		if (GetComponent<Rigidbody>() != null)
+    {
+      GetComponent<Rigidbody>().freezeRotation = true;
+    }
 	}
 
 	void OnValidate()
@@ -39,13 +48,13 @@ public class MouseLook : MonoBehaviour
 			frameCounter = 1;
 	}
 
-	void Update ()
+	void LateUpdate ()
 	{
 		rotAverageX = 0f;
 		rotAverageY = 0f;
 
 		//if looking is not disabled, take input
-		if(!disable)
+		if(!disabled)
 		{
 			rotationX += Input.GetAxis("Mouse X") * sensitivityX;
 			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
@@ -60,27 +69,18 @@ public class MouseLook : MonoBehaviour
 		if (rotArrayY.Count >= frameCounter)
 			rotArrayY.RemoveAt(0);
 
-		rotAverageX = Average(rotArrayX);
-		rotAverageY = Average(rotArrayY);
+		rotAverageX = Functions.Average(rotArrayX);
+		rotAverageY = Functions.Average(rotArrayY);
 
 		//restrict to the specified bounds
-		rotAverageX = ClampAngle(rotAverageX, minimumX, maximumX);
-		rotAverageY = ClampAngle(rotAverageY, minimumY, maximumY);
+		rotAverageX = Functions.ClampAngle(rotAverageX, minimumX, maximumX);
+		rotAverageY = Functions.ClampAngle(rotAverageY, minimumY, maximumY);
 
 		//define each quaternion's axis so that each quaternion is equivalent to euler angles
 		xQuaternion = Quaternion.AngleAxis (rotAverageX, Vector3.up);
 		yQuaternion = Quaternion.AngleAxis (rotAverageY, Vector3.left);
 
-
-		//TODO: map this to a better key
-		if(Input.GetKeyDown(KeyCode.Q))
-		{
-			originalRotation = transform.localRotation;
-			disable = !disable;
-		}
-
-
-		if(axes == Axes.MouseX && !disable)
+		if(axes == Axes.MouseX && !disabled)
 		{
 			transform.localRotation = originalRotation * xQuaternion;
 		}
@@ -92,30 +92,5 @@ public class MouseLook : MonoBehaviour
 		{
 			transform.localRotation = originalRotation * xQuaternion * yQuaternion;
 		}
-	}
-
-	public static float Average(List<float> arg)
-	{
-		float result = 0f;
-		foreach(float f in arg)
-			result += f;
-		return result / arg.Count;
-	}
-
-	public static float ClampAngle (float angle, float min, float max)
-	{
-		angle %= 360;
-		if ((angle >= -360f) && (angle <= 360f))
-		{
-			if (angle < -360f)
-			{
-				angle += 360f;
-			}
-			if (angle > 360f)
-			{
-				angle -= 360f;
-			}
-		}
-		return Mathf.Clamp (angle, min, max);
 	}
 }

@@ -156,7 +156,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
@@ -599,262 +599,262 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     - name: hips
-      position: {x: -0, y: 9.46865, z: 0.1085}
+      position: {x: -0, y: 0.946865, z: 0.01085}
       rotation: {x: -0.087279946, y: -0, z: -0, w: 0.9961839}
       scale: {x: 1, y: 0.99999464, z: 0.99999464}
       transformModified: 1
     - name: thigh_L
-      position: {x: -1.06103, y: -0.1318, z: -0.13173}
+      position: {x: -0.106103, y: -0.01318, z: -0.013173001}
       rotation: {x: 0.98733115, y: -0.03742896, z: -0.14301771, w: -0.057639614}
       scale: {x: 1.0000017, y: 1.0000062, z: 1.0000033}
       transformModified: 1
     - name: shin_L
-      position: {x: -0, y: 4.3228, z: 0}
+      position: {x: -0, y: 0.43228003, z: 0}
       rotation: {x: 0.050984062, y: -0.000026333608, z: -0.000012606381, w: 0.9986995}
       scale: {x: 0.99999994, y: 0.99999905, z: 0.99999887}
       transformModified: 1
     - name: foot_L
-      position: {x: -0, y: 4.3284, z: 0}
+      position: {x: -0, y: 0.43284002, z: 0}
       rotation: {x: -0.5355743, y: 0.129762, z: 0.045345616, w: 0.83322614}
       scale: {x: 0.999995, y: 0.99999774, z: 1.0000032}
       transformModified: 1
     - name: toe_L
-      position: {x: -0, y: 1.42962, z: 0}
+      position: {x: -0, y: 0.14296201, z: 0}
       rotation: {x: -0.23038098, y: -0.000015772875, z: 0.0000068433565, w: 0.9731005}
       scale: {x: 1, y: 0.99999833, z: 0.9999944}
       transformModified: 1
     - name: thigh_R
-      position: {x: 1.06103, y: -0.1318, z: -0.13173}
+      position: {x: 0.106103, y: -0.01318, z: -0.013173001}
       rotation: {x: 0.98733115, y: 0.03742896, z: 0.14301771, w: -0.057639614}
       scale: {x: 1.0000017, y: 1.0000062, z: 1.0000033}
       transformModified: 1
     - name: shin_R
-      position: {x: -0, y: 4.3228, z: 0}
+      position: {x: -0, y: 0.43228003, z: 0}
       rotation: {x: 0.050984062, y: 0.000026333608, z: 0.000012606381, w: 0.9986995}
       scale: {x: 0.99999994, y: 0.99999905, z: 0.99999887}
       transformModified: 1
     - name: foot_R
-      position: {x: -0, y: 4.3284, z: 0}
+      position: {x: -0, y: 0.43284002, z: 0}
       rotation: {x: -0.5355743, y: -0.129762, z: -0.045345616, w: 0.83322614}
       scale: {x: 0.999995, y: 0.99999774, z: 1.0000032}
       transformModified: 1
     - name: toe_R
-      position: {x: -0, y: 1.42962, z: 0}
+      position: {x: -0, y: 0.14296201, z: 0}
       rotation: {x: -0.23038098, y: 0.000015772875, z: -0.0000068433565, w: 0.9731005}
       scale: {x: 1, y: 0.99999833, z: 0.9999944}
       transformModified: 1
     - name: spine
-      position: {x: -0, y: 1.34682, z: 0}
+      position: {x: -0, y: 0.134682, z: 0}
       rotation: {x: -0.0043245032, y: -0, z: -0, w: 0.9999907}
       scale: {x: 1, y: 0.99999714, z: 0.99999714}
       transformModified: 1
     - name: chest
-      position: {x: -0, y: 0.54209, z: 0}
+      position: {x: -0, y: 0.054209, z: 0}
       rotation: {x: 0.025318224, y: -0, z: -0, w: 0.99967945}
       scale: {x: 1, y: 0.99999785, z: 0.99999785}
       transformModified: 1
     - name: chest-1
-      position: {x: -0, y: 1.43807, z: 0}
+      position: {x: -0, y: 0.14380701, z: 0}
       rotation: {x: 0.18613078, y: -0, z: -0, w: 0.982525}
       scale: {x: 1, y: 0.9999945, z: 0.9999945}
       transformModified: 1
     - name: shoulder_R
-      position: {x: 0.23092, y: 1.7301, z: 0.57924}
+      position: {x: 0.023092, y: 0.17301, z: 0.057924002}
       rotation: {x: 0.68071705, y: 0.489194, z: 0.38324618, w: -0.38786075}
       scale: {x: 1.0000049, y: 1.0000031, z: 0.9999985}
       transformModified: 1
     - name: upper_arm_R
-      position: {x: -0, y: 1.71165, z: 0}
+      position: {x: -0, y: 0.171165, z: 0}
       rotation: {x: 0.11539681, y: 0.7297326, z: -0.03870076, w: 0.6728122}
       scale: {x: 0.999998, y: 1.0000049, z: 0.9999986}
       transformModified: 1
     - name: forearm_R
-      position: {x: -0, y: 2.54314, z: 0}
+      position: {x: -0, y: 0.254314, z: 0}
       rotation: {x: 0.025830278, y: -0.008980538, z: 0.020963175, w: 0.99940616}
       scale: {x: 1.0000012, y: 1.0000012, z: 1.0000029}
       transformModified: 1
     - name: hand_R
-      position: {x: -0, y: 2.62094, z: 0}
+      position: {x: -0, y: 0.262094, z: 0}
       rotation: {x: -0.11926827, y: -0.66531163, z: 0.06758934, w: -0.73387134}
       scale: {x: 1, y: 1.0000058, z: 0.999992}
       transformModified: 1
     - name: f_ring_01_R
-      position: {x: 0.22385, y: 1.02844, z: -0.16135}
+      position: {x: 0.022385, y: 0.102844, z: -0.016135}
       rotation: {x: -0.03924398, y: -0.012104596, z: -0.08374512, w: 0.99564064}
       scale: {x: 1.0000067, y: 0.99999934, z: 0.9999992}
       transformModified: 1
     - name: f_ring_02_R
-      position: {x: -0, y: 0.32738, z: 0}
+      position: {x: -0, y: 0.032738, z: 0}
       rotation: {x: 0.03785484, y: -0.0042019654, z: 0.0044237073, w: 0.99926466}
       scale: {x: 0.9999987, y: 1.0000036, z: 0.9999919}
       transformModified: 1
     - name: f_ring_03_R
-      position: {x: -0, y: 0.27567, z: 0}
+      position: {x: -0, y: 0.027567, z: 0}
       rotation: {x: -0.008392093, y: 0.005072668, z: -0.025749613, w: 0.9996204}
       scale: {x: 1.0000017, y: 1.0000037, z: 1.0000076}
       transformModified: 1
     - name: f_pinky_01_R
-      position: {x: 0.43054, y: 0.9179, z: -0.17094}
+      position: {x: 0.043054, y: 0.091790006, z: -0.017094}
       rotation: {x: -0.0067187687, y: 0.10001807, z: -0.07374006, w: 0.9922266}
       scale: {x: 0.9999993, y: 1.000007, z: 1.0000017}
       transformModified: 1
     - name: f_pinky_02_R
-      position: {x: -0, y: 0.25027, z: 0}
+      position: {x: -0, y: 0.025027001, z: 0}
       rotation: {x: 0.04004945, y: -0.004366747, z: 0.0038654665, w: 0.99918073}
       scale: {x: 1.0000036, y: 1.0000066, z: 1.0000002}
       transformModified: 1
     - name: f_pinky_03_R
-      position: {x: -0, y: 0.1654, z: 0}
+      position: {x: -0, y: 0.01654, z: 0}
       rotation: {x: 0.013686884, y: 0.0069126347, z: -0.012172396, w: 0.9998084}
       scale: {x: 1.0000011, y: 1.0000025, z: 1.0000012}
       transformModified: 1
     - name: thumb_01_R
-      position: {x: -0.26561, y: 0.42229, z: -0.01352}
+      position: {x: -0.026561001, y: 0.042229, z: -0.0013519999}
       rotation: {x: -0.086056486, y: 0.47175068, z: 0.36563405, w: 0.7977201}
       scale: {x: 0.9999852, y: 1.0000024, z: 1.0000111}
       transformModified: 1
     - name: thumb_02_R
-      position: {x: -0, y: 0.3489, z: 0}
+      position: {x: -0, y: 0.03489, z: 0}
       rotation: {x: 0.006689711, y: 0.14524493, z: -0.032815523, w: 0.9888288}
       scale: {x: 0.99999607, y: 1.0000043, z: 0.9999963}
       transformModified: 1
     - name: thumb_03_R
-      position: {x: -0, y: 0.41759, z: 0}
+      position: {x: -0, y: 0.041759, z: 0}
       rotation: {x: 0.036344673, y: -0.009837177, z: 0.0034882568, w: 0.99928486}
       scale: {x: 0.99999803, y: 1.0000073, z: 1.0000052}
       transformModified: 1
     - name: f_middle_01_R
-      position: {x: 0.01205, y: 1.11225, z: -0.11068}
+      position: {x: 0.001205, y: 0.111225, z: -0.011068}
       rotation: {x: -0.0093401065, y: -0.022428332, z: -0.077135466, w: 0.9967246}
       scale: {x: 1.0000037, y: 0.99999756, z: 1.0000004}
       transformModified: 1
     - name: f_middle_02_R
-      position: {x: -0, y: 0.37077, z: 0}
+      position: {x: -0, y: 0.037077002, z: 0}
       rotation: {x: 0.03855306, y: -0.0028890208, z: 0.00225024, w: 0.99924994}
       scale: {x: 0.99999523, y: 1.0000018, z: 0.9999889}
       transformModified: 1
     - name: f_middle_03_R
-      position: {x: -0, y: 0.29062, z: 0}
+      position: {x: -0, y: 0.029062001, z: 0}
       rotation: {x: -0.0031479218, y: 0.0045380117, z: -0.012280232, w: 0.9999094}
       scale: {x: 1.0000048, y: 1.0000052, z: 1.000003}
       transformModified: 1
     - name: f_index_01_R
-      position: {x: -0.27221, y: 1.12919, z: -0.07763}
+      position: {x: -0.027221, y: 0.112918995, z: -0.0077629997}
       rotation: {x: 0.008881299, y: 0.20689453, z: 0.043903094, w: 0.9773374}
       scale: {x: 0.999988, y: 1.0000103, z: 1.0000122}
       transformModified: 1
     - name: f_index_02_R
-      position: {x: -0, y: 0.29315, z: 0}
+      position: {x: -0, y: 0.029315, z: 0}
       rotation: {x: 0.03859488, y: 0.003995699, z: -0.0006190407, w: 0.9992467}
       scale: {x: 0.99999714, y: 1.0000087, z: 0.9999967}
       transformModified: 1
     - name: f_index_03_R
-      position: {x: -0, y: 0.26321, z: 0}
+      position: {x: -0, y: 0.026321, z: 0}
       rotation: {x: 0.016248653, y: -0.0075439364, z: 0.0039458596, w: 0.9998318}
       scale: {x: 1.0000057, y: 1.0000023, z: 1.0000031}
       transformModified: 1
     - name: shoulder_L
-      position: {x: -0.23092, y: 1.7301, z: 0.57924}
+      position: {x: -0.023092, y: 0.17301, z: 0.057924002}
       rotation: {x: 0.68071705, y: -0.489194, z: -0.38324618, w: -0.38786075}
       scale: {x: 1.0000049, y: 1.0000031, z: 0.9999985}
       transformModified: 1
     - name: upper_arm_L
-      position: {x: -0, y: 1.71165, z: 0}
+      position: {x: -0, y: 0.171165, z: 0}
       rotation: {x: -0.11539681, y: 0.7297326, z: -0.03870076, w: -0.6728122}
       scale: {x: 0.999998, y: 1.0000049, z: 0.9999986}
       transformModified: 1
     - name: forearm_L
-      position: {x: -0, y: 2.54314, z: 0}
+      position: {x: -0, y: 0.254314, z: 0}
       rotation: {x: 0.025830278, y: 0.008980538, z: -0.020963175, w: 0.99940616}
       scale: {x: 1.0000012, y: 1.0000012, z: 1.0000029}
       transformModified: 1
     - name: hand_L
-      position: {x: -0, y: 2.62094, z: 0}
+      position: {x: -0, y: 0.262094, z: 0}
       rotation: {x: 0.11926827, y: -0.66531163, z: 0.06758934, w: 0.73387134}
       scale: {x: 1, y: 1.0000058, z: 0.999992}
       transformModified: 1
     - name: f_pinky_01_L
-      position: {x: -0.43054, y: 0.9179, z: -0.17094}
+      position: {x: -0.043054, y: 0.091790006, z: -0.017094}
       rotation: {x: -0.0067187687, y: -0.10001807, z: 0.07374006, w: 0.9922266}
       scale: {x: 0.9999993, y: 1.000007, z: 1.0000017}
       transformModified: 1
     - name: f_pinky_02_L
-      position: {x: -0, y: 0.25027, z: 0}
+      position: {x: -0, y: 0.025027001, z: 0}
       rotation: {x: 0.04004945, y: 0.004366747, z: -0.0038654665, w: 0.99918073}
       scale: {x: 1.0000036, y: 1.0000066, z: 1.0000002}
       transformModified: 1
     - name: f_pinky_03_L
-      position: {x: -0, y: 0.1654, z: 0}
+      position: {x: -0, y: 0.01654, z: 0}
       rotation: {x: 0.013686884, y: -0.0069126347, z: 0.012172396, w: 0.9998084}
       scale: {x: 1.0000011, y: 1.0000025, z: 1.0000012}
       transformModified: 1
     - name: f_ring_01_L
-      position: {x: -0.22385, y: 1.02844, z: -0.16135}
+      position: {x: -0.022385, y: 0.102844, z: -0.016135}
       rotation: {x: -0.03924398, y: 0.012104596, z: 0.08374512, w: 0.99564064}
       scale: {x: 1.0000067, y: 0.99999934, z: 0.9999992}
       transformModified: 1
     - name: f_ring_02_L
-      position: {x: -0, y: 0.32738, z: 0}
+      position: {x: -0, y: 0.032738, z: 0}
       rotation: {x: 0.03785484, y: 0.0042019654, z: -0.0044237073, w: 0.99926466}
       scale: {x: 0.9999987, y: 1.0000036, z: 0.9999919}
       transformModified: 1
     - name: f_ring_03_L
-      position: {x: -0, y: 0.27567, z: 0}
+      position: {x: -0, y: 0.027567, z: 0}
       rotation: {x: -0.008392093, y: -0.005072668, z: 0.025749613, w: 0.9996204}
       scale: {x: 1.0000017, y: 1.0000037, z: 1.0000076}
       transformModified: 1
     - name: f_index_01_L
-      position: {x: 0.27221, y: 1.12919, z: -0.07763}
+      position: {x: 0.027221, y: 0.112918995, z: -0.0077629997}
       rotation: {x: 0.008881299, y: -0.20689453, z: -0.043903094, w: 0.9773374}
       scale: {x: 0.999988, y: 1.0000103, z: 1.0000122}
       transformModified: 1
     - name: f_index_02_L
-      position: {x: -0, y: 0.29315, z: 0}
+      position: {x: -0, y: 0.029315, z: 0}
       rotation: {x: 0.03859488, y: -0.003995699, z: 0.0006190407, w: 0.9992467}
       scale: {x: 0.99999714, y: 1.0000087, z: 0.9999967}
       transformModified: 1
     - name: f_index_03_L
-      position: {x: -0, y: 0.26321, z: 0}
+      position: {x: -0, y: 0.026321, z: 0}
       rotation: {x: 0.016248653, y: 0.0075439364, z: -0.0039458596, w: 0.9998318}
       scale: {x: 1.0000057, y: 1.0000023, z: 1.0000031}
       transformModified: 1
     - name: f_middle_01_L
-      position: {x: -0.01205, y: 1.11225, z: -0.11068}
+      position: {x: -0.001205, y: 0.111225, z: -0.011068}
       rotation: {x: -0.0093401065, y: 0.022428332, z: 0.077135466, w: 0.9967246}
       scale: {x: 1.0000037, y: 0.99999756, z: 1.0000004}
       transformModified: 1
     - name: f_middle_02_L
-      position: {x: -0, y: 0.37077, z: 0}
+      position: {x: -0, y: 0.037077002, z: 0}
       rotation: {x: 0.03855306, y: 0.0028890208, z: -0.00225024, w: 0.99924994}
       scale: {x: 0.99999523, y: 1.0000018, z: 0.9999889}
       transformModified: 1
     - name: f_middle_03_L
-      position: {x: -0, y: 0.29062, z: 0}
+      position: {x: -0, y: 0.029062001, z: 0}
       rotation: {x: -0.0031479218, y: -0.0045380117, z: 0.012280232, w: 0.9999094}
       scale: {x: 1.0000048, y: 1.0000052, z: 1.000003}
       transformModified: 1
     - name: thumb_01_L
-      position: {x: 0.26561, y: 0.42229, z: -0.01352}
+      position: {x: 0.026561001, y: 0.042229, z: -0.0013519999}
       rotation: {x: -0.08622677, y: -0.4721142, z: -0.36560217, w: 0.79750115}
       scale: {x: 0.9999903, y: 1.0000015, z: 1.000014}
       transformModified: 1
     - name: thumb_02_L
-      position: {x: -0, y: 0.3489, z: 0}
+      position: {x: -0, y: 0.03489, z: 0}
       rotation: {x: 0.0067230747, y: -0.1449458, z: 0.03280589, w: 0.9888728}
       scale: {x: 1.0000019, y: 1.0000063, z: 0.9999919}
       transformModified: 1
     - name: thumb_03_L
-      position: {x: -0, y: 0.41759, z: 0}
+      position: {x: -0, y: 0.041759, z: 0}
       rotation: {x: 0.03629244, y: 0.009891283, z: -0.003498203, w: 0.9992861}
       scale: {x: 0.99999905, y: 1.000007, z: 0.99999607}
       transformModified: 1
     - name: neck
-      position: {x: -0, y: 2.36185, z: 0}
+      position: {x: -0, y: 0.236185, z: 0}
       rotation: {x: -0.15061986, y: -0, z: -0, w: 0.98859185}
       scale: {x: 1, y: 0.9999981, z: 0.9999981}
       transformModified: 1
     - name: head
-      position: {x: -0, y: 1.07618, z: 0}
+      position: {x: -0, y: 0.107618, z: 0}
       rotation: {x: 0.039857548, y: -0, z: -0, w: 0.9992054}
       scale: {x: 1, y: 1.0000023, z: 1.0000023}
       transformModified: 1

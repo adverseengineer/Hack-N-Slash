@@ -128,16 +128,4 @@ public class PlayerControl : MonoBehaviour
 		}
 	}
 }
-	/*
-	float t = Mathf.Abs((currentValue - originalValue)/increment);
-	if(direction == Direction.up)
-	{
-		while (t < time)
-		{
-			currentValue = originalValue + (curve.Evaluate(t/time)*increment);
-			t += Time.deltaTime;
-			yield return new WaitForEndOfFrame();
-		}
-	}
-	*/
 //IDEA: two cameras, 1st person and 3rd person, set to different layers so that the player displays properly

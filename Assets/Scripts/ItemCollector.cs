@@ -1,32 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//this class is to be attached to the camera
 public class ItemCollector : MonoBehaviour
 {
-
 	private Player player;
 
-	// Use this for initialization
 	void Start ()
 	{
 		player = GetComponent<Player>();
 	}
 
-	// Update is called once per frame
-	void Update ()
-	{
-
-	}
-
-	void OnControllerColliderStay(Collision collision)
-	{
-		Debug.Log("hitting!");
-		if(collision.gameObject.tag == "collectible")
-		{
-			if(Input.GetKey(KeyCode.E))
-	    {
-				collision.gameObject.SetActive(false);
-	    }
-		}
+	void Update()
+  {
+    Vector3 fwd = transform.TransformDirection(Vector3.forward);
+    if (Physics.Raycast(transform.position, fwd, 10))
+      Debug.Log("There is something in front of the object!");
   }
 }

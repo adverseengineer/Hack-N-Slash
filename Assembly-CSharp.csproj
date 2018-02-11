@@ -90,6 +90,7 @@
      <Compile Include="Assets\Scripts\Actors\Vendor.cs" />
      <Compile Include="Assets\Scripts\Bounds.cs" />
      <Compile Include="Assets\Scripts\FOVKick.cs" />
+     <Compile Include="Assets\Scripts\Functions.cs" />
      <Compile Include="Assets\Scripts\Hover.cs" />
      <Compile Include="Assets\Scripts\ItemCollector.cs" />
      <Compile Include="Assets\Scripts\Items\Apparel\Amulet.cs" />
@@ -115,6 +116,7 @@
      <Compile Include="Assets\Scripts\Items\Weapons\Staff.cs" />
      <Compile Include="Assets\Scripts\Items\Weapons\Weapon.cs" />
      <Compile Include="Assets\Scripts\MouseLook.cs" />
+     <Compile Include="Assets\Scripts\MouseOrbit.cs" />
      <Compile Include="Assets\Scripts\Platform.cs" />
      <Compile Include="Assets\Scripts\PlayerControl.cs" />
      <Compile Include="Assets\Scripts\StatusEffect.cs" />

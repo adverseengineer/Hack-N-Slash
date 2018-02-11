@@ -4,7 +4,12 @@ using System.Collections;
 [AddComponentMenu("Item/Apparel/Shield")]
 public sealed class Shield : Apparel
 {
-	//shields can have one socket
+	//wooden = kite
+	//bone = buckler
+	//iron = heater
+	//steel = tower
+	//bronze = greek
+
 	void OnValidate()
 	{
 		value = CalculateValue();
