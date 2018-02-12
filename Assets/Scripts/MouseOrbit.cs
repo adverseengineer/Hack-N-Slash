@@ -64,16 +64,6 @@ public class MouseOrbit : MonoBehaviour
       	rotationY -= Input.GetAxis("Mouse Y") * sensitivityY;
 			}
 
-			if(Input.GetAxis("Mouse X") * sensitivityX != 0)
-			{
-				Debug.Log("x");
-			}
-
-			if(Input.GetAxis("Mouse Y") * sensitivityY != 0)
-			{
-				Debug.Log("y");
-			}
-
 			rotArrayX.Add(rotationX);
 			rotArrayY.Add(rotationY);
 

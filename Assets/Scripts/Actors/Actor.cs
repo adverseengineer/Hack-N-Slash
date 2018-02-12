@@ -25,7 +25,7 @@ public abstract class Actor : MonoBehaviour {
 	public int level;
 	public int gold;
 	public int carryWeightLimit;
-	public List<Item> inventory = new List<Item>();
+	public List<GameObject> inventory = new List<GameObject>();
 	public List<StatusEffect> activeEffects = new List<StatusEffect>();
 
 	[Space(6)]

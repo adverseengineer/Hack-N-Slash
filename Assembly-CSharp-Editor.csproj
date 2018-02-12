@@ -66,7 +66,7 @@
      <None Include="Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
      <None Include="Assets\Effects\ImageEffects\Shaders\GrayscaleEffect.shader" />
      <None Include="Assets\Effects\Projectors\Guidelines.txt" />
-     <None Include="Assets\Scripts\Items\Items.xml" />
+     <None Include="Assets\Scripts\Item\Items.xml" />
      <None Include="Assets\Effects\ImageEffects\Shaders\SSAOShader.shader" />
      <None Include="Assets\Shaders\dd_Invert.shader" />
      <None Include="Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
