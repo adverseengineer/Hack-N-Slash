@@ -45,8 +45,7 @@ public sealed class Player : Actor {
 	private float RepairProgress;
 	private float SecurityProgress;
 	private float SpeechProgress;
-	private float BarterProgress;
-	private float SneakProgress;
+	private float StealthProgress;
 	private float LightArmorProgress;
 	private float MediumArmorProgress;
 	private float HeavyArmorProgress;

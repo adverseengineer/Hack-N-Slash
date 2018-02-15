@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 public abstract class Actor : MonoBehaviour {
@@ -25,24 +26,26 @@ public abstract class Actor : MonoBehaviour {
 	public int level;
 	public int gold;
 	public int carryWeightLimit;
-	public List<GameObject> inventory = new List<GameObject>();
-	public List<StatusEffect> activeEffects = new List<StatusEffect>();
+	public float movementSpeed;
+	public float XPGainRate;
+	public Animator animator;
+	public List<Item> inventory = new List<Item>();
+	public List<String> activeEffects = new List<String>();
 
 	[Space(6)]
 	public int maxHP;
 	public int currentHP;
+	public float HPRegenRate;
 
 	[Space(6)]
 	public int maxSP;
 	public int currentSP;
+	public float SPRegenRate;
 
 	[Space(6)]
 	public int maxMP;
 	public int currentMP;
-
-	[Space(6)]
-	public int maxFP;
-	public int currentFP;
+	public float MPRegenRate;
 
 	[Space(18)]
 
@@ -53,10 +56,10 @@ public abstract class Actor : MonoBehaviour {
 
 	[Space(18)]
 
-	public int STR; //STR - effectiveness of large melee weapons
-	public int DEX;	//DEX - effectiveness of small melee weapons and ranged weapons
-	public int WIS; //WIS - effectiveness of spellbooks and staves
-	public int CHA; //CHA - effectiveness of all pacifist actions
+	[Range(0,10)] public int STR; //STR - effectiveness of large melee weapons
+	[Range(0,10)] public int DEX;	//DEX - effectiveness of small melee weapons and ranged weapons
+	[Range(0,10)] public int WIS; //WIS - effectiveness of spellbooks and staves
+	[Range(0,10)] public int CHA; //CHA - effectiveness of all pacifist actions
 
 	[Space(18)]
 
@@ -74,8 +77,7 @@ public abstract class Actor : MonoBehaviour {
 	[Range(0,100)] public int Repair;
 	[Range(0,100)] public int Security;
 	[Range(0,100)] public int Speech;
-	[Range(0,100)] public int Barter;
-	[Range(0,100)] public int Sneak;
+	[Range(0,100)] public int Stealth;
 	[Range(0,100)] public int LightArmor;
 	[Range(0,100)] public int MediumArmor;
 	[Range(0,100)] public int HeavyArmor;
@@ -106,6 +108,198 @@ public abstract class Actor : MonoBehaviour {
 	[Range(0,1f)] public float RightArmCondition = 1f;	//trauma
 	[Range(0,1f)] public float LeftLegCondition = 1f;		//trauma
 	[Range(0,1f)] public float RightLegCondition = 1f;	//trauma
+
+	public IEnumerator ApplyStatusEffect(StatusEffect statusEffect)
+	{
+		//TODO: do all of the math to convert actor float values from 0-1 range to int 0-100 range so that potency can be an int in this function
+		float originalValue = 0f;
+		//CHANGED: implemented alchemy skill formula, ripped straight from new vegas
+		//f(x)=3x/5+3
+		statusEffect.potency = statusEffect.potency * 3 / 5 + 3;
+		switch(statusEffect.stat)
+		{
+		case Stat.RestoreHP:
+			currentHP += statusEffect.potency;
+			break;
+		case Stat.RestoreSP:
+			currentSP += statusEffect.potency;
+			break;
+		case Stat.RestoreMP:
+			currentMP += statusEffect.potency;
+			break;
+		case Stat.FortifyHP:
+			originalValue = (float) maxHP;
+			maxHP += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			maxHP = (int) originalValue;
+			break;
+		case Stat.FortifySP:
+			originalValue = (float) maxSP;
+			maxSP += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			maxSP = (int) originalValue;
+			break;
+		case Stat.FortifyMP:
+			originalValue = (float) maxMP;
+			maxMP += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			maxMP = (int) originalValue;
+			break;
+		case Stat.RegenHP:
+			originalValue = HPRegenRate;
+			HPRegenRate += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			HPRegenRate = originalValue;
+			break;
+		case Stat.RegenSP:
+			originalValue = SPRegenRate;
+			SPRegenRate += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			SPRegenRate = originalValue;
+			break;
+		case Stat.RegenMP:
+			originalValue = MPRegenRate;
+			MPRegenRate += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			MPRegenRate = originalValue;
+			break;
+		case Stat.FortifyColdResistance:
+			originalValue = coldResistance;
+			coldResistance += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			coldResistance = originalValue;
+			break;
+		case Stat.FortifyHeatResistance:
+			originalValue = heatResistance;
+			heatResistance += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			heatResistance = originalValue;
+			break;
+		case Stat.FortifySTR:
+			originalValue = STR;
+			STR += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			STR = originalValue;
+			break;
+		case Stat.FortifyDEX:
+			originalValue = DEX;
+			DEX += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			DEX = originalValue;
+			break;
+		case Stat.FortifyWIS:
+			originalValue = WIS;
+			WIS += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			WIS = originalValue;
+			break;
+		case Stat.FortifyCHA:
+			originalValue = CHA;
+			CHR += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			CHA = originalValue;
+			break;
+		case Stat.FortifyArcane:
+			originalValue = Arcane;
+			Arcane += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			Arcane = originalValue;
+			break;
+		case Stat.FortifyAlchemy:
+			originalValue = Alchemy;
+			Alchemy += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			Alchemy = originalValue;
+			break;
+		case Stat.FortifySurvival:
+			originalValue = Survival;
+			Survival += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+ 			Survival = originalValue;
+			break;
+		case Stat.FortifyRepair:
+			originalValue = Repair;
+			Repair += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			Repair = originalValue;
+			break;
+		case Stat.FortifySecurity:
+			originalValue = Security;
+			Security += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			Security = originalValue;
+			break;
+		case Stat.FortifySpeech:
+			originalValue = Speech;
+			Speech += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			Speech = originalValue;
+			break;
+		case Stat.FortifyStealth:
+			originalValue = Stealth;
+			Stealth += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			Stealth = originalValue;
+			break;
+		case Stat.FortifyLightArmor:
+			originalValue = LightArmor;
+			LightArmor += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			LightArmor = originalValue;
+			break;
+		case Stat.FortifyMediumArmor:
+			originalValue = MediumArmor;
+			MediumArmor += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			MediumArmor = originalValue;
+			break;
+		case Stat.FortifyHeavyArmor:
+			originalValue = HeavyArmor;
+			HeavyArmor += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			HeavyArmor = originalValue;
+			break;
+		case Stat.FortifyBlock:
+			originalValue = Block;
+			Block += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			Block = originalValue;
+			break;
+		case Stat.FortifyOneHanded:
+			originalValue = OneHanded;
+			OneHanded += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			OneHanded = originalValue;
+			break;
+		case Stat.FortifyTwoHanded:
+			originalValue = TwoHanded;
+			TwoHanded += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			TwoHanded = originalValue;
+			break;
+		case Stat.FortifyMarksman:
+			originalValue = Marksman;
+			Marksman += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			Marksman = originalValue;
+			break;
+		case Stat.FortifyMovementSpeed:
+			originalValue = movementSpeed;
+			movementSpeed += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			movementSpeed = originalValue;
+			break;
+		case Stat.FortifyXPGain:
+			originalValue = XPGainRate;
+			XPGainRate += statusEffect.potency;
+			yield return new WaitForSeconds(statusEffect.duration);
+			XPGainRate = originalValue;
+			break;
+		default:
+			throw new Exception("INVALID STAT");
+		}
+	}
+
 
 
 	void OnValidate()

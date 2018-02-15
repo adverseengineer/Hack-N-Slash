@@ -1,60 +1,54 @@
 using System;
 using System.Collections;
-using UnityEngine;
 
 [Serializable]
 public class StatusEffect
 {
-	public enum Effect
+	public enum Stat
 	{
 		//restore/drain
 		//fortify/damage
 		//regen/degen
-		None = 									0,
-		RestoreHP = 						1,
-		RestoreSP = 						2,
-		RestoreMP = 						3,
-		RestoreFP = 						4,
-		FortifyHP = 						5,
-		FortifySP = 						6,
-		FortifyMP = 						7,
-		FortifyFP = 						8,
-		RegenHP = 							9,
-		RegenSP = 							10,
-		RegenMP = 							11,
-		RegenFP = 							12,
-		FortifyColdResistance = 13,
-		FortifyHeatResistance = 14,
-		FortifySTR = 						15,
-		FortifyDEX = 						16,
-		FortifyWIS = 						17,
-		FortifyCHA = 						18,
-		FortifyArcane = 				19,
-		FortifyAlchemy = 				20,
-		FortifySurvival = 			21,
-		FortifyRepair = 				22,
-		FortifySecurity = 			23,
-		FortifySpeech = 				24,
-		FortifyBarter = 				25,
-		FortifySneak = 					26,
-		FortifyLightArmor = 		27,
-		FortifyMediumArmor = 		28,
-		FortifyHeavyArmor = 		29,
-		FortifyBlock = 					30,
-		FortifyOneHanded = 			31,
-		FortifyTwoHanded = 			32,
-		FortifyMarksman = 			33,
-		FortifyMovementSpeed = 	34,
-		FortifyXPGain = 				35,
+		RestoreHP = 0,
+		RestoreSP = 1,
+		RestoreMP = 2,
+		FortifyHP = 3,
+		FortifySP = 4,
+		FortifyMP = 5,
+		RegenHP = 6,
+		RegenSP = 7,
+		RegenMP = 8,
+		FortifyColdResistance = 9,
+		FortifyHeatResistance = 10,
+		FortifySTR = 11,
+		FortifyDEX = 12,
+		FortifyWIS = 13,
+		FortifyCHA = 14,
+		FortifyArcane = 15,
+		FortifyAlchemy = 16,
+		FortifySurvival = 17,
+		FortifyRepair = 18,
+		FortifySecurity = 29,
+		FortifySpeech = 20,
+		FortifyStealth = 21,
+		FortifyLightArmor = 22,
+		FortifyMediumArmor = 23,
+		FortifyHeavyArmor = 24,
+		FortifyBlock = 25,
+		FortifyOneHanded = 26,
+		FortifyTwoHanded = 27,
+		FortifyMarksman = 28,
+		FortifyMovementSpeed = 29,
+		FortifyXPGain = 30,
 	}
 	public String title;
-	public Effect effect;
-	public float magnitude;
+	public Stat stat;
+	public float potency;
 	public int duration;
 
-	public StatusEffect(Effect effect, float magnitude, int duration)
+	public StatusEffect(Stat stat, float magnitude, int duration)
 	{
-		this.effect = effect;
+		this.stat = stat;
 		this.magnitude = magnitude;
 		this.duration = duration;
 	}

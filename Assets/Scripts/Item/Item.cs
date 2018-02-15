@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 
-public abstract class Item : MonoBehaviour
+public abstract class Item : ScriptableObject
 {
 	public int value;
 	public float weight;

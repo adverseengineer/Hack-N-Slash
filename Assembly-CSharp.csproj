@@ -130,6 +130,7 @@
      <Compile Include="Assets\Scripts\MouseOrbit.cs" />
      <Compile Include="Assets\Scripts\Platform.cs" />
      <Compile Include="Assets\Scripts\PlayerControl.cs" />
+     <Compile Include="Assets\Scripts\SaveData.cs" />
      <Compile Include="Assets\Scripts\StatusEffect.cs" />
      <None Include="Assets\Effects\ImageEffects\Shaders\ColorCorrectionEffect.shader" />
      <None Include="Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />
