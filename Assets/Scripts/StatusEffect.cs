@@ -28,7 +28,7 @@ public class StatusEffect
 		FortifyAlchemy = 16,
 		FortifySurvival = 17,
 		FortifyRepair = 18,
-		FortifySecurity = 29,
+		FortifySecurity = 19,
 		FortifySpeech = 20,
 		FortifyStealth = 21,
 		FortifyLightArmor = 22,
@@ -44,12 +44,12 @@ public class StatusEffect
 	public String title;
 	public Stat stat;
 	public float potency;
-	public int duration;
+	public uint duration;
 
-	public StatusEffect(Stat stat, float magnitude, int duration)
+	public StatusEffect(Stat stat, float potency, uint duration)
 	{
 		this.stat = stat;
-		this.magnitude = magnitude;
+		this.potency = potency;
 		this.duration = duration;
 	}
 }

@@ -3,9 +3,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class Actor : MonoBehaviour {
+public abstract class Actor : MonoBehaviour
+{
 
-	public enum Sex { Male = 0, Female = 1 };
+	public enum Sex
+	{
+		Male = 0,
+		Female = 1
+	};
 	public enum Race
 	{
 		debug = 0,
@@ -118,178 +123,178 @@ public abstract class Actor : MonoBehaviour {
 		statusEffect.potency = statusEffect.potency * 3 / 5 + 3;
 		switch(statusEffect.stat)
 		{
-		case Stat.RestoreHP:
-			currentHP += statusEffect.potency;
+		case StatusEffect.Stat.RestoreHP:
+			currentHP += Mathf.FloorToInt(statusEffect.potency);
 			break;
-		case Stat.RestoreSP:
-			currentSP += statusEffect.potency;
+		case StatusEffect.Stat.RestoreSP:
+			currentSP += Mathf.FloorToInt(statusEffect.potency);
 			break;
-		case Stat.RestoreMP:
-			currentMP += statusEffect.potency;
+		case StatusEffect.Stat.RestoreMP:
+			currentMP += Mathf.FloorToInt(statusEffect.potency);
 			break;
-		case Stat.FortifyHP:
+		case StatusEffect.Stat.FortifyHP:
 			originalValue = (float) maxHP;
-			maxHP += statusEffect.potency;
+			maxHP += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
 			maxHP = (int) originalValue;
 			break;
-		case Stat.FortifySP:
+		case StatusEffect.Stat.FortifySP:
 			originalValue = (float) maxSP;
-			maxSP += statusEffect.potency;
+			maxSP += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
 			maxSP = (int) originalValue;
 			break;
-		case Stat.FortifyMP:
+		case StatusEffect.Stat.FortifyMP:
 			originalValue = (float) maxMP;
-			maxMP += statusEffect.potency;
+			maxMP += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
 			maxMP = (int) originalValue;
 			break;
-		case Stat.RegenHP:
+		case StatusEffect.Stat.RegenHP:
 			originalValue = HPRegenRate;
 			HPRegenRate += statusEffect.potency;
 			yield return new WaitForSeconds(statusEffect.duration);
 			HPRegenRate = originalValue;
 			break;
-		case Stat.RegenSP:
+		case StatusEffect.Stat.RegenSP:
 			originalValue = SPRegenRate;
 			SPRegenRate += statusEffect.potency;
 			yield return new WaitForSeconds(statusEffect.duration);
 			SPRegenRate = originalValue;
 			break;
-		case Stat.RegenMP:
+		case StatusEffect.Stat.RegenMP:
 			originalValue = MPRegenRate;
 			MPRegenRate += statusEffect.potency;
 			yield return new WaitForSeconds(statusEffect.duration);
 			MPRegenRate = originalValue;
 			break;
-		case Stat.FortifyColdResistance:
+		case StatusEffect.Stat.FortifyColdResistance:
 			originalValue = coldResistance;
 			coldResistance += statusEffect.potency;
 			yield return new WaitForSeconds(statusEffect.duration);
 			coldResistance = originalValue;
 			break;
-		case Stat.FortifyHeatResistance:
+		case StatusEffect.Stat.FortifyHeatResistance:
 			originalValue = heatResistance;
 			heatResistance += statusEffect.potency;
 			yield return new WaitForSeconds(statusEffect.duration);
 			heatResistance = originalValue;
 			break;
-		case Stat.FortifySTR:
+		case StatusEffect.Stat.FortifySTR:
 			originalValue = STR;
-			STR += statusEffect.potency;
+			STR += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			STR = originalValue;
+			STR = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifyDEX:
+		case StatusEffect.Stat.FortifyDEX:
 			originalValue = DEX;
-			DEX += statusEffect.potency;
+			DEX += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			DEX = originalValue;
+			DEX = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifyWIS:
+		case StatusEffect.Stat.FortifyWIS:
 			originalValue = WIS;
-			WIS += statusEffect.potency;
+			WIS += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			WIS = originalValue;
+			WIS = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifyCHA:
+		case StatusEffect.Stat.FortifyCHA:
 			originalValue = CHA;
-			CHR += statusEffect.potency;
+			CHA += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			CHA = originalValue;
+			CHA = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifyArcane:
+		case StatusEffect.Stat.FortifyArcane:
 			originalValue = Arcane;
-			Arcane += statusEffect.potency;
+			Arcane += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			Arcane = originalValue;
+			Arcane = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifyAlchemy:
+		case StatusEffect.Stat.FortifyAlchemy:
 			originalValue = Alchemy;
-			Alchemy += statusEffect.potency;
+			Alchemy += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			Alchemy = originalValue;
+			Alchemy = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifySurvival:
+		case StatusEffect.Stat.FortifySurvival:
 			originalValue = Survival;
-			Survival += statusEffect.potency;
+			Survival += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
- 			Survival = originalValue;
+ 			Survival = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifyRepair:
+		case StatusEffect.Stat.FortifyRepair:
 			originalValue = Repair;
-			Repair += statusEffect.potency;
+			Repair += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			Repair = originalValue;
+			Repair = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifySecurity:
+		case StatusEffect.Stat.FortifySecurity:
 			originalValue = Security;
-			Security += statusEffect.potency;
+			Security += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			Security = originalValue;
+			Security = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifySpeech:
+		case StatusEffect.Stat.FortifySpeech:
 			originalValue = Speech;
-			Speech += statusEffect.potency;
+			Speech += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			Speech = originalValue;
+			Speech = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifyStealth:
+		case StatusEffect.Stat.FortifyStealth:
 			originalValue = Stealth;
-			Stealth += statusEffect.potency;
+			Stealth += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			Stealth = originalValue;
+			Stealth = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifyLightArmor:
+		case StatusEffect.Stat.FortifyLightArmor:
 			originalValue = LightArmor;
-			LightArmor += statusEffect.potency;
+			LightArmor += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			LightArmor = originalValue;
+			LightArmor = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifyMediumArmor:
+		case StatusEffect.Stat.FortifyMediumArmor:
 			originalValue = MediumArmor;
-			MediumArmor += statusEffect.potency;
+			MediumArmor += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			MediumArmor = originalValue;
+			MediumArmor = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifyHeavyArmor:
+		case StatusEffect.Stat.FortifyHeavyArmor:
 			originalValue = HeavyArmor;
-			HeavyArmor += statusEffect.potency;
+			HeavyArmor += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			HeavyArmor = originalValue;
+			HeavyArmor = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifyBlock:
+		case StatusEffect.Stat.FortifyBlock:
 			originalValue = Block;
-			Block += statusEffect.potency;
+			Block += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			Block = originalValue;
+			Block = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifyOneHanded:
+		case StatusEffect.Stat.FortifyOneHanded:
 			originalValue = OneHanded;
-			OneHanded += statusEffect.potency;
+			OneHanded += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			OneHanded = originalValue;
+			OneHanded = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifyTwoHanded:
+		case StatusEffect.Stat.FortifyTwoHanded:
 			originalValue = TwoHanded;
-			TwoHanded += statusEffect.potency;
+			TwoHanded += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			TwoHanded = originalValue;
+			TwoHanded = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifyMarksman:
+		case StatusEffect.Stat.FortifyMarksman:
 			originalValue = Marksman;
-			Marksman += statusEffect.potency;
+			Marksman += Mathf.FloorToInt(statusEffect.potency);
 			yield return new WaitForSeconds(statusEffect.duration);
-			Marksman = originalValue;
+			Marksman = Mathf.FloorToInt(originalValue);
 			break;
-		case Stat.FortifyMovementSpeed:
+		case StatusEffect.Stat.FortifyMovementSpeed:
 			originalValue = movementSpeed;
 			movementSpeed += statusEffect.potency;
 			yield return new WaitForSeconds(statusEffect.duration);
 			movementSpeed = originalValue;
 			break;
-		case Stat.FortifyXPGain:
+		case StatusEffect.Stat.FortifyXPGain:
 			originalValue = XPGainRate;
 			XPGainRate += statusEffect.potency;
 			yield return new WaitForSeconds(statusEffect.duration);
@@ -307,7 +312,6 @@ public abstract class Actor : MonoBehaviour {
 		if(currentHP > maxHP) currentHP = maxHP;
 		if(currentSP > maxSP) currentSP = maxSP;
 		if(currentMP > maxMP) currentMP = maxMP;
-		if(currentFP > maxFP) currentFP = maxFP;
 		//applyRaceBonuses(race);
 	}
 

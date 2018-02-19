@@ -86,8 +86,12 @@
      <Compile Include="Assets\Scripts\Actors\Actor.cs" />
      <Compile Include="Assets\Scripts\Actors\NPC.cs" />
      <Compile Include="Assets\Scripts\Actors\Player.cs" />
-     <Compile Include="Assets\Scripts\Actors\Smith.cs" />
-     <Compile Include="Assets\Scripts\Actors\Vendor.cs" />
+     <Compile Include="Assets\Scripts\Actors\Vendor\Alchemist.cs" />
+     <Compile Include="Assets\Scripts\Actors\Vendor\Fletcher.cs" />
+     <Compile Include="Assets\Scripts\Actors\Vendor\Jeweler.cs" />
+     <Compile Include="Assets\Scripts\Actors\Vendor\Smith.cs" />
+     <Compile Include="Assets\Scripts\Actors\Vendor\Tailor.cs" />
+     <Compile Include="Assets\Scripts\Actors\Vendor\Vendor.cs" />
      <Compile Include="Assets\Scripts\Bounds.cs" />
      <Compile Include="Assets\Scripts\FOVKick.cs" />
      <Compile Include="Assets\Scripts\Functions.cs" />
@@ -105,7 +109,6 @@
      <Compile Include="Assets\Scripts\Item\Consumables\Food.cs" />
      <Compile Include="Assets\Scripts\Item\Consumables\Ingredient.cs" />
      <Compile Include="Assets\Scripts\Item\Consumables\Potion.cs" />
-     <Compile Include="Assets\Scripts\Item\Consumables\Scroll.cs" />
      <Compile Include="Assets\Scripts\Item\Equippable.cs" />
      <Compile Include="Assets\Scripts\Item\Item.cs" />
      <Compile Include="Assets\Scripts\Item\Weapons\Artifice.cs" />

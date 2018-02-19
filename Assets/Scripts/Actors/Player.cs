@@ -61,7 +61,7 @@ public sealed class Player : Actor {
 	}
 
 	public Item BrewPotion(Ingredient ingred1, Ingredient ingred2, Ingredient ingred3)
-	{
+	{ 
 		//TODO: (3 args) if any of a potions effects match the other potion, keep that effect.
 		return null;
 	}
@@ -69,6 +69,6 @@ public sealed class Player : Actor {
 	public sealed override void UpdateStatus()
 	{
 		//TODO: finish this formula
-		MercantileFactor = 3.3f - (1.3f * Barter / 100);
+		MercantileFactor = 3.3f - (1.3f * Speech / 100);
 	}
 }

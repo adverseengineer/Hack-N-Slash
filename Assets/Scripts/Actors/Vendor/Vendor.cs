@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(NPC))]
-[AddComponentMenu("Actors/Smith")]
-public class Smith : MonoBehaviour
+public abstract class Vendor : MonoBehaviour
 {
-	
+
 }
