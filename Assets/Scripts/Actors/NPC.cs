@@ -2,8 +2,10 @@
 using System.Collections;
 
 [AddComponentMenu("Actors/NPC")]
+[RequireComponent(typeof(NavMeshAgent))]
 public sealed class NPC : Actor {
 
+	//TODO: give npcs the same ability as the player to push things
 	public enum CombatStyle
 	{
 		Berserker = 0, //dual wielding shortswords, medium or heavy armor
@@ -18,8 +20,98 @@ public sealed class NPC : Actor {
 	};
 
 	public bool essential;
-	[Range(0,1f)] public float disposition;
+	[Range(0,1f)] public float disposition = 0.5f;
 	public CombatStyle combatStyle;
 
-	public sealed override void UpdateStatus(){}
+	private NavMeshAgent agent;
+
+	public float hearingDistance;
+	public float sightDistance;
+	public float fov;
+
+	public Actor temptarget;
+
+	void OnDrawGizmos()
+	{
+		Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, hearingDistance);
+		Gizmos.color = Color.cyan;
+		Gizmos.DrawWireSphere(transform.position, sightDistance);
+	}
+
+	void Start()
+	{
+		agent = GetComponent<NavMeshAgent>();
+		agent.autoTraverseOffMeshLink = true;
+	}
+
+	void Update()
+	{
+		StartCoroutine(Follow(temptarget.transform, 5f));
+	}
+
+	public IEnumerator Idle()
+	{	
+		while(true)
+		{
+			yield return new WaitForEndOfFrame();
+		}
+	}
+	public IEnumerator Follow(Transform target, float followDistance)
+	{
+		while(true)
+		{
+			if (Vector3.Distance(agent.destination, target.position) > followDistance)
+        	{
+           		agent.destination = target.position;
+        	}
+			else
+			{
+				break;
+			}
+			yield return new WaitForEndOfFrame();
+		}
+	}
+	public IEnumerator Search()
+	{
+		while(true)
+		{
+			yield return new WaitForEndOfFrame();
+		}
+	}
+	public IEnumerator Attack()
+	{
+		while(true)
+		{
+			yield return new WaitForEndOfFrame();
+		}
+	}
+	public IEnumerator Defend()
+	{
+		while(true)
+		{
+			yield return new WaitForEndOfFrame();
+		}
+	}
+	public IEnumerator Retreat()
+	{
+		while(true)
+		{
+			yield return new WaitForEndOfFrame();
+		}
+	}
+	public IEnumerator Converse()
+	{
+		while(true)
+		{
+			yield return new WaitForEndOfFrame();
+		}
+	}
+	public IEnumerator Die()
+	{
+		while(true)
+		{
+			yield return new WaitForEndOfFrame();
+		}
+	}
 }

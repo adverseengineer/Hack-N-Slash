@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StatusEffect>
+    Effect Code
+    Expiry Time
+    IsBeneficial
+    CanStack
+    PriorityType (To measure, in what priority, it will be applied compared to other effects)
+    RemovableType (To denote whether the effect can be removed by other effects e.g Cleanse)
+    ExpirableType (To denote whether effect can expire or not)
+    Entry Effect (delegate - Applied ONCE when the effect comes into play)
+    Tick Effect (delegate - Applied whenever the effect 'ticks', e.g BURN procs)
+    Persistent Effect (delegate - Applied constantly until removed/expired e.g STR buffs)
+    OnLeave Effect (delegate - Applied ONCE when effect leaves)
+</StatusEffect>
+
+<player>
+    active effects
+</player>

@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent (typeof (CharacterController))]
-
+[RequireComponent(typeof(CharacterController), typeof(Player))]
 public class PlayerControl : MonoBehaviour
 {
 	public Camera cam;
@@ -12,7 +11,7 @@ public class PlayerControl : MonoBehaviour
 	public float walkSpeed = 6.7f;
 	public float runSpeed = 9f;
 	public float jumpSpeed = 20f;
-  public float gravity = 50f;
+  	public float gravity = 50f;
 
 	[Space(18)]
 
@@ -39,27 +38,48 @@ public class PlayerControl : MonoBehaviour
 	public float pushPower = 2f;
 	private float originalPushPower = 1f;
 
-
-
+	private Player player;
 	private CharacterController controller;
 	private Vector3 moveDirection = Vector3.zero;
 
-	//when the start button is clicked
+	private bool cursorIsLocked = false;
+
 	void Start()
 	{
 		kick.Setup(cam);
 		originalPushPower = pushPower;
+		player = GetComponent<Player>();
 		controller = GetComponent<CharacterController>();
+        cursorIsLocked = true;
 	}
 
 	void Update()
 	{
 		pushPower = originalPushPower;
+
+		//if escape is pushed, toggle the cursor lock
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+    		cursorIsLocked = !cursorIsLocked;
+		}
+
+		//lock or unlock the cursor based on what the toggle value is
+		if(cursorIsLocked)
+		{
+			Cursor.visible = false;
+			Cursor.lockState = CursorLockMode.Locked;
+		}
+		else
+		{
+			Cursor.visible = true;
+			Cursor.lockState = CursorLockMode.None;
+		}
+
 		if(controller.isGrounded)
 		{
 			pushPower = originalPushPower;
 			moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-      moveDirection = transform.TransformDirection(moveDirection);
+     		moveDirection = transform.TransformDirection(moveDirection);
 
 			//crouching
 			if(Input.GetButtonDown("Fire1"))
@@ -74,8 +94,6 @@ public class PlayerControl : MonoBehaviour
 					//TODO: crouching animation
 				}
 			}
-
-
 
 			//sprint
 			if(Input.GetButton("Fire3"))
@@ -105,11 +123,12 @@ public class PlayerControl : MonoBehaviour
 				}
 			}
 
-      if(Input.GetButtonDown("Jump") && !crouching)
+			if(Input.GetButtonDown("Jump") && !crouching)
 			{
 				moveDirection.y = jumpSpeed;
 			}
-    }
+    	}
+
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
 	}

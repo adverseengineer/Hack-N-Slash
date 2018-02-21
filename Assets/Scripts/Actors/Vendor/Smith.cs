@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Actors/Vendor/Smith")]
+[AddComponentMenu("Actors/Vendors/Smith")]
 public class Smith : Vendor
 {
 	

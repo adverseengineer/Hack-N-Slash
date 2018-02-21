@@ -48,6 +48,7 @@
      <Compile Include="Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
      <None Include="Assets\Effects\ImageEffects\Shaders\ColorCorrectionEffect.shader" />
      <None Include="Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />
+     <None Include="Assets\Scripts\StatusEffect.xml" />
      <None Include="Assets\Effects\ImageEffects\Shaders\ContrastComposite.shader" />
      <None Include="Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\Blend.shader" />
      <None Include="Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />

@@ -6,9 +6,9 @@ using System.Collections;
 public class Ingredient : Consumable
 {
 	[Range(0,1f)] public float rarity;
-	public StatusEffect.Stat effect1;
-	public StatusEffect.Stat effect2;
-	public StatusEffect.Stat effect3;
+	public StatusEffect.Effect effect1;
+	public StatusEffect.Effect effect2;
+	public StatusEffect.Effect effect3;
 
 	public sealed override void CalculateValue()
 	{

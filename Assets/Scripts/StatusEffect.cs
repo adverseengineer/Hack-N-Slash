@@ -4,7 +4,7 @@ using System.Collections;
 [Serializable]
 public class StatusEffect
 {
-	public enum Stat
+	public enum Effect
 	{
 		//restore/drain
 		//fortify/damage
@@ -41,15 +41,29 @@ public class StatusEffect
 		FortifyMovementSpeed = 29,
 		FortifyXPGain = 30,
 	}
-	public String title;
-	public Stat stat;
-	public float potency;
-	public uint duration;
 
-	public StatusEffect(Stat stat, float potency, uint duration)
+	public String source;
+	public uint duration;
+	public bool canExpire;	
+	public bool isBeneficial;
+	public bool canStack;
+	public Effect effect;
+	public int magnitude;
+	public StatusEffect(
+		String source,
+		uint duration,
+		bool canExpire,
+		bool isBeneficial,
+		bool canStack,
+		Effect effect,
+		int magnitude)
 	{
-		this.stat = stat;
-		this.potency = potency;
+		this.source = source;
 		this.duration = duration;
+		this.canExpire = canExpire;
+		this.isBeneficial = isBeneficial;
+		this.canStack = canStack;
+		this.effect = effect;
+		this.magnitude = magnitude;
 	}
 }

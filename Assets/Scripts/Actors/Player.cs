@@ -54,6 +54,28 @@ public sealed class Player : Actor {
 	private float TwoHandedProgress;
 	private float MarksmanProgress;
 
+	public IEnumerator IncreaseNeeds()
+	{
+		while(true)
+		{
+			fatigue += 1;
+			hunger += 1;
+			thirst += 1;
+
+			yield return new WaitForSeconds(1);
+		}
+	}
+
+	void Start()
+	{
+		StartCoroutine(IncreaseNeeds());
+	}
+
+	void Update()
+	{
+
+	}
+
 	public Item BrewPotion(Ingredient ingred1, Ingredient ingred2)
 	{
 		//TODO: (2 args) if any of a potions effects match the other potion, keep that effect
@@ -64,11 +86,5 @@ public sealed class Player : Actor {
 	{ 
 		//TODO: (3 args) if any of a potions effects match the other potion, keep that effect.
 		return null;
-	}
-
-	public sealed override void UpdateStatus()
-	{
-		//TODO: finish this formula
-		MercantileFactor = 3.3f - (1.3f * Speech / 100);
 	}
 }
