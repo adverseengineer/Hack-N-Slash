@@ -1,0 +1,161 @@
+using UnityEngine;
+using System.Collections;
+
+[RequireComponent(typeof(CharacterController), typeof(Player))]
+public class PlayerControl : MonoBehaviour
+{
+	public Camera cam;
+
+	[Header("Movement")]
+	public float sneakSpeed = 3.5f;
+	public float walkSpeed = 6.7f;
+	public float runSpeed = 9f;
+	public float jumpSpeed = 20f;
+  	public float gravity = 50f;
+
+	[Space(18)]
+
+	[Header("Crouching")]
+	public float crouchTimeToIncrease = 1f;
+	public float crouchTimeToDecrease = 1f;
+	private bool crouching = false;
+	public AnimationCurve CrouchHeightIncreaseCurve;
+
+	[Space(18)]
+
+	[Header("Headbob")]
+	public bool headBob = true;
+
+	[Space(18)]
+
+	[Header("FOV Kick")]
+	public bool FOVKickEnabled = true;
+	public FOVKick kick;
+
+	[Space(18)]
+
+	[Header("Physics")]
+	public float pushPower = 2f;
+	private float originalPushPower = 1f;
+
+	private Player player;
+	private CharacterController controller;
+	private Vector3 moveDirection = Vector3.zero;
+
+	private bool cursorIsLocked = false;
+
+	void Start()
+	{
+		kick.Setup(cam);
+		originalPushPower = pushPower;
+		player = GetComponent<Player>();
+		controller = GetComponent<CharacterController>();
+        cursorIsLocked = true;
+	}
+
+	void Update()
+	{
+		pushPower = originalPushPower;
+
+		//if escape is pushed, toggle the cursor lock
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+    		cursorIsLocked = !cursorIsLocked;
+		}
+
+		//lock or unlock the cursor based on what the toggle value is
+		if(cursorIsLocked)
+		{
+			Cursor.visible = false;
+			Cursor.lockState = CursorLockMode.Locked;
+		}
+		else
+		{
+			Cursor.visible = true;
+			Cursor.lockState = CursorLockMode.None;
+		}
+
+		if(controller.isGrounded)
+		{
+			pushPower = originalPushPower;
+			moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+     		moveDirection = transform.TransformDirection(moveDirection);
+
+			//crouching
+			if(Input.GetButtonDown("Fire1"))
+			{
+				crouching = !crouching;
+				if(crouching)
+				{
+					//TODO: standing animation
+				}
+				else
+				{
+					//TODO: crouching animation
+				}
+			}
+
+			//sprint
+			if(Input.GetButton("Fire3"))
+			{
+				//if(player.currentSP > 0)
+				//{
+					if(crouching)
+					{
+						crouching = false;
+						//TODO: standing and leaning into run animation
+					}
+
+					//make them push harder
+					pushPower *= runSpeed;
+					moveDirection *= runSpeed;
+
+					//TODO: make StatusEffecHandler in charge of regenerating meters and making effects wear off
+					//player.currentSP -= 6;
+	
+					//if fovkick is enabled AND the player is moving AND they just pressed shift
+					if(FOVKickEnabled && controller.velocity != Vector3.zero && Input.GetButtonDown("Fire3"))
+					{
+						StartCoroutine(kick.FOVKickUp());
+					}
+				//}	
+			}
+
+			//if the player is neither crouching nor sprinting...
+			else
+			{
+				pushPower *= walkSpeed;
+				moveDirection *= walkSpeed;
+				//TODO: set the current noise level to the movement speed times the weight of worn armor and equipped weapons
+
+				if(FOVKickEnabled && Input.GetButtonUp("Fire3"))
+				{
+					StartCoroutine(kick.FOVKickDown());
+				}
+			}
+
+			if(Input.GetButtonDown("Jump") && !crouching)
+			{
+				moveDirection.y = jumpSpeed;
+			}
+    	}
+
+		moveDirection.y -= gravity * Time.deltaTime;
+		controller.Move(moveDirection * Time.deltaTime);
+	}
+
+	void OnControllerColliderHit(ControllerColliderHit hit)
+	{
+		//pushing objects with your body
+		if (hit.collider.attachedRigidbody == null || hit.collider.attachedRigidbody.isKinematic || hit.moveDirection.y < -hit.controller.stepOffset)
+			return;
+
+		hit.collider.attachedRigidbody.velocity = hit.moveDirection * pushPower / hit.collider.attachedRigidbody.mass;
+
+		if(hit.gameObject.tag == "platform")
+		{
+			this.transform.parent = hit.gameObject.transform;
+		}
+	}
+}
+//IDEA: two cameras, 1st person and 3rd person, set to different layers so that the player displays properly

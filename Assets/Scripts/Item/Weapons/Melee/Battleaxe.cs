@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Items/Weapons/Melee/Battleaxe")]
+[CreateAssetMenu(menuName = "Items/Weapons/Melee/Battleaxe", fileName = "New Battleaxe")]
 public class Battleaxe : Melee
 {
 	//baseDamage = 6;

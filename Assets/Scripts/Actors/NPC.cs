@@ -29,9 +29,9 @@ public sealed class NPC : Actor {
 	public float sightDistance;
 	public float fov;
 
-	public Actor temptarget;
+	public Actor actorToFollow;
 
-	void OnDrawGizmos()
+	void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, hearingDistance);
@@ -47,7 +47,7 @@ public sealed class NPC : Actor {
 
 	void Update()
 	{
-		StartCoroutine(Follow(temptarget.transform, 5f));
+		StartCoroutine(Follow(actorToFollow.transform, 5f));
 	}
 
 	public IEnumerator Idle()
@@ -65,10 +65,6 @@ public sealed class NPC : Actor {
         	{
            		agent.destination = target.position;
         	}
-			else
-			{
-				break;
-			}
 			yield return new WaitForEndOfFrame();
 		}
 	}

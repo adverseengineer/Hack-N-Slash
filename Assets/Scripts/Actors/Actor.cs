@@ -93,7 +93,8 @@ public abstract class Actor : MonoBehaviour
 
 	[Space(18)]
 
-	public Weapon EquippedWeapon;
+	public Weapon EquippedWeaponL;
+	public Weapon EquippedWeaponR;
 
 	public Head EquippedHead;
 	public Top EquippedTop;
@@ -114,6 +115,7 @@ public abstract class Actor : MonoBehaviour
 	[Range(0,1f)] public float LeftLegCondition = 1f; //trauma
 	[Range(0,1f)] public float RightLegCondition = 1f; //trauma
 
+	private float currentNoiseLevel;
 
 	public IEnumerator ApplyStatusEffect(StatusEffect statusEffect)
 	{
@@ -305,10 +307,9 @@ public abstract class Actor : MonoBehaviour
 		}
 	}
 
-
-
 	void OnValidate()
 	{
+		//prevent myself from accidentally overfilling a meter
 		if(currentHP > maxHP) currentHP = maxHP;
 		if(currentSP > maxSP) currentSP = maxSP;
 		if(currentMP > maxMP) currentMP = maxMP;
