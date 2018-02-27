@@ -9,9 +9,9 @@ public class Creature : MonoBehaviour
 
 	[Range(0f,180f)]
 	public float fov;
-	[Range(1f,100f)]
+	[Range(0f,100f)]
 	public float sightDistance;
-	[Range(1f,100f)]
+	[Range(0f,100f)]
 	public float hearingDistance;
 
 	private NavMeshAgent agent;
@@ -19,19 +19,14 @@ public class Creature : MonoBehaviour
 
 	private Actor target;
 
-	void OnEnable()
-    {
-        //DetectionEvent.OnGenerateDetectionEvent += Foo();
-    }
-    
-    void OnDisable()
-    {
-        //DetectionEvent.OnGenerateDetectionEvent -= Foo();
-    }
-
-	void Foo()
+    void OnEnable()
 	{
-		print("shwoop");
+		//StealthEventManager.OnClicked += Investigate;
+	}
+
+    void OnDisable() 
+	{
+		//StealthEventManager.OnClicked -= Investigate;
 	}
 
 	void Start()
@@ -58,9 +53,26 @@ public class Creature : MonoBehaviour
 		}
 	}
 
-	public IEnumerator Investigate()
+	public IEnumerator Investigate(Vector3 location, float duration)
 	{
+		//head towards the point of interest
+		//on the way there, if another sound is heard, change destination to that
+		//once there, walk along a circular path X units from the point of interest
+		//if nothing new is detected the whole time, return to patrolling
+
+		//if the player sprints, the sound they make is dependent on equipped armor and weapons
+
+
 		//TODO: investigate
+		agent.destination = location;
+		float timeLimit = Time.time + duration;
+		while(true)
+		{
+			if(Time.time > timeLimit)
+			{
+				break;
+			}
+		}
 		yield return null;
 	}
 

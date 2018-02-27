@@ -1,2 +1,5 @@
 # unity's meta files
 *.meta
+# everything in the Temp folder
+Temp/*
+

@@ -1,30 +1,39 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(CharacterController), typeof(Player))]
+[RequireComponent(typeof(CharacterController), typeof(Player), typeof(StatusEffectHandler))]
 public class PlayerControl : MonoBehaviour
 {
 	public Camera cam;
 
+	private Player player;
+	private CharacterController controller;
+	private Vector3 moveDirection = Vector3.zero;
+	private StatusEffectHandler handler;
+	private Animator animator;
+
 	[Header("Movement")]
-	public float sneakSpeed = 3.5f;
-	public float walkSpeed = 6.7f;
-	public float runSpeed = 9f;
+	public float movementSpeed = 6.7f;
+	public float airbourneSpeedMultiplier = 0.283582089552f;
+	public float sneakSpeedMultiplier = 0.522388059701f;
+	public float runSpeedMultiplier = 1.34328358209f;
 	public float jumpSpeed = 20f;
   	public float gravity = 50f;
+	private bool isCrouching;
+	private bool wasSprintingLastFrame;
 
 	[Space(18)]
 
 	[Header("Crouching")]
 	public float crouchTimeToIncrease = 1f;
 	public float crouchTimeToDecrease = 1f;
-	private bool crouching = false;
-	public AnimationCurve CrouchHeightIncreaseCurve;
+	public AnimationCurve crouchHeightIncreaseCurve;
 
 	[Space(18)]
 
 	[Header("Headbob")]
 	public bool headBob = true;
+	//TODO: Implement headbob
 
 	[Space(18)]
 
@@ -36,56 +45,32 @@ public class PlayerControl : MonoBehaviour
 
 	[Header("Physics")]
 	public float pushPower = 2f;
-	private float originalPushPower = 1f;
-
-	private Player player;
-	private CharacterController controller;
-	private Vector3 moveDirection = Vector3.zero;
-
-	private bool cursorIsLocked = false;
+	public float pushPowerSneakMultiplier = 0.55f;
+	public float pushPowerRunMultiplier = 1.7f;
 
 	void Start()
 	{
-		kick.Setup(cam);
-		originalPushPower = pushPower;
+		kick = new FOVKick(cam);
 		player = GetComponent<Player>();
 		controller = GetComponent<CharacterController>();
-        cursorIsLocked = true;
+		handler = GetComponent<StatusEffectHandler>();
+		animator = GetComponent<Animator>();
 	}
 
 	void Update()
 	{
-		pushPower = originalPushPower;
+		moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+   		moveDirection = transform.TransformDirection(moveDirection);
 
-		//if escape is pushed, toggle the cursor lock
-		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-    		cursorIsLocked = !cursorIsLocked;
-		}
-
-		//lock or unlock the cursor based on what the toggle value is
-		if(cursorIsLocked)
-		{
-			Cursor.visible = false;
-			Cursor.lockState = CursorLockMode.Locked;
-		}
-		else
-		{
-			Cursor.visible = true;
-			Cursor.lockState = CursorLockMode.None;
-		}
+		wasSprintingLastFrame = false;
 
 		if(controller.isGrounded)
 		{
-			pushPower = originalPushPower;
-			moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-     		moveDirection = transform.TransformDirection(moveDirection);
-
 			//crouching
 			if(Input.GetButtonDown("Fire1"))
 			{
-				crouching = !crouching;
-				if(crouching)
+				isCrouching = !isCrouching;
+				if(isCrouching)
 				{
 					//TODO: standing animation
 				}
@@ -95,50 +80,83 @@ public class PlayerControl : MonoBehaviour
 				}
 			}
 
-			//sprint
-			if(Input.GetButton("Fire3"))
+			//if sprinting and crouching
+			if(Input.GetButton("Fire3") && isCrouching)
 			{
-				//if(player.currentSP > 0)
-				//{
-					if(crouching)
-					{
-						crouching = false;
-						//TODO: standing and leaning into run animation
-					}
+				wasSprintingLastFrame = true;
+				isCrouching = false;
+				//TODO: stand up and sprint animation blend
 
-					//make them push harder
-					pushPower *= runSpeed;
-					moveDirection *= runSpeed;
+				moveDirection *= runSpeedMultiplier;
+				pushPower *= pushPowerRunMultiplier;
 
-					//TODO: make StatusEffecHandler in charge of regenerating meters and making effects wear off
-					//player.currentSP -= 6;
-	
-					//if fovkick is enabled AND the player is moving AND they just pressed shift
-					if(FOVKickEnabled && controller.velocity != Vector3.zero && Input.GetButtonDown("Fire3"))
-					{
-						StartCoroutine(kick.FOVKickUp());
-					}
-				//}	
+				//if fovkick is enabled AND the player is moving AND the button has only just been pushed
+				if(FOVKickEnabled && controller.velocity != Vector3.zero && Input.GetButtonDown("Fire3"))
+					StartCoroutine(kick.FOVKickUp());
+
+				//TODO: decrease SP
 			}
 
-			//if the player is neither crouching nor sprinting...
-			else
+			//if sprinting but not crouching
+			else if(Input.GetButton("Fire3") && !isCrouching)
 			{
-				pushPower *= walkSpeed;
-				moveDirection *= walkSpeed;
-				//TODO: set the current noise level to the movement speed times the weight of worn armor and equipped weapons
+				wasSprintingLastFrame = true;
+
+				moveDirection *= runSpeedMultiplier;
+				pushPower *= pushPowerRunMultiplier;
+
+				//if fovkick is enabled AND the player is moving AND the button has only just been pushed
+				if(FOVKickEnabled && controller.velocity != Vector3.zero && Input.GetButtonDown("Fire3"))
+					StartCoroutine(kick.FOVKickUp());
+
+				//TODO: decrease SP
+			}
+
+			//if crouching but not sprinting
+			else if(!Input.GetButton("Fire3" ) && isCrouching)
+			{
+				wasSprintingLastFrame = false;
+
+				moveDirection *= sneakSpeedMultiplier;
+				pushPower *= pushPowerSneakMultiplier;
 
 				if(FOVKickEnabled && Input.GetButtonUp("Fire3"))
-				{
 					StartCoroutine(kick.FOVKickDown());
-				}
 			}
 
-			if(Input.GetButtonDown("Jump") && !crouching)
+			//if neither crouching nor sprinting
+			else if(!Input.GetButton("Fire3") && !isCrouching)
+			{
+				wasSprintingLastFrame = false;
+
+				if(FOVKickEnabled && Input.GetButtonUp("Fire3"))
+					StartCoroutine(kick.FOVKickDown());
+			}
+
+			//if jumping and crouching
+			else if(Input.GetButtonDown("Jump") && isCrouching)
+			{
+				isCrouching = false;
+				moveDirection.y = jumpSpeed;
+			}
+
+			//if jumping, but not crouching
+			else if(Input.GetButtonDown("Jump") && !isCrouching)
 			{
 				moveDirection.y = jumpSpeed;
 			}
     	}
+		//if not grounded, and was sprinting last frame
+		else if(!controller.isGrounded && wasSprintingLastFrame)
+		{
+			moveDirection *= runSpeedMultiplier;
+		}
+
+		//if not grounded and wasnt sprinting last frame
+		else if(!controller.isGrounded && !wasSprintingLastFrame)
+		{
+			moveDirection *= airbourneSpeedMultiplier;
+		}
 
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
@@ -158,4 +176,4 @@ public class PlayerControl : MonoBehaviour
 		}
 	}
 }
-//IDEA: two cameras, 1st person and 3rd person, set to different layers so that the player displays properly
+//TODO: two cameras, 1st person and 3rd person, set to different layers so that the player displays properly
