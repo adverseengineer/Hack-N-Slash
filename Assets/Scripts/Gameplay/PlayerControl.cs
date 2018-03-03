@@ -4,13 +4,12 @@ using System.Collections;
 [RequireComponent(typeof(CharacterController), typeof(Player), typeof(StatusEffectHandler))]
 public class PlayerControl : MonoBehaviour
 {
-	public Camera cam;
-
+	private Camera cam;
 	private Player player;
 	private CharacterController controller;
-	private Vector3 moveDirection = Vector3.zero;
 	private StatusEffectHandler handler;
 	private Animator animator;
+	private Vector3 moveDirection = Vector3.zero;
 
 	[Header("Movement")]
 	public float movementSpeed = 6.7f;
@@ -20,7 +19,6 @@ public class PlayerControl : MonoBehaviour
 	public float jumpSpeed = 20f;
   	public float gravity = 50f;
 	private bool isCrouching;
-	private bool wasSprintingLastFrame;
 
 	[Space(18)]
 
@@ -44,136 +42,105 @@ public class PlayerControl : MonoBehaviour
 	[Space(18)]
 
 	[Header("Physics")]
-	public float pushPower = 2f;
-	public float pushPowerSneakMultiplier = 0.55f;
-	public float pushPowerRunMultiplier = 1.7f;
+	public float pushPowerMultiplier = 1f;
+	public float weight = 100f;
 
 	void Start()
 	{
-		kick = new FOVKick(cam);
+		cam = GetComponentInChildren<Camera>();
 		player = GetComponent<Player>();
 		controller = GetComponent<CharacterController>();
-		handler = GetComponent<StatusEffectHandler>();
 		animator = GetComponent<Animator>();
+		kick = new FOVKick(cam);
 	}
 
 	void Update()
 	{
 		moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
    		moveDirection = transform.TransformDirection(moveDirection);
+		moveDirection *= movementSpeed;
 
-		wasSprintingLastFrame = false;
-
+		controller.Move(Vector3.zero);//Move must be called in order for isGrouded to return true on the first frame
 		if(controller.isGrounded)
 		{
-			//crouching
-			if(Input.GetButtonDown("Fire1"))
+			print("GROUNDED");
+
+			//toggle sneaking
+			if(Input.GetButtonDown("Sneak"))
 			{
 				isCrouching = !isCrouching;
 				if(isCrouching)
 				{
-					//TODO: standing animation
+					moveDirection *= sneakSpeedMultiplier;
+					animator.Play("Sneak");
 				}
 				else
 				{
-					//TODO: crouching animation
+					moveDirection /= sneakSpeedMultiplier;
+					animator.Play("Idle");
 				}
 			}
 
-			//if sprinting and crouching
-			if(Input.GetButton("Fire3") && isCrouching)
+			//if running
+			if(Input.GetButton("Sprint"))
 			{
-				wasSprintingLastFrame = true;
-				isCrouching = false;
-				//TODO: stand up and sprint animation blend
+				print("running @ " + Time.time);
 
-				moveDirection *= runSpeedMultiplier;
-				pushPower *= pushPowerRunMultiplier;
+				//stand up if not already
+				if(isCrouching)
+				{
+						isCrouching = false;
+						animator.Play("Idle");
+				}
+
+				moveDirection.x *= runSpeedMultiplier;
+				moveDirection.z *= runSpeedMultiplier;
 
 				//if fovkick is enabled AND the player is moving AND the button has only just been pushed
-				if(FOVKickEnabled && controller.velocity != Vector3.zero && Input.GetButtonDown("Fire3"))
+				if(FOVKickEnabled && moveDirection != Vector3.zero && Input.GetButtonDown("Sprint"))
+				{
+					print("kick @ " + Time.time);
 					StartCoroutine(kick.FOVKickUp());
-
-				//TODO: decrease SP
+				}
+				
+				player.currentSP--;
 			}
 
-			//if sprinting but not crouching
-			else if(Input.GetButton("Fire3") && !isCrouching)
+			//if jumping
+			if(Input.GetButtonDown("Jump"))
 			{
-				wasSprintingLastFrame = true;
+				print("jump @ " + Time.time + "Y̴̧̛͇̰̱̣͈̹̫͔̺͓̜͇̫̭̰̰̱̮E̸̛͚̝̠Ȩ̡̢͙̙̟̬͉̝̬̟̠̝͖̣̝̠͓͘͢ͅT̞̮̹̼͓͕͢");
 
-				moveDirection *= runSpeedMultiplier;
-				pushPower *= pushPowerRunMultiplier;
+				//stand up if not already
+				if(isCrouching)
+				{
+						isCrouching = false;
+						animator.Play("Idle");
+				}
 
-				//if fovkick is enabled AND the player is moving AND the button has only just been pushed
-				if(FOVKickEnabled && controller.velocity != Vector3.zero && Input.GetButtonDown("Fire3"))
-					StartCoroutine(kick.FOVKickUp());
-
-				//TODO: decrease SP
+				moveDirection.y += jumpSpeed;
 			}
-
-			//if crouching but not sprinting
-			else if(!Input.GetButton("Fire3" ) && isCrouching)
-			{
-				wasSprintingLastFrame = false;
-
-				moveDirection *= sneakSpeedMultiplier;
-				pushPower *= pushPowerSneakMultiplier;
-
-				if(FOVKickEnabled && Input.GetButtonUp("Fire3"))
-					StartCoroutine(kick.FOVKickDown());
-			}
-
-			//if neither crouching nor sprinting
-			else if(!Input.GetButton("Fire3") && !isCrouching)
-			{
-				wasSprintingLastFrame = false;
-
-				if(FOVKickEnabled && Input.GetButtonUp("Fire3"))
-					StartCoroutine(kick.FOVKickDown());
-			}
-
-			//if jumping and crouching
-			else if(Input.GetButtonDown("Jump") && isCrouching)
-			{
-				isCrouching = false;
-				moveDirection.y = jumpSpeed;
-			}
-
-			//if jumping, but not crouching
-			else if(Input.GetButtonDown("Jump") && !isCrouching)
-			{
-				moveDirection.y = jumpSpeed;
-			}
-    	}
-		//if not grounded, and was sprinting last frame
-		else if(!controller.isGrounded && wasSprintingLastFrame)
-		{
-			moveDirection *= runSpeedMultiplier;
-		}
-
-		//if not grounded and wasnt sprinting last frame
-		else if(!controller.isGrounded && !wasSprintingLastFrame)
-		{
-			moveDirection *= airbourneSpeedMultiplier;
 		}
 
 		moveDirection.y -= gravity * Time.deltaTime;
+
+		//finally execute this movement that i've cooked up
 		controller.Move(moveDirection * Time.deltaTime);
 	}
 
 	void OnControllerColliderHit(ControllerColliderHit hit)
-	{
-		//pushing objects with your body
-		if (hit.collider.attachedRigidbody == null || hit.collider.attachedRigidbody.isKinematic || hit.moveDirection.y < -hit.controller.stepOffset)
-			return;
-
-		hit.collider.attachedRigidbody.velocity = hit.moveDirection * pushPower / hit.collider.attachedRigidbody.mass;
-
-		if(hit.gameObject.tag == "platform")
+ 	{
+    	Vector3 force;
+		if(hit.collider.attachedRigidbody == null || hit.collider.attachedRigidbody.isKinematic) return;
+		if(hit.moveDirection.y < -0.3)
 		{
-			this.transform.parent = hit.gameObject.transform;
+			force = new Vector3(0,-0.5f,0) * 20 * weight;
+     	}
+		else
+		{
+        	force = hit.controller.velocity * pushPowerMultiplier;
 		}
-	}
+    	hit.collider.attachedRigidbody.AddForceAtPosition(force, hit.point);
+ 	}
 }
 //TODO: two cameras, 1st person and 3rd person, set to different layers so that the player displays properly

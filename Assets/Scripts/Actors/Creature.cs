@@ -47,7 +47,7 @@ public class Creature : MonoBehaviour
 	{
 		while(true)
 		{
-			print("Idle...");
+			print("Idle @ " + Time.time);
 			//TODO: idle
 			yield return new WaitForSeconds(3);
 		}

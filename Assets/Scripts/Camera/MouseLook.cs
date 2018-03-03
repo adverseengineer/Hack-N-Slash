@@ -12,10 +12,10 @@ public class MouseLook : MonoBehaviour
 
 	public float sensitivityX = 15f;
 	public float sensitivityY = 15f;
-	public float minimumX = -360f;
-	public float maximumX = 360f;
-	public float minimumY = -60f;
-	public float maximumY = 60f;
+	public float minimumX = -Mathf.Infinity;
+	public float maximumX = Mathf.Infinity;
+	public float minimumY = -80f;
+	public float maximumY = 90f;
 
 	private float rotationX = 0f;
 	private float rotationY = 0f;

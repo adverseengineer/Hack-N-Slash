@@ -30,6 +30,7 @@ public abstract class Actor : MonoBehaviour
 	public Race race;
 	public int level;
 	public int gold;
+	public int currentCarryWeight;
 	public int carryWeightLimit;
 	public int movementSpeed;//divide by 100 in all calculations
 	public int XPGainRate;//divide by 100 in all calculations

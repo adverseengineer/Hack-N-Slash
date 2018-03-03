@@ -58,9 +58,9 @@ public sealed class Player : Actor {
 	{
 		while(true)
 		{
-			fatigue += 1;
-			hunger += 1;
-			thirst += 1;
+			fatigue++;
+			hunger++;
+			thirst++;
 
 			yield return new WaitForSeconds(1);
 		}

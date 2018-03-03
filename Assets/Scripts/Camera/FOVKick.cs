@@ -14,17 +14,13 @@ public class FOVKick
 
 	public FOVKick(Camera camera)
   	{
+		this.camera = camera;
+		this.IncreaseCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+		originalFov = camera.fieldOfView;
 		if (camera == null)
     		throw new Exception("FOVKick camera is null, please supply the camera to the constructor");
    		if (IncreaseCurve == null)
     		throw new Exception("FOVKick Increase curve is null, please define the curve for the field of view kicks");
-    	this.camera = camera;
-    	originalFov = camera.fieldOfView;
-	}
-
-	public void ChangeCamera(Camera camera)
-	{
-		this.camera = camera;
 	}
 
 	public IEnumerator FOVKickUp()
@@ -32,9 +28,9 @@ public class FOVKick
     	float t = Mathf.Abs((camera.fieldOfView - originalFov)/FOVIncrease);
     	while (t < TimeToIncrease)
     	{
-      	camera.fieldOfView = originalFov + (IncreaseCurve.Evaluate(t/TimeToIncrease)*FOVIncrease);
-     	t += Time.deltaTime;
-    	yield return new WaitForEndOfFrame();
+      		camera.fieldOfView = originalFov + (IncreaseCurve.Evaluate(t/TimeToIncrease)*FOVIncrease);
+     		t += Time.deltaTime;
+    		yield return new WaitForEndOfFrame();
     	}
 	}
 

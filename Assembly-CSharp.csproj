@@ -168,7 +168,6 @@
      <None Include="Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldScatter.shader" />
      <None Include="Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
      <None Include="Assets\Scripts\Stealth\Stealth.xml" />
-     <None Include="Assets\Scripts\Actors\Actor.xml" />
      <None Include="Assets\Effects\ImageEffects\Shaders\ShowAlphaChannel.shader" />
      <None Include="Assets\Effects\ImageEffects\Shaders\NoiseAndGrain.shader" />
      <None Include="Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
