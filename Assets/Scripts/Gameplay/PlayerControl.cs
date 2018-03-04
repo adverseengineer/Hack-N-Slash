@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 
 [RequireComponent(typeof(CharacterController), typeof(Player), typeof(StatusEffectHandler))]
@@ -13,9 +14,9 @@ public class PlayerControl : MonoBehaviour
 
 	[Header("Movement")]
 	public float movementSpeed = 6.7f;
-	public float airbourneSpeedMultiplier = 0.283582089552f;
-	public float sneakSpeedMultiplier = 0.522388059701f;
-	public float runSpeedMultiplier = 1.34328358209f;
+	public float airbourneSpeedMultiplier = 0.28f;
+	public float crouchSpeedMultiplier = 0.52f;
+	public float sprintSpeedMultiplier = 1.34f;
 	public float jumpSpeed = 20f;
   	public float gravity = 50f;
 	private bool isCrouching;
@@ -23,9 +24,11 @@ public class PlayerControl : MonoBehaviour
 	[Space(18)]
 
 	[Header("Crouching")]
+	public float crouchingHeight = 1f;
 	public float crouchTimeToIncrease = 1f;
 	public float crouchTimeToDecrease = 1f;
 	public AnimationCurve crouchHeightIncreaseCurve;
+	private float originalHeight;
 
 	[Space(18)]
 
@@ -39,108 +42,119 @@ public class PlayerControl : MonoBehaviour
 	public bool FOVKickEnabled = true;
 	public FOVKick kick;
 
-	[Space(18)]
-
-	[Header("Physics")]
-	public float pushPowerMultiplier = 1f;
-	public float weight = 100f;
 
 	void Start()
 	{
 		cam = GetComponentInChildren<Camera>();
+		if(cam == null)
+			throw new Exception("no camera found attached to any child gameobjects");
 		player = GetComponent<Player>();
+		if(player == null)
+			throw new Exception("no player info found attached to gameobject");
 		controller = GetComponent<CharacterController>();
+		if(controller != null)
+			originalHeight = controller.height;
+		else
+			throw new Exception("no controller found attached to gameobject");
 		animator = GetComponent<Animator>();
+		if(animator == null) throw new Exception("no animator found attached to gameobject");
 		kick = new FOVKick(cam);
 	}
 
 	void Update()
 	{
-		moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-   		moveDirection = transform.TransformDirection(moveDirection);
-		moveDirection *= movementSpeed;
 
-		controller.Move(Vector3.zero);//Move must be called in order for isGrouded to return true on the first frame
 		if(controller.isGrounded)
 		{
-			print("GROUNDED");
+			moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+   			moveDirection = transform.TransformDirection(moveDirection);
+			moveDirection *= movementSpeed;
 
-			//toggle sneaking
-			if(Input.GetButtonDown("Sneak"))
+			if(Input.GetButtonDown("Crouch"))
 			{
+				print("ctrl" + Time.time);
 				isCrouching = !isCrouching;
 				if(isCrouching)
 				{
-					moveDirection *= sneakSpeedMultiplier;
-					animator.Play("Sneak");
+					StartCoroutine(Crouch());
 				}
 				else
 				{
-					moveDirection /= sneakSpeedMultiplier;
-					animator.Play("Idle");
+					StartCoroutine(Stand());
 				}
 			}
 
-			//if running
+
 			if(Input.GetButton("Sprint"))
 			{
-				print("running @ " + Time.time);
-
-				//stand up if not already
-				if(isCrouching)
-				{
-						isCrouching = false;
-						animator.Play("Idle");
-				}
-
-				moveDirection.x *= runSpeedMultiplier;
-				moveDirection.z *= runSpeedMultiplier;
-
-				//if fovkick is enabled AND the player is moving AND the button has only just been pushed
-				if(FOVKickEnabled && moveDirection != Vector3.zero && Input.GetButtonDown("Sprint"))
-				{
-					print("kick @ " + Time.time);
-					StartCoroutine(kick.FOVKickUp());
-				}
-				
-				player.currentSP--;
+				Sprint();
 			}
-
-			//if jumping
 			if(Input.GetButtonDown("Jump"))
 			{
-				print("jump @ " + Time.time + "Y̴̧̛͇̰̱̣͈̹̫͔̺͓̜͇̫̭̰̰̱̮E̸̛͚̝̠Ȩ̡̢͙̙̟̬͉̝̬̟̠̝͖̣̝̠͓͘͢ͅT̞̮̹̼͓͕͢");
-
-				//stand up if not already
-				if(isCrouching)
-				{
-						isCrouching = false;
-						animator.Play("Idle");
-				}
-
-				moveDirection.y += jumpSpeed;
+				print("SHART");
+				moveDirection.y = jumpSpeed;
 			}
 		}
 
 		moveDirection.y -= gravity * Time.deltaTime;
 
-		//finally execute this movement that i've cooked up
 		controller.Move(moveDirection * Time.deltaTime);
 	}
 
-	void OnControllerColliderHit(ControllerColliderHit hit)
- 	{
-    	Vector3 force;
-		if(hit.collider.attachedRigidbody == null || hit.collider.attachedRigidbody.isKinematic) return;
-		if(hit.moveDirection.y < -0.3)
+	IEnumerator Crouch()
+	{
+		print("crouch" + Time.time);
+
+		//adjust the characterController component's position and scale
+		controller.height = crouchingHeight;
+		controller.center = new Vector3(controller.center.x, crouchingHeight / 2 - 1, controller.center.z);
+		yield return null;
+		// float t = Mathf.Abs((cam.transform.localPosition.y - originalHeight)/crouchDistance);
+    	// while (t < crouchTimeToIncrease)
+    	// {
+      	// 	cam.transform.localPosition = new Vector3(cam.transform.localPosition.x, originalHeight + (crouchHeightIncreaseCurve.Evaluate(t/crouchTimeToIncrease)*crouchDistance), cam.transform.localPosition.z);
+     	// 	t += Time.deltaTime;
+    	// 	yield return new WaitForEndOfFrame();
+    	// }
+	}
+
+	IEnumerator Stand()
+	{
+		print("stand" + Time.time);
+
+		//adjust the characterController component's position and scale
+		controller.center = new Vector3(controller.center.x, 0, controller.center.z);
+		controller.height = originalHeight;
+		yield return null;
+		// float t = Mathf.Abs((cam.transform.localPosition.y - originalHeight)/crouchDistance);
+    	// while (t > 0)
+    	// {
+    	// 	cam.transform.localPosition = new Vector3(cam.transform.localPosition.x, originalHeight + (crouchHeightIncreaseCurve.Evaluate(t/crouchTimeToDecrease)*crouchDistance), cam.transform.localPosition.z);
+    	// 	t -= Time.deltaTime;
+    	// 	yield return new WaitForEndOfFrame();
+    	// }
+    	// //make sure that camera returns to the original height
+    	// cam.transform.localPosition = new Vector3(cam.transform.localPosition.x, originalHeight, cam.transform.localPosition.z);
+	}
+
+	void Sprint()
+	{
+		moveDirection.x *= sprintSpeedMultiplier;
+		moveDirection.z *= sprintSpeedMultiplier;
+
+		//if fovkick is enabled AND the player is moving AND the button has only just been pushed
+		if(FOVKickEnabled && moveDirection != Vector3.zero && Input.GetButtonDown("Sprint"))
 		{
-			force = new Vector3(0,-0.5f,0) * 20 * weight;
-     	}
-		else
-		{
-        	force = hit.controller.velocity * pushPowerMultiplier;
+			StartCoroutine(kick.FOVKickUp());
 		}
-    	hit.collider.attachedRigidbody.AddForceAtPosition(force, hit.point);
- 	}
+	}
+
+	void OnValidate()
+	{
+		if(GetComponent<CharacterController>() != null && crouchingHeight < GetComponent<CharacterController>().radius * 2)
+		{
+			crouchingHeight = GetComponent<CharacterController>().radius * 2;
+			throw new Exception("crouching height must always be greater than the controller's diameter");
+		}
+	}
 }
-//TODO: two cameras, 1st person and 3rd person, set to different layers so that the player displays properly

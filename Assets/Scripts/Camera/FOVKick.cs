@@ -1,6 +1,6 @@
+using UnityEngine;
 using System;
 using System.Collections;
-using UnityEngine;
 
 [Serializable]
 public class FOVKick
@@ -25,6 +25,7 @@ public class FOVKick
 
 	public IEnumerator FOVKickUp()
 	{
+		Debug.Log("kick @ " + Time.time);
     	float t = Mathf.Abs((camera.fieldOfView - originalFov)/FOVIncrease);
     	while (t < TimeToIncrease)
     	{
@@ -36,6 +37,7 @@ public class FOVKick
 
 	public IEnumerator FOVKickDown()
   	{
+		Debug.Log("kick @ " + Time.time);
   		float t = Mathf.Abs((camera.fieldOfView - originalFov)/FOVIncrease);
     	while (t > 0)
     	{

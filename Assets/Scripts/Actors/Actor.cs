@@ -118,6 +118,11 @@ public abstract class Actor : MonoBehaviour
 
 	private float currentNoiseLevel;
 
+	[Space(18)]
+	
+	public float pushPowerMultiplier = 1f;
+	public float weight = 100f;
+
 	public IEnumerator ApplyStatusEffect(StatusEffect statusEffect)
 	{
 		int originalValue = 0;
@@ -316,6 +321,21 @@ public abstract class Actor : MonoBehaviour
 		if(currentMP > maxMP) currentMP = maxMP;
 		//applyRaceBonuses(race);
 	}
+
+	void OnControllerColliderHit(ControllerColliderHit hit)
+ 	{
+    	Vector3 force;
+		if(hit.collider.attachedRigidbody == null || hit.collider.attachedRigidbody.isKinematic) return;
+		if(hit.moveDirection.y < -0.3)
+		{
+			force = new Vector3(0,-0.5f,0) * 20 * weight;
+     	}
+		else
+		{
+        	force = hit.controller.velocity * pushPowerMultiplier;
+		}
+    	hit.collider.attachedRigidbody.AddForceAtPosition(force, hit.point);
+ 	}
 
 	/*
 	public void applyRaceBonuses(Race race)
