@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-[AddComponentMenu("Camera-Control/Mouse Look")]
+[AddComponentMenu("Camera/Mouse Look")]
 public class MouseLook : MonoBehaviour
 {
 	//FIXME: i get stuck on the bottom of the screen whenever the mouse goes very far beyond it's limit

@@ -94,6 +94,7 @@
      <Compile Include="Assets\Scripts\Actors\Vendor\Smith.cs" />
      <Compile Include="Assets\Scripts\Actors\Vendor\Tailor.cs" />
      <Compile Include="Assets\Scripts\Actors\Vendor\Vendor.cs" />
+     <Compile Include="Assets\Scripts\Camera\CameraShake.cs" />
      <Compile Include="Assets\Scripts\Camera\FOVKick.cs" />
      <Compile Include="Assets\Scripts\Camera\MouseLook.cs" />
      <Compile Include="Assets\Scripts\Camera\MouseOrbit.cs" />

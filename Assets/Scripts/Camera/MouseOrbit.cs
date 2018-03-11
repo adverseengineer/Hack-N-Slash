@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-[AddComponentMenu("Camera-Control/Mouse Orbit")]
+[AddComponentMenu("Camera/Mouse Orbit")]
 public class MouseOrbit : MonoBehaviour
 {
 	public Camera cam;
