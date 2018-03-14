@@ -13,7 +13,7 @@ public class PlayerControl : MonoBehaviour
 	private Vector3 moveDirection = Vector3.zero;
 
 	[Header("Movement")]
-	public float movementSpeed = 6.7f;
+	public float baseMovementSpeed = 6.7f;
 	public float airbourneSpeedMultiplier = 0.28f;
 	public float crouchSpeedMultiplier = 0.52f;
 	public float sprintSpeedMultiplier = 1.34f;
@@ -98,7 +98,10 @@ public class PlayerControl : MonoBehaviour
 	{
 		moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 		moveDirection = transform.TransformDirection(moveDirection);
-		moveDirection *= movementSpeed;
+		moveDirection *= baseMovementSpeed;
+
+		//apply gravity
+		moveDirection.y -= gravity * Time.deltaTime;
 
 		if(isCrouching)
 		{
@@ -150,9 +153,6 @@ public class PlayerControl : MonoBehaviour
 		{
 			print("<color=grey>NoInput @ </color>" + Time.time);
 		}
-
-		//apply gravity
-		moveDirection.y -= gravity * Time.deltaTime;
 
 		//execute this frame's movement
 		controller.Move(moveDirection * Time.deltaTime);
