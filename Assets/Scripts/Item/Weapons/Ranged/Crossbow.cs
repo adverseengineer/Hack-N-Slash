@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-[AddComponentMenu("Items/Weapons/Ranged/Crossbow")]
-public class Crossbow : Ranged
+[CreateAssetMenu(menuName = "Items/Weapons/Ranged/Crossbow", fileName = "New Crossbow")]
+public sealed class Crossbow : Ranged
 {
-
+    
 }

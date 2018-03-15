@@ -26,6 +26,7 @@ public abstract class Apparel : Equippable
 
 	public sealed override void CalculateValue()
 	{
+		//this formula compares the armor rating to the max armor rating possible in-game
 		value = Mathf.FloorToInt(Mathf.Pow(1 + (armorRating/maxArmorRating), 10));
 	}
 }

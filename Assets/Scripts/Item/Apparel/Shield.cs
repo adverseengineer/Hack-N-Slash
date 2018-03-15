@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Items/Apparel/Shield")]
+[CreateAssetMenu(menuName = "Items/Apparel/Shield", fileName = "New Shield")]
 public sealed class Shield : Apparel
 {
 	//wooden = kite
 	//bone = buckler
 	//iron = heater
 	//steel = tower
-	//bronze = greek
+	//bronze = spartan
 
 	void OnValidate()
 	{

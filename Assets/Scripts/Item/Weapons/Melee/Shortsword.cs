@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Items/Weapons/Melee/Shortsword")]
-public class Shortsword : Melee
+[CreateAssetMenu(menuName = "Items/Weapons/Melee/Shortsword", fileName = "New Shortsword")]
+public sealed class Shortsword : Melee
 {
 	//baseDamage = 4;
 	//slashDamage = 8;

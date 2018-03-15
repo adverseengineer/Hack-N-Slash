@@ -98,14 +98,10 @@ public abstract class Actor : MonoBehaviour
 	public Weapon EquippedWeaponR;
 
 	public Head EquippedHead;
-	public Top EquippedTop;
-	public Bottom EquippedBottom;
+	public Torso EquippedTorso;
+	public Legs EquippedLegs;
 	public Shield EquippedShield;
-
-	public Ring EquippedRing;
-	public Earrings EquippedEarrings;
-	public Amulet EquippedAmulet;
-	public Belt EquippedBelt;
+	public Accessory EquippedAccessory;
 
 	[Space(18)]
 

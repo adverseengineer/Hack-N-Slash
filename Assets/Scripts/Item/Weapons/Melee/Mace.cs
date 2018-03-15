@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Items/Weapons/Melee/Mace")]
-public class Mace : Melee
+[CreateAssetMenu(menuName = "Items/Weapons/Melee/Mace", fileName = "New Mace")]
+public sealed class Mace : Melee
 {
 	//baseDamage = 6;
 	//slashDamage = 6;

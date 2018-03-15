@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Items/Weapons/Melee/Greatsword")]
-public class Greatsword : Melee
+[CreateAssetMenu(menuName = "Items/Weapons/Melee/Greatsword", fileName = "New Greatsword")]
+public sealed class Greatsword : Melee
 {
 	//baseDamage = 8;
 	//slashDamage = 13;

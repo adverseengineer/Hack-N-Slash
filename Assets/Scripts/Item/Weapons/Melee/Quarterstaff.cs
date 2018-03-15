@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Items/Weapons/Melee/Quarterstaff")]
-public class Quarterstaff : Melee
+[CreateAssetMenu(menuName = "Items/Weapons/Melee/Quarterstaff", fileName = "New Quarterstaff")]
+public sealed class Quarterstaff : Melee
 {
 	//baseDamage = 7;
 	//slashDamage = 8;

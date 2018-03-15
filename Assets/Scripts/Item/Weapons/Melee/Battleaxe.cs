@@ -2,7 +2,7 @@
 using System.Collections;
 
 [CreateAssetMenu(menuName = "Items/Weapons/Melee/Battleaxe", fileName = "New Battleaxe")]
-public class Battleaxe : Melee
+public sealed class Battleaxe : Melee
 {
 	//baseDamage = 6;
 	//slashDamage = 8;

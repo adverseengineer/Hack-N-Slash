@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Items/Weapons/Melee/Dagger")]
-public class Dagger : Melee
+[CreateAssetMenu(menuName = "Items/Weapons/Melee/Dagger", fileName = "New Dagger")]
+public sealed class Dagger : Melee
 {
 	//baseDamage = 3;
 	//slashDamage = 5;

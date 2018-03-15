@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Items/Weapons/Melee/Warhammer")]
-public class Warhammer : Melee
+[CreateAssetMenu(menuName = "Items/Weapons/Melee/Warhammer", fileName = "New Warhammer")]
+public sealed class Warhammer : Melee
 {
 	//baseDamage = 8;
 	//slashDamage = 11;

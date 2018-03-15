@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Items/Weapons/Melee/Spear")]
-public class Spear : Melee
+[CreateAssetMenu(menuName = "Items/Weapons/Melee/Spear", fileName = "New Spear")]
+public sealed class Spear : Melee
 {
 
 }

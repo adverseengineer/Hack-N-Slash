@@ -3,7 +3,7 @@ using System.Collections;
 
 [CreateAssetMenu]
 [AddComponentMenu("Items/Consumables/Ingredient")]
-public class Ingredient : Consumable
+public sealed class Ingredient : Consumable
 {
 	[Range(0,1f)] public float rarity;
 	public StatusEffect.Effect effect1;

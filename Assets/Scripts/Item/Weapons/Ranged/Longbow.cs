@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-[AddComponentMenu("Items/Weapons/Ranged/Longbow")]
-public class Longbow : Ranged
+[CreateAssetMenu(menuName = "Items/Weapons/Ranged/Longbow", fileName = "New Longbow")]
+public sealed class Longbow : Ranged
 {
-
+    
 }
+
