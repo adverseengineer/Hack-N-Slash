@@ -14,8 +14,9 @@ public class ItemCollector : MonoBehaviour
 		player = GetComponent<Player>();
 	}
 
-	void FixedUpdate()
+	void Update()
   {
+		//declare a RaycastHHit struct to store the hit info
     RaycastHit hit;
 		Vector3 fwd = transform.TransformDirection(Vector3.forward);
     if (Physics.Raycast(transform.position, fwd, out hit, maxDistance, mask.value))
@@ -23,6 +24,7 @@ public class ItemCollector : MonoBehaviour
       print("Found an object: " + hit.transform.gameObject.name);
 			if(Input.GetKeyDown(KeyCode.E))
 			{
+				player.inventory.Add(hit.transform.gameObject.GetComponent<Collectible>().representedItem);
 				hit.transform.gameObject.SetActive(false);
 			}
 		}

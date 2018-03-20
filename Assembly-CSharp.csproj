@@ -99,6 +99,7 @@
      <Compile Include="Assets\Scripts\Camera\MouseLook.cs" />
      <Compile Include="Assets\Scripts\Camera\MouseOrbit.cs" />
      <Compile Include="Assets\Scripts\Gameplay\Bounds.cs" />
+     <Compile Include="Assets\Scripts\Gameplay\Collectible.cs" />
      <Compile Include="Assets\Scripts\Gameplay\ItemCollector.cs" />
      <Compile Include="Assets\Scripts\Gameplay\Platform.cs" />
      <Compile Include="Assets\Scripts\Gameplay\PlayerControl.cs" />

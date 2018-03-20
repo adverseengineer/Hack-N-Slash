@@ -12,6 +12,8 @@ public class PlayerControl : MonoBehaviour
 	private Animator animator;
 	private Vector3 moveDirection = Vector3.zero;
 
+	private bool crouchOrStandCoroutineIsRunning = false;
+
 	[Header("Movement")]
 	public float baseMovementSpeed = 6.7f;
 	public float airbourneSpeedMultiplier = 0.28f;
@@ -100,9 +102,6 @@ public class PlayerControl : MonoBehaviour
 		moveDirection = transform.TransformDirection(moveDirection);
 		moveDirection *= baseMovementSpeed;
 
-		//apply gravity
-		moveDirection.y -= gravity * Time.deltaTime;
-
 		if(isCrouching)
 		{
 			moveDirection *= crouchSpeedMultiplier;
@@ -133,26 +132,29 @@ public class PlayerControl : MonoBehaviour
 		{
 			StartCoroutine(Jump());
 		}
-
+		
 		//if holding sprint and not grounded
 		else if(Input.GetButton("Sprint") && !controller.isGrounded)
 		{
-			moveDirection.x *= airbourneSpeedMultiplier;
-			moveDirection.z *= airbourneSpeedMultiplier;
+			//moveDirection.x += Input.GetAxis("Horizontal") * sprintSpeedMultiplier * airbourneSpeedMultiplier;
+			//moveDirection.z += Input.GetAxis("Vertical") * sprintSpeedMultiplier * airbourneSpeedMultiplier;
 		}
 
 		//if not touching the ground and not holding sprint
 		else if(!Input.GetButton("Sprint") && !controller.isGrounded)
 		{
-			moveDirection.x += Input.GetAxis("Horizontal") * airbourneSpeedMultiplier;
-			moveDirection.z += Input.GetAxis("Vertical") * airbourneSpeedMultiplier;
+			//moveDirection.x += Input.GetAxis("Horizontal") * airbourneSpeedMultiplier;
+			//moveDirection.z += Input.GetAxis("Vertical") * airbourneSpeedMultiplier;
 		}
 
 		//if no input
-		else if(!Input.GetButton("Jump") && controller.isGrounded && Input.GetAxis("Horizontal") == 0f &&  Input.GetAxis("Vertical") == 0f)
-		{
-			print("<color=grey>NoInput @ </color>" + Time.time);
-		}
+		// else if(!Input.GetButton("Jump") && controller.isGrounded && Input.GetAxis("Horizontal") == 0f &&  Input.GetAxis("Vertical") == 0f)
+		// {
+		// 	print("<color=grey>NoInput @ </color>" + Time.time);
+		// }
+
+		//apply gravity
+		moveDirection.y -= gravity * Time.deltaTime;
 
 		//execute this frame's movement
 		controller.Move(moveDirection * Time.deltaTime);
@@ -160,42 +162,67 @@ public class PlayerControl : MonoBehaviour
 
 	IEnumerator Crouch()
 	{
-		print("<color=purple>Crouch @ </color>" + Time.time);
+		//if crouch or stand is not already running
+		if(!crouchOrStandCoroutineIsRunning)
+		{
+			crouchOrStandCoroutineIsRunning = true;
 
-		//adjust the characterController component's position and scale
-		controller.height = crouchingControllerHeight;
-		controller.center = new Vector3(controller.center.x, crouchingControllerHeight, controller.center.z);
+			print("<color=purple>Crouch @ </color>" + Time.time);
 
-		//move the camera along the animation curve
-		float progress = Mathf.Abs((cam.transform.localPosition.y - originalCamHeight)/crouchingCamHeight);
-    	while (progress < crouchTimeToIncrease)
-    	{
-      		cam.transform.localPosition = new Vector3(cam.transform.localPosition.x, originalCamHeight + (crouchHeightIncreaseCurve.Evaluate(progress/crouchTimeToIncrease)*crouchingCamHeight), cam.transform.localPosition.z);
-     		progress += Time.deltaTime;
-    		yield return new WaitForEndOfFrame();
-    	}
-		print("<color=purple>Camera has lerped down @ </color>" + Time.time);
+			//adjust the characterController component's position and scale
+			controller.height = crouchingControllerHeight;
+			controller.center = new Vector3(controller.center.x, crouchingControllerHeight, controller.center.z);
+
+			//move the camera along the animation curve
+			float progress = Mathf.Abs((cam.transform.localPosition.y - originalCamHeight)/crouchingCamHeight);
+			while (progress < crouchTimeToIncrease)
+			{
+				cam.transform.localPosition = new Vector3(cam.transform.localPosition.x, originalCamHeight + (crouchHeightIncreaseCurve.Evaluate(progress/crouchTimeToIncrease)*crouchingCamHeight), cam.transform.localPosition.z);
+				progress += Time.deltaTime;
+				yield return new WaitForEndOfFrame();
+			}
+			print("<color=purple>Camera has lerped down @ </color>" + Time.time);
+
+			crouchOrStandCoroutineIsRunning = false;
+		}
+		else
+		{
+			print("<color=red>crouch or stand is already running </color>" + Time.time);
+		}
 	}
 
 	IEnumerator Stand()
 	{
-		print("<color=orange>Stand @ </color>" + Time.time);
+		if(!crouchOrStandCoroutineIsRunning)
+		{
+			crouchOrStandCoroutineIsRunning = true;
 
-		//adjust the characterController component's position and scale
-		controller.center = new Vector3(controller.center.x, 0, controller.center.z);
-		controller.height = originalControllerHeight;
+			print("<color=orange>Stand @ </color>" + Time.time);
 
-		//move the camera along the animation curve
-		float progress = Mathf.Abs((cam.transform.localPosition.y - originalCamHeight)/crouchingCamHeight);
-    	while (progress > 0)
-    	{
-    		cam.transform.localPosition = new Vector3(cam.transform.localPosition.x, originalCamHeight + (crouchHeightIncreaseCurve.Evaluate(progress/crouchTimeToDecrease)*crouchingCamHeight), cam.transform.localPosition.z);
-    		progress -= Time.deltaTime;
-    		yield return new WaitForEndOfFrame();
-    	}
-		print("<color=orange>Camera has lerped up @ </color>" + Time.time);
-    	//make sure that camera returns to the original height
-    	cam.transform.localPosition = new Vector3(cam.transform.localPosition.x, originalCamHeight, cam.transform.localPosition.z);
+			//adjust the characterController component's position and scale
+			controller.center = new Vector3(controller.center.x, 0, controller.center.z);
+			controller.height = originalControllerHeight;
+
+			//move the camera along the animation curve
+			float progress = Mathf.Abs((cam.transform.localPosition.y - originalCamHeight)/crouchingCamHeight);
+			while (progress > 0)
+			{
+				cam.transform.localPosition = new Vector3(cam.transform.localPosition.x, originalCamHeight + (crouchHeightIncreaseCurve.Evaluate(progress/crouchTimeToDecrease)*crouchingCamHeight), cam.transform.localPosition.z);
+				progress -= Time.deltaTime;
+				yield return new WaitForEndOfFrame();
+			}
+
+			//make sure that camera returns to the original height
+			cam.transform.localPosition = new Vector3(cam.transform.localPosition.x, originalCamHeight, cam.transform.localPosition.z);
+
+			print("<color=orange>Camera has lerped up @ </color>" + Time.time);
+
+			crouchOrStandCoroutineIsRunning = false;
+		}
+		else
+		{
+			print("<color=red>crouch or stand is already running </color>" + Time.time);
+		}
 	}
 
 	IEnumerator Sprint()

@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\Editor\CreatureEditor.cs" />
      <Compile Include="Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
+     <Compile Include="Assets\Editor\ItemCollectorEditor.cs" />
      <Compile Include="Assets\Editor\NPCEditor.cs" />
      <None Include="Assets\Effects\ImageEffects\Shaders\ColorCorrectionEffect.shader" />
      <None Include="Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />
