@@ -37,4 +37,10 @@ public abstract class Melee : Weapon
 	{
 		value = Mathf.FloorToInt(Mathf.Pow(1 + (weaponRating/maxWeaponRating), 10));
 	}
+
+	void OnValidate()
+	{
+		CalculateWeaponRating();
+		CalculateValue();
+	}
 }

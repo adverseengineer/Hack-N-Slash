@@ -25,7 +25,7 @@ public class FOVKick
 
 	public IEnumerator FOVKickUp()
 	{
-		Debug.Log("kick @ " + Time.time);
+		Debug.Log("kick up @ " + Time.time);
     	float t = Mathf.Abs((camera.fieldOfView - originalFov)/FOVIncrease);
     	while (t < TimeToIncrease)
     	{
@@ -37,7 +37,7 @@ public class FOVKick
 
 	public IEnumerator FOVKickDown()
   	{
-		Debug.Log("kick @ " + Time.time);
+		Debug.Log("kick down @ " + Time.time);
   		float t = Mathf.Abs((camera.fieldOfView - originalFov)/FOVIncrease);
     	while (t > 0)
     	{

@@ -33,7 +33,7 @@ public class Functions
 		return Mathf.Sqrt(sum/arg.Count);
 	}
 
-	public void SortAlphabetically(List<string> arg)
+	public static void SortAlphabetically(List<string> arg)
 	{
 		//TODO: fill out this algorithm
 	}

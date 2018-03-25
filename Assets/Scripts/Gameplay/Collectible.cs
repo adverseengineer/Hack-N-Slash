@@ -3,7 +3,7 @@ using System;
 
 public class Collectible : MonoBehaviour
 {
-    public static LayerMask mask = 7;
+    public static LayerMask mask = 9;
 
     public Item representedItem;
 

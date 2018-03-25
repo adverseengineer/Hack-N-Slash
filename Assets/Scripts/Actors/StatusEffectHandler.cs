@@ -5,9 +5,12 @@ using System.Collections;
 public class StatusEffectHandler : MonoBehaviour
 {
 	//TODO: write this bullshit
-	public Actor actor;
+	private Actor actor;
+
 	void Start()
 	{
+		actor = GetComponent<Actor>();
+
 		for(int i = 0; i < actor.activeEffects.Count; i++)
 		{
 			

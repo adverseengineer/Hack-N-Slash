@@ -7,38 +7,23 @@ public class PlayerControl : MonoBehaviour
 {
 	private Camera cam;
 	private Player player;
-	private CharacterController controller;
+	private CharacterController cc;
 	private StatusEffectHandler handler;
 	private Animator animator;
 	private Vector3 moveDirection = Vector3.zero;
 
-	private bool crouchOrStandCoroutineIsRunning = false;
-
 	[Header("Movement")]
 	public float baseMovementSpeed = 6.7f;
-	public float airbourneSpeedMultiplier = 0.28f;
 	public float crouchSpeedMultiplier = 0.52f;
 	public float sprintSpeedMultiplier = 1.34f;
-	public float jumpSpeed = 20f;
-  	public float gravity = 50f;
+	public float jumpForce = 2f;
 	private bool isCrouching = false;
 
 	[Space(18)]
 
 	[Header("Crouching")]
-	public float crouchingControllerHeight = 1f;
-	public float crouchingCamHeight = 0.3f;
-	public float crouchTimeToIncrease = 1f;
-	public float crouchTimeToDecrease = 1f;
-	public AnimationCurve crouchHeightIncreaseCurve;
-	private float originalControllerHeight;
-	private float originalCamHeight;
-
-	[Space(18)]
-
-	[Header("Headbob")]
-	public bool headBob = true;
-	//TODO: Implement headbob
+	public float crouchingHeight = 1f;
+	private float originalColliderHeight;
 
 	[Space(18)]
 
@@ -46,51 +31,23 @@ public class PlayerControl : MonoBehaviour
 	public bool FOVKickEnabled = true;
 	public FOVKick kick;
 
-	[Space(18)]
-
-	[Header("Camera Shake")]
-	public CameraShake cameraShake;
-
 	void Start()
 	{
-		//FIXME: getcomponentinchildren might be the reason fov kick stopped working
-		cam = GetComponentInChildren<Camera>();
+		cam = transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<Camera>();
 		if(cam == null)
-		{
-			throw new Exception("<color=red>no camera found attached to any child gameobjects</color>");
-		}
-		else
-		{
-			//f(x)=3x/10
-			originalCamHeight = cam.transform.localPosition.y;
-			crouchingCamHeight = originalCamHeight * 3 / 10;
-		}
+			throw new Exception("<color=red>no camera found in player hierarchy</color>");
 
 		player = GetComponent<Player>();
 		if(player == null)
-		{
-			throw new Exception("<color=red>no player info found attached to gameobject</color>");
-		}
-		controller = GetComponent<CharacterController>();
-		if(controller == null)
-		{
-			throw new Exception("<color=red>no controller found attached to gameobject</color>");
-		}
+			throw new Exception("<color=red>no player info found attached to player</color>");
+
+		cc = GetComponent<CharacterController>();
+		if(cc == null)
+			throw new Exception("<color=red>no cc found attached to player</color>");
 		else
 		{
-			//f(x)=x/2-1
-			originalControllerHeight = controller.height;
-			crouchingControllerHeight = originalControllerHeight / 2 - 1;
-		}
-		animator = GetComponent<Animator>();
-		if(animator == null)
-		{
-			throw new Exception("<color=red>no animator found attached to gameobject</color>");
-		}
-		cameraShake = GetComponent<CameraShake>();
-		if(cameraShake == null)
-		{	
-			throw new Exception("<color=red>no shake found attached to gameobject</color>");
+			originalColliderHeight = cc.height;
+			crouchingHeight = originalColliderHeight / 2 - 1;
 		}
 
 		kick = new FOVKick(cam);
@@ -98,175 +55,112 @@ public class PlayerControl : MonoBehaviour
 
 	void Update()
 	{
-		moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+		//every frame, x and z of moveDirection is updated
+		moveDirection = new Vector3(Input.GetAxis("Horizontal"), moveDirection.y, Input.GetAxis("Vertical"));
+		moveDirection.x *= baseMovementSpeed;
+		moveDirection.z *= baseMovementSpeed;
 		moveDirection = transform.TransformDirection(moveDirection);
-		moveDirection *= baseMovementSpeed;
 
 		if(isCrouching)
 		{
-			moveDirection *= crouchSpeedMultiplier;
+			moveDirection.x *= crouchSpeedMultiplier;
+			moveDirection.z *= crouchSpeedMultiplier;
 		}
 
-		//if not sprinting or jumping
-		if(!Input.GetButton("Sprint") && controller.isGrounded && Input.GetButtonDown("Crouch") && !Input.GetButtonDown("Jump"))
+		//crouch
+		if(!Input.GetButton("Sprint") && !Input.GetButtonDown("Jump") && Input.GetButtonDown("Crouch") && cc.isGrounded)
 		{
-			isCrouching = !isCrouching;
-			if(isCrouching)
-			{
-				StartCoroutine(Crouch());
-			}
-			else
-			{
-				StartCoroutine(Stand());
-			}
+			print("ctrl");
+			if(isCrouching) Stand();
+			else Crouch();
 		}
 
-		//if sprinting and grounded
-		else if(Input.GetButton("Sprint") && controller.isGrounded)
-		{
-			StartCoroutine(Sprint());
-		}
+		//sprint
+		else if(Input.GetButton("Sprint") && !Input.GetButtonDown("Jump") && !Input.GetButtonDown("Crouch") && cc.isGrounded) Sprint();
 
-		//if holding space but not jump and grounded
-		if(!Input.GetButton("Sprint") && Input.GetButton("Jump") && controller.isGrounded)
-		{
-			StartCoroutine(Jump());
-		}
-		
-		//if holding sprint and not grounded
-		else if(Input.GetButton("Sprint") && !controller.isGrounded)
-		{
-			//moveDirection.x += Input.GetAxis("Horizontal") * sprintSpeedMultiplier * airbourneSpeedMultiplier;
-			//moveDirection.z += Input.GetAxis("Vertical") * sprintSpeedMultiplier * airbourneSpeedMultiplier;
-		}
+		//jump
+		if(Input.GetButtonDown("Jump") && cc.isGrounded) Jump();
 
-		//if not touching the ground and not holding sprint
-		else if(!Input.GetButton("Sprint") && !controller.isGrounded)
-		{
-			//moveDirection.x += Input.GetAxis("Horizontal") * airbourneSpeedMultiplier;
-			//moveDirection.z += Input.GetAxis("Vertical") * airbourneSpeedMultiplier;
-		}
-
-		//if no input
-		// else if(!Input.GetButton("Jump") && controller.isGrounded && Input.GetAxis("Horizontal") == 0f &&  Input.GetAxis("Vertical") == 0f)
-		// {
-		// 	print("<color=grey>NoInput @ </color>" + Time.time);
-		// }
 
 		//apply gravity
-		moveDirection.y -= gravity * Time.deltaTime;
+		moveDirection.y -= 9.81f * Time.deltaTime;
 
-		//execute this frame's movement
-		controller.Move(moveDirection * Time.deltaTime);
+		//perform this frame's movement
+		cc.Move(moveDirection * Time.deltaTime);
 	}
 
-	IEnumerator Crouch()
+	void Crouch()
 	{
-		//if crouch or stand is not already running
-		if(!crouchOrStandCoroutineIsRunning)
-		{
-			crouchOrStandCoroutineIsRunning = true;
+		isCrouching = true;
 
-			print("<color=purple>Crouch @ </color>" + Time.time);
+		print("<color=purple>Crouch @ </color>" + Time.time);
 
-			//adjust the characterController component's position and scale
-			controller.height = crouchingControllerHeight;
-			controller.center = new Vector3(controller.center.x, crouchingControllerHeight, controller.center.z);
-
-			//move the camera along the animation curve
-			float progress = Mathf.Abs((cam.transform.localPosition.y - originalCamHeight)/crouchingCamHeight);
-			while (progress < crouchTimeToIncrease)
-			{
-				cam.transform.localPosition = new Vector3(cam.transform.localPosition.x, originalCamHeight + (crouchHeightIncreaseCurve.Evaluate(progress/crouchTimeToIncrease)*crouchingCamHeight), cam.transform.localPosition.z);
-				progress += Time.deltaTime;
-				yield return new WaitForEndOfFrame();
-			}
-			print("<color=purple>Camera has lerped down @ </color>" + Time.time);
-
-			crouchOrStandCoroutineIsRunning = false;
-		}
-		else
-		{
-			print("<color=red>crouch or stand is already running </color>" + Time.time);
-		}
+		//adjust the characterController component's position and scale
+		cc.height = crouchingHeight;
+		cc.center = new Vector3(cc.center.x, crouchingHeight, cc.center.z);
 	}
 
-	IEnumerator Stand()
+	void Stand()
 	{
-		if(!crouchOrStandCoroutineIsRunning)
-		{
-			crouchOrStandCoroutineIsRunning = true;
-
-			print("<color=orange>Stand @ </color>" + Time.time);
-
-			//adjust the characterController component's position and scale
-			controller.center = new Vector3(controller.center.x, 0, controller.center.z);
-			controller.height = originalControllerHeight;
-
-			//move the camera along the animation curve
-			float progress = Mathf.Abs((cam.transform.localPosition.y - originalCamHeight)/crouchingCamHeight);
-			while (progress > 0)
-			{
-				cam.transform.localPosition = new Vector3(cam.transform.localPosition.x, originalCamHeight + (crouchHeightIncreaseCurve.Evaluate(progress/crouchTimeToDecrease)*crouchingCamHeight), cam.transform.localPosition.z);
-				progress -= Time.deltaTime;
-				yield return new WaitForEndOfFrame();
-			}
-
-			//make sure that camera returns to the original height
-			cam.transform.localPosition = new Vector3(cam.transform.localPosition.x, originalCamHeight, cam.transform.localPosition.z);
-
-			print("<color=orange>Camera has lerped up @ </color>" + Time.time);
-
-			crouchOrStandCoroutineIsRunning = false;
-		}
-		else
-		{
-			print("<color=red>crouch or stand is already running </color>" + Time.time);
-		}
+		isCrouching = false;
+		
+		print("<color=orange>Stand @ </color>" + Time.time);
+		
+		//adjust the characterController component's position and scale
+		cc.center = new Vector3(cc.center.x, 0, cc.center.z);
+		cc.height = originalColliderHeight;
 	}
 
-	IEnumerator Sprint()
+	void Sprint()
 	{
-		//if crouching, start standing up
-		//this routine does not continue until Stand finishes
-		if(isCrouching)
-		{
-			yield return StartCoroutine(Stand());
-			isCrouching = false;	
-		}
+		if(isCrouching) Stand();	
 
 		print("<color=olive>Sprinting @ </color>" + Time.time);
+
 		moveDirection.x *= sprintSpeedMultiplier;
 		moveDirection.z *= sprintSpeedMultiplier;
 
 		//if fovkick is enabled AND the player is moving AND the button has only just been pushed
-		if(FOVKickEnabled && moveDirection != Vector3.zero && Input.GetButtonDown("Sprint"))
+		if(FOVKickEnabled && Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0 && Input.GetButtonDown("Sprint"))
 		{
 			StartCoroutine(kick.FOVKickUp());
 		}
+		else
+		{
+			StartCoroutine(kick.FOVKickDown());
+		}
 	}
 
-	IEnumerator Jump()
+	void Jump()
 	{
-		//if crouching, start standing up
-		//this routine does not continue until Stand finishes
+		if(isCrouching) Stand();
 
-		if(isCrouching)
-		{
-			yield return StartCoroutine(Stand());
-			isCrouching = false;
-		}
 		print("<color=navy>Jumping @ </color>" + Time.time);
 		
-		moveDirection.y = jumpSpeed;
+		moveDirection.y = jumpForce;
 	}
 
 	void OnValidate()
 	{
-		if(GetComponent<CharacterController>() != null && crouchingControllerHeight < GetComponent<CharacterController>().radius * 2)
+		if(GetComponent<CapsuleCollider>() != null && crouchingHeight < GetComponent<CapsuleCollider>().radius * 2)
 		{
-			crouchingControllerHeight = GetComponent<CharacterController>().radius * 2;
-			throw new Exception("<color=red>crouching height cannot be less than the controller radius * 2</color>");
+			crouchingHeight = GetComponent<CapsuleCollider>().radius * 2;
+			throw new Exception("<color=red>crouching height cannot be less than the cc diameter</color>");
 		}
+	}
+
+	void OnTriggerEnter()
+	{
+		//init swimming variables
+	}
+
+	void OnTriggerStay()
+	{
+		//swimming controls
+	}
+
+	void OnTriggerExit()
+	{
+		//revert to walking variables
 	}
 }
