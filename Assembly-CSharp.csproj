@@ -102,6 +102,7 @@
      <Compile Include="Assets\Scripts\Gameplay\Platform.cs" />
      <Compile Include="Assets\Scripts\Gameplay\PlayerControl.cs" />
      <Compile Include="Assets\Scripts\Gameplay\StatusEffect.cs" />
+     <Compile Include="Assets\Scripts\Gameplay\SwimmableWater.cs" />
      <Compile Include="Assets\Scripts\Item\Apparel\Accessory\Accessory.cs" />
      <Compile Include="Assets\Scripts\Item\Apparel\Accessory\Amulet.cs" />
      <Compile Include="Assets\Scripts\Item\Apparel\Accessory\Belt.cs" />

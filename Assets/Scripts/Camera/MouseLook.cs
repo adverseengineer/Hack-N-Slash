@@ -43,8 +43,8 @@ public class MouseLook : MonoBehaviour
 
 	void Start ()
 	{
-		child = transform.GetChild(0);
-		grandchild = child.GetChild(0);
+		child = transform.GetChild(0);//cam rig
+		grandchild = child.GetChild(0);//cam
 
 		originalRotation = transform.localRotation;
 		originalChildRotation = child.transform.localRotation;

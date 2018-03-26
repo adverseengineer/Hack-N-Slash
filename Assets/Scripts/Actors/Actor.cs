@@ -33,6 +33,7 @@ public abstract class Actor : MonoBehaviour
 	public int currentCarryWeight;
 	public int carryWeightLimit;
 	public int movementSpeed;//divide by 100 in all calculations
+	public bool swimming;
 	public int XPGainRate;//divide by 100 in all calculations
 	public Animator animator;
 	public List<Item> inventory = new List<Item>();

@@ -61,29 +61,39 @@ public class PlayerControl : MonoBehaviour
 		moveDirection.z *= baseMovementSpeed;
 		moveDirection = transform.TransformDirection(moveDirection);
 
-		if(isCrouching)
+		if(!player.swimming)
 		{
-			moveDirection.x *= crouchSpeedMultiplier;
-			moveDirection.z *= crouchSpeedMultiplier;
-		}
+			if(isCrouching)
+			{
+				moveDirection.x *= crouchSpeedMultiplier;
+				moveDirection.z *= crouchSpeedMultiplier;
+			}
 
-		//crouch
-		if(!Input.GetButton("Sprint") && !Input.GetButtonDown("Jump") && Input.GetButtonDown("Crouch") && cc.isGrounded)
+			//crouch
+			if(!Input.GetButton("Sprint") && !Input.GetButtonDown("Jump") && Input.GetButtonDown("Crouch") && cc.isGrounded)
+			{
+				print("ctrl");
+				if(isCrouching) Stand();
+				else Crouch();
+			}
+
+			//sprint
+			else if(Input.GetButton("Sprint") && !Input.GetButtonDown("Jump") && !Input.GetButtonDown("Crouch") && cc.isGrounded) Sprint();
+
+			//jump
+			if(Input.GetButtonDown("Jump") && cc.isGrounded) Jump();
+
+
+			//apply gravity
+			moveDirection.y -= 9.81f * Time.deltaTime;
+		}
+		else
 		{
-			print("ctrl");
-			if(isCrouching) Stand();
-			else Crouch();
+			//SWIMMING CONTROLS
+			moveDirection.y = 2 * Input.GetAxis("Jump");
+			moveDirection.y -= 0.8f;
+
 		}
-
-		//sprint
-		else if(Input.GetButton("Sprint") && !Input.GetButtonDown("Jump") && !Input.GetButtonDown("Crouch") && cc.isGrounded) Sprint();
-
-		//jump
-		if(Input.GetButtonDown("Jump") && cc.isGrounded) Jump();
-
-
-		//apply gravity
-		moveDirection.y -= 9.81f * Time.deltaTime;
 
 		//perform this frame's movement
 		cc.Move(moveDirection * Time.deltaTime);
@@ -147,20 +157,5 @@ public class PlayerControl : MonoBehaviour
 			crouchingHeight = GetComponent<CapsuleCollider>().radius * 2;
 			throw new Exception("<color=red>crouching height cannot be less than the cc diameter</color>");
 		}
-	}
-
-	void OnTriggerEnter()
-	{
-		//init swimming variables
-	}
-
-	void OnTriggerStay()
-	{
-		//swimming controls
-	}
-
-	void OnTriggerExit()
-	{
-		//revert to walking variables
 	}
 }
