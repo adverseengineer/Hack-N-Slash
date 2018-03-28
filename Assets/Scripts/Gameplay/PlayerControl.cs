@@ -5,7 +5,8 @@ using System.Collections;
 [RequireComponent(typeof(CharacterController), typeof(Player), typeof(StatusEffectHandler))]
 public class PlayerControl : MonoBehaviour
 {
-	private Camera cam;
+	private Transform rig;
+	private Transform cam;
 	private Player player;
 	private CharacterController cc;
 	private StatusEffectHandler handler;
@@ -16,7 +17,9 @@ public class PlayerControl : MonoBehaviour
 	public float baseMovementSpeed = 6.7f;
 	public float crouchSpeedMultiplier = 0.52f;
 	public float sprintSpeedMultiplier = 1.34f;
+	public float swimSpeedMultiplier = 0.79f;
 	public float jumpForce = 2f;
+	public float gravity = 9.81f;
 	private bool isCrouching = false;
 
 	[Space(18)]
@@ -33,8 +36,12 @@ public class PlayerControl : MonoBehaviour
 
 	void Start()
 	{
-		cam = transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<Camera>();
-		if(cam == null)
+		rig = transform.GetChild(0);
+		if(rig == null)
+			throw new Exception("<color=red>no cam rig found in player hierarchy</red>");
+
+		cam = rig.GetChild(0);
+		if(cam.GetComponent<Camera>() == null)
 			throw new Exception("<color=red>no camera found in player hierarchy</color>");
 
 		player = GetComponent<Player>();
@@ -50,19 +57,18 @@ public class PlayerControl : MonoBehaviour
 			crouchingHeight = originalColliderHeight / 2 - 1;
 		}
 
-		kick = new FOVKick(cam);
+		kick = new FOVKick(cam.GetComponent<Camera>());
 	}
 
 	void Update()
 	{
-		//every frame, x and z of moveDirection is updated
-		moveDirection = new Vector3(Input.GetAxis("Horizontal"), moveDirection.y, Input.GetAxis("Vertical"));
-		moveDirection.x *= baseMovementSpeed;
-		moveDirection.z *= baseMovementSpeed;
-		moveDirection = transform.TransformDirection(moveDirection);
-
 		if(!player.swimming)
 		{
+			moveDirection = new Vector3(Input.GetAxis("Horizontal"), moveDirection.y, Input.GetAxis("Vertical"));
+			moveDirection.x *= baseMovementSpeed;
+			moveDirection.z *= baseMovementSpeed;
+			moveDirection = transform.TransformDirection(moveDirection);
+
 			if(isCrouching)
 			{
 				moveDirection.x *= crouchSpeedMultiplier;
@@ -72,9 +78,10 @@ public class PlayerControl : MonoBehaviour
 			//crouch
 			if(!Input.GetButton("Sprint") && !Input.GetButtonDown("Jump") && Input.GetButtonDown("Crouch") && cc.isGrounded)
 			{
-				print("ctrl");
-				if(isCrouching) Stand();
-				else Crouch();
+				if(isCrouching)
+					Stand();
+				else
+					Crouch();
 			}
 
 			//sprint
@@ -83,16 +90,26 @@ public class PlayerControl : MonoBehaviour
 			//jump
 			if(Input.GetButtonDown("Jump") && cc.isGrounded) Jump();
 
-
 			//apply gravity
-			moveDirection.y -= 9.81f * Time.deltaTime;
+			moveDirection.y -= gravity * Time.deltaTime;
 		}
 		else
 		{
-			//SWIMMING CONTROLS
-			moveDirection.y = 2 * Input.GetAxis("Jump");
-			moveDirection.y -= 0.8f;
+			//while swimming, player can move in any direction, the direction they are facing is treated as the z axis
+			//if the player holds space, they move the direction they are holding, but also up
 
+			//no input
+			if(Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0) moveDirection = Vector3.zero;
+			//horizontal
+			else if(Input.GetAxis("Horizontal") != 0 && Input.GetAxis("Vertical") == 0) moveDirection = rig.right * Input.GetAxis("Horizontal");
+			//vertical
+			else if(Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") != 0) moveDirection = rig.forward * Input.GetAxis("Vertical");
+			//diagonal
+			else if(Input.GetAxis("Horizontal") != 0 && Input.GetAxis("Vertical") != 0) moveDirection = ((rig.right * Input.GetAxis("Horizontal")) + (rig.forward * Input.GetAxis("Vertical"))).normalized; 
+			//surface
+			if(Input.GetButton("Jump")) moveDirection = (transform.up + moveDirection).normalized;
+
+			moveDirection *= swimSpeedMultiplier;
 		}
 
 		//perform this frame's movement
