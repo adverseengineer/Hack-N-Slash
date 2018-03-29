@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+//using UnityEngine.AI;
+using System;
 using System.Collections;
 
 [AddComponentMenu("Actors/NPC")]
@@ -27,17 +29,9 @@ public sealed class NPC : Actor {
 
 	public float hearingDistance;
 	public float sightDistance;
-	public float fov;
+	[Range(0,180)] public float fov;
 
 	public Actor actorToFollow;
-
-	void OnDrawGizmosSelected()
-	{
-		Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, hearingDistance);
-		Gizmos.color = Color.cyan;
-		Gizmos.DrawWireSphere(transform.position, sightDistance);
-	}
 
 	void Start()
 	{
@@ -97,13 +91,6 @@ public sealed class NPC : Actor {
 		}
 	}
 	public IEnumerator Converse()
-	{
-		while(true)
-		{
-			yield return new WaitForEndOfFrame();
-		}
-	}
-	public IEnumerator Die()
 	{
 		while(true)
 		{

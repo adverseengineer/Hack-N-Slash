@@ -28,6 +28,7 @@ public abstract class Actor : MonoBehaviour
 	public String Name;
 	public Sex sex;
 	public Race race;
+	public bool alive;
 	public int level;
 	public int gold;
 	public int currentCarryWeight;
@@ -36,7 +37,6 @@ public abstract class Actor : MonoBehaviour
 	[HideInInspector] public bool swimming;
 	[HideInInspector] public float breath;
 	public int XPGainRate;//divide by 100 in all calculations
-	public Animator animator;
 	public List<Item> inventory = new List<Item>();
 	public List<StatusEffect> activeEffects = new List<StatusEffect>();
 
@@ -105,6 +105,8 @@ public abstract class Actor : MonoBehaviour
 	public Shield EquippedShield;
 	public Accessory EquippedAccessory;
 
+	private float currentNoiseLevel;
+
 	[Space(18)]
 
 	[Range(0,1f)] public float HeadCondition = 1f; //concussion
@@ -114,201 +116,43 @@ public abstract class Actor : MonoBehaviour
 	[Range(0,1f)] public float LeftLegCondition = 1f; //trauma
 	[Range(0,1f)] public float RightLegCondition = 1f; //trauma
 
-	private float currentNoiseLevel;
+	//increases as you get more and more tired
+	//0-500 in 48 hours
+	[Range(0,500)] public int fatigue;
+	//0 = well rested, +20 SP, +5 to all skills, +10% XP gain
+	//100 = could use a nap, <no effects>
+	//300 = tired, -10% movement speed, -20% to SP, MP, and FP regen, -20 speech, -10 barter -10 security
+	//500 = walking dead, -30% movement speed, -100% SP regen, <may pass out without warning>
+	//500+ = if by chance you never pass out, you will die after fatigue reaches 600
+
+	//increases the longer you go without food
+	//0-500 in 72 hours
+	[Range(-100,500)] public int hunger;
+	//-100 = glutted, -10% movement speed
+	//0 = sated, <no effects> +10% HP-SP-MP-FP regen
+	//100 = a bit peckish, <no effects>
+	//300 = starving, <edges of screen blur>, +10% regen to all meters
+	//500 = emaciated, <die>
+
+
+	//increases the longer you go without water
+	//0-500 in 72 hours
+	[Range(-100,500)] public int thirst;
+	//-100 = bloated, -10% movement speed
+	//0 = hydrated, +10 MP, +10 FP
+	//100 = dry, <no effects>
+	//300 = parched, -10% MP regen
+	//500 = dessicated, <die>
 
 	[Space(18)]
 	
 	public float pushPowerMultiplier = 1f;
 	public float weight = 100f;
 
-	public IEnumerator ApplyStatusEffect(StatusEffect statusEffect)
+	public void Die()
 	{
-		int originalValue = 0;
-		//FIXME: implemented alchemy skill formula, ripped straight from new vegas
-		//f(x)=3x/5+3
-		//statusEffect.potency = statusEffect.potency * 3 / 5 + 3;
-		switch(statusEffect.effect)
-		{
-		case StatusEffect.Effect.RestoreHP:
-			currentHP += statusEffect.magnitude;
-			break;
-		case StatusEffect.Effect.RestoreSP:
-			currentSP += statusEffect.magnitude;
-			break;
-		case StatusEffect.Effect.RestoreMP:
-			currentMP += statusEffect.magnitude;
-			break;
-		case StatusEffect.Effect.FortifyHP:
-			originalValue = maxHP;
-			maxHP += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			maxHP = originalValue;
-			break;
-		case StatusEffect.Effect.FortifySP:
-			originalValue = maxSP;
-			maxSP += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			maxSP = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyMP:
-			originalValue = maxMP;
-			maxMP += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			maxMP = originalValue;
-			break;
-		case StatusEffect.Effect.RegenHP:
-			originalValue = HPRegenRate;
-			HPRegenRate += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			HPRegenRate = originalValue;
-			break;
-		case StatusEffect.Effect.RegenSP:
-			originalValue = SPRegenRate;
-			SPRegenRate += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			SPRegenRate = originalValue;
-			break;
-		case StatusEffect.Effect.RegenMP:
-			originalValue = MPRegenRate;
-			MPRegenRate += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			MPRegenRate = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyColdResistance:
-			originalValue = coldResistance;
-			coldResistance += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			coldResistance = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyHeatResistance:
-			originalValue = heatResistance;
-			heatResistance += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			heatResistance = originalValue;
-			break;
-		case StatusEffect.Effect.FortifySTR:
-			originalValue = STR;
-			STR += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			STR = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyDEX:
-			originalValue = DEX;
-			DEX += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			DEX = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyWIS:
-			originalValue = WIS;
-			WIS += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			WIS = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyCHA:
-			originalValue = CHA;
-			CHA += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			CHA = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyArcane:
-			originalValue = Arcane;
-			Arcane += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			Arcane = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyAlchemy:
-			originalValue = Alchemy;
-			Alchemy += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			Alchemy = originalValue;
-			break;
-		case StatusEffect.Effect.FortifySurvival:
-			originalValue = Survival;
-			Survival += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
- 			Survival = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyRepair:
-			originalValue = Repair;
-			Repair += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			Repair = originalValue;
-			break;
-		case StatusEffect.Effect.FortifySecurity:
-			originalValue = Security;
-			Security += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			Security = originalValue;
-			break;
-		case StatusEffect.Effect.FortifySpeech:
-			originalValue = Speech;
-			Speech += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			Speech = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyStealth:
-			originalValue = Stealth;
-			Stealth += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			Stealth = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyLightArmor:
-			originalValue = LightArmor;
-			LightArmor += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			LightArmor = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyMediumArmor:
-			originalValue = MediumArmor;
-			MediumArmor += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			MediumArmor = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyHeavyArmor:
-			originalValue = HeavyArmor;
-			HeavyArmor += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			HeavyArmor = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyBlock:
-			originalValue = Block;
-			Block += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			Block = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyOneHanded:
-			originalValue = OneHanded;
-			OneHanded += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			OneHanded = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyTwoHanded:
-			originalValue = TwoHanded;
-			TwoHanded += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			TwoHanded = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyMarksman:
-			originalValue = Marksman;
-			Marksman += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			Marksman = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyMovementSpeed:
-			originalValue = movementSpeed;
-			movementSpeed += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			movementSpeed = originalValue;
-			break;
-		case StatusEffect.Effect.FortifyXPGain:
-			originalValue = XPGainRate;
-			XPGainRate += statusEffect.magnitude;
-			yield return new WaitForSeconds(statusEffect.duration);
-			XPGainRate = originalValue;
-			break;
-		default:
-			throw new Exception("INVALID STAT");
-		}
+		alive = false;
+		Destroy(this, 3);
 	}
 
 	void OnValidate()
@@ -319,21 +163,6 @@ public abstract class Actor : MonoBehaviour
 		if(currentMP > maxMP) currentMP = maxMP;
 		//applyRaceBonuses(race);
 	}
-
-	void OnControllerColliderHit(ControllerColliderHit hit)
- 	{
-    	Vector3 force;
-		if(hit.collider.attachedRigidbody == null || hit.collider.attachedRigidbody.isKinematic) return;
-		if(hit.moveDirection.y < -0.3)
-		{
-			force = new Vector3(0,-0.5f,0) * 20 * weight;
-     	}
-		else
-		{
-        	force = hit.controller.velocity * pushPowerMultiplier;
-		}
-    	hit.collider.attachedRigidbody.AddForceAtPosition(force, hit.point);
- 	}
 
 	/*
 	public void applyRaceBonuses(Race race)

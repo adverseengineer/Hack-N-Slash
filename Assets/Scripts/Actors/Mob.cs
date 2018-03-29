@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+//using UnityEngine.AI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
-[AddComponentMenu("Actors/Creature")]
+[AddComponentMenu("Actors/Mob")]
 [RequireComponent(typeof(NavMeshAgent))]
-public class Creature : MonoBehaviour
+public class Mob : MonoBehaviour
 {
 
 	[Range(0f,180f)]
@@ -80,18 +82,5 @@ public class Creature : MonoBehaviour
 	{
 		//TODO: attack
 		yield return null;
-	}
-
-
-	public IEnumerator Die()
-	{
-		//TODO: die
-		yield return null;
-	}
-
-	public Vector3 DirectionFromAngle(float angleInDegrees)
-	{
-		angleInDegrees += transform.eulerAngles.y;
-		return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad),0,Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
 	}
 }

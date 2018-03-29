@@ -62,54 +62,57 @@ public class PlayerControl : MonoBehaviour
 
 	void Update()
 	{
-		if(!player.swimming)
+		if(player.alive)
 		{
-			moveDirection = new Vector3(Input.GetAxis("Horizontal"), moveDirection.y, Input.GetAxis("Vertical"));
-			moveDirection.x *= baseMovementSpeed;
-			moveDirection.z *= baseMovementSpeed;
-			moveDirection = transform.TransformDirection(moveDirection);
-
-			if(isCrouching)
+			if(!player.swimming)
 			{
-				moveDirection.x *= crouchSpeedMultiplier;
-				moveDirection.z *= crouchSpeedMultiplier;
-			}
+				moveDirection = new Vector3(Input.GetAxis("Horizontal"), moveDirection.y, Input.GetAxis("Vertical"));
+				moveDirection.x *= baseMovementSpeed;
+				moveDirection.z *= baseMovementSpeed;
+				moveDirection = transform.TransformDirection(moveDirection);
 
-			//crouch
-			if(!Input.GetButton("Sprint") && !Input.GetButtonDown("Jump") && Input.GetButtonDown("Crouch") && cc.isGrounded)
-			{
 				if(isCrouching)
-					Stand();
-				else
-					Crouch();
+				{
+					moveDirection.x *= crouchSpeedMultiplier;
+					moveDirection.z *= crouchSpeedMultiplier;
+				}
+
+				//crouch
+				if(!Input.GetButton("Sprint") && !Input.GetButtonDown("Jump") && Input.GetButtonDown("Crouch") && cc.isGrounded)
+				{
+					if(isCrouching)
+						Stand();
+					else
+						Crouch();
+				}
+
+				//sprint
+				else if(Input.GetButton("Sprint") && !Input.GetButtonDown("Jump") && !Input.GetButtonDown("Crouch") && cc.isGrounded) Sprint();
+
+				//jump
+				if(Input.GetButtonDown("Jump") && cc.isGrounded) Jump();
+
+				//apply gravity
+				moveDirection.y -= gravity * Time.deltaTime;
 			}
+			else
+			{
+				//while swimming, player can move in any direction, the direction they are facing is treated as the z axis
+				//if the player holds space, they move the direction they are holding, but also up
 
-			//sprint
-			else if(Input.GetButton("Sprint") && !Input.GetButtonDown("Jump") && !Input.GetButtonDown("Crouch") && cc.isGrounded) Sprint();
+				//no input
+				if(Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0) moveDirection = Vector3.zero;
+				//horizontal
+				else if(Input.GetAxis("Horizontal") != 0 && Input.GetAxis("Vertical") == 0) moveDirection = rig.right * Input.GetAxis("Horizontal");
+				//vertical
+				else if(Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") != 0) moveDirection = rig.forward * Input.GetAxis("Vertical");
+				//diagonal
+				else if(Input.GetAxis("Horizontal") != 0 && Input.GetAxis("Vertical") != 0) moveDirection = ((rig.right * Input.GetAxis("Horizontal")) + (rig.forward * Input.GetAxis("Vertical"))).normalized; 
+				//surface
+				if(Input.GetButton("Jump")) moveDirection = (transform.up + moveDirection).normalized;
 
-			//jump
-			if(Input.GetButtonDown("Jump") && cc.isGrounded) Jump();
-
-			//apply gravity
-			moveDirection.y -= gravity * Time.deltaTime;
-		}
-		else
-		{
-			//while swimming, player can move in any direction, the direction they are facing is treated as the z axis
-			//if the player holds space, they move the direction they are holding, but also up
-
-			//no input
-			if(Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0) moveDirection = Vector3.zero;
-			//horizontal
-			else if(Input.GetAxis("Horizontal") != 0 && Input.GetAxis("Vertical") == 0) moveDirection = rig.right * Input.GetAxis("Horizontal");
-			//vertical
-			else if(Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") != 0) moveDirection = rig.forward * Input.GetAxis("Vertical");
-			//diagonal
-			else if(Input.GetAxis("Horizontal") != 0 && Input.GetAxis("Vertical") != 0) moveDirection = ((rig.right * Input.GetAxis("Horizontal")) + (rig.forward * Input.GetAxis("Vertical"))).normalized; 
-			//surface
-			if(Input.GetButton("Jump")) moveDirection = (transform.up + moveDirection).normalized;
-
-			moveDirection *= swimSpeedMultiplier;
+				moveDirection *= swimSpeedMultiplier;
+			}
 		}
 
 		//perform this frame's movement
@@ -166,6 +169,21 @@ public class PlayerControl : MonoBehaviour
 		
 		moveDirection.y = jumpForce;
 	}
+
+	void OnControllerColliderHit(ControllerColliderHit hit)
+ 	{
+    	Vector3 force;
+		if(hit.collider.attachedRigidbody == null || hit.collider.attachedRigidbody.isKinematic) return;
+		if(hit.moveDirection.y < -0.3)
+		{
+			force = new Vector3(0,-0.5f,0) * 20 * player.weight;
+     	}
+		else
+		{
+        	force = hit.controller.velocity * player.pushPowerMultiplier;
+		}
+    	hit.collider.attachedRigidbody.AddForceAtPosition(force, hit.point);
+ 	}
 
 	void OnValidate()
 	{

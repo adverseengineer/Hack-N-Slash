@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 
 //this class is to be attached to the camera
-public class ItemCollector : MonoBehaviour
+public class PlayerInteractionManager : MonoBehaviour
 {
 	private Player player;
 	private Camera cam;
