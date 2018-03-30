@@ -1,5 +1,20 @@
 # unity's meta files
 *.meta
-# Unity's session lock file
-Temp/UnityLockFile
 
+#  C# assembly files
+*.csproj
+
+# Solution files
+*.sln
+
+# user preferences
+*.userprefs
+
+# Unity's Library
+Library/
+
+# Unity object folder
+obj/
+
+# VS Code settings folder
+.vscode/
