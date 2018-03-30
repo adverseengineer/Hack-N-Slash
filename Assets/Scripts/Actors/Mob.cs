@@ -17,7 +17,6 @@ public class Mob : MonoBehaviour
 	public float hearingDistance;
 
 	private NavMeshAgent agent;
-	private Animator animator;
 
 	private Actor target;
 
@@ -34,7 +33,6 @@ public class Mob : MonoBehaviour
 	void Start()
 	{
 		agent = GetComponent<NavMeshAgent>();
-		animator = GetComponent<Animator>();
 		StartCoroutine(Idle());
 	}
 

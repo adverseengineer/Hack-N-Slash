@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor (typeof (Mob))]
+[CustomEditor(typeof(Mob))]
+[CanEditMultipleObjects]
 public class MobEditor : Editor
 {
 	void OnSceneGUI()
@@ -14,6 +15,8 @@ public class MobEditor : Editor
 		//hearing
 		Handles.color = Color.yellow;
 		Handles.DrawWireDisc(mob.transform.position, Vector3.up, mob.hearingDistance);
+		Handles.DrawWireDisc(mob.transform.position, Vector3.right, mob.hearingDistance);
+		Handles.DrawWireDisc(mob.transform.position, Vector3.forward, mob.hearingDistance);
 
 		//sight
 		Handles.color = Color.cyan;

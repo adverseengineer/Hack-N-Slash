@@ -8,46 +8,58 @@ using System.Collections;
 public sealed class NPC : Actor {
 
 	//TODO: give npcs the same ability as the player to push things
-	public enum CombatStyle
-	{
-		Berserker = 0, //dual wielding shortswords, medium or heavy armor
-		Knight = 1, //longsword and shield, medium armor. just as God intended
-		Ranger = 2, //longbow and arrow, light armor
-		Artificer = 3, //heavy armor, crossbow, caltrops
-		Thief = 4, //two daggers, light or medium armor
-		Spellsword = 5, //longsword and spellbook or scroll, light armor
-		Druid = 6, //light armor, staff and scroll
-		Tank = 7 //heavy armor, warhammer or greatsword
-		//TODO: add more archetypes
-	};
+
+	//Berserker		dual wielding shortswords, medium or heavy armor
+	//Knight		longsword and shield, medium armor. just as God intended
+	//Ranger		longbow and arrow, light armor
+	//Artificer		heavy armor, crossbow, caltrops
+	//Thief			two daggers, light or medium armor
+	//Spellsword	longsword and spellbook or scroll, light armor
+	//Druid			light armor, staff and scroll
+	//Tank			heavy armor, warhammer or greatsword
+
+	//TODO: add more archetypes
 
 	public bool essential;
 	[Range(0,1f)] public float disposition = 0.5f;
-	public CombatStyle combatStyle;
 
 	private NavMeshAgent agent;
+
+	private Player player;
 
 	public float hearingDistance;
 	public float sightDistance;
 	[Range(0,180)] public float fov;
 
-	public Actor actorToFollow;
-
 	void Start()
 	{
 		agent = GetComponent<NavMeshAgent>();
-		agent.autoTraverseOffMeshLink = true;
+		if(agent != null)
+			agent.autoTraverseOffMeshLink = true;
+		else
+			throw new Exception("<color=red>no navmesh agent component found on gameobject</color>");
+
+		player = GameObject.FindWithTag("player").GetComponent<Player>();
+		if(player == null)
+			throw new Exception("<color=red>no player found in scene hierarchy</color>");
 	}
 
 	void Update()
 	{
-		StartCoroutine(Follow(actorToFollow.transform, 5f));
+		StartCoroutine(Idle());
 	}
 
 	public IEnumerator Idle()
 	{	
 		while(true)
 		{
+			if(Vector3.Distance(transform.position, player.transform.position) <= sightDistance)
+			{
+				if(true)//player is within fov)
+				{
+					transform.LookAt(player.transform);
+				}
+			}
 			yield return new WaitForEndOfFrame();
 		}
 	}
