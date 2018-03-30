@@ -10,6 +10,9 @@
 # user preferences
 *.userprefs
 
+# VS Code workspace files
+*.code-workspace
+
 # Unity's Library
 Library/
 
