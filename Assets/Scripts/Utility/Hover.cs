@@ -9,8 +9,18 @@ public class Hover : MonoBehaviour
 	[Range(0f, 50f)] public float frequency = 1;
 	[Range(0f, 50f)] public float amplitude = 1;
 	[Range(0, (float) 2 * Mathf.PI)] public float phase;
+	public bool randomize;
 	public Vector3 translation = Vector3.zero;
 	public Vector3 rotation = Vector3.zero;
+
+	void Start()
+	{
+		if(randomize)
+		{
+			translation = new Vector3(Random.Range(0,1000),Random.Range(0,1000),Random.Range(0,1000)).normalized;
+			rotation = new Vector3(Random.Range(0,1000),Random.Range(0,1000),Random.Range(0,1000)).normalized;
+		}
+	}
 
 	void Update ()
 	{

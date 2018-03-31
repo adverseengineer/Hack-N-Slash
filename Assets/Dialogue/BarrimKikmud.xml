@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+    <dialogue id = "0">
+        <speech>Would you like to browse my wares? Fine dwarven craftsmanship!</speech>
+        <duration>3</duration>
+        <options>
+            <option id = "0">Sure, let's see what you've got.</option>
+            <option id = "1">Maybe some other time.</option>
+            <option id = "2">[Repair 40] This isn't dwarven, it's just brass!</option>
+        </options>
+    </dialogue>
+
+    <dialogue id = "1">
+        <speech>Do you like oranges?</speech>
+        <duration>3</duration>
+        <options>
+            <option id = "0">Aye matey, they keep the scurvy off my cock.</option>
+            <option id = "1">I dunno. They're okay, I guess.</option>
+            <option id = "2">How dare you ask me that! My father was killed by an orange!</option>
+        </options>
+    </dialogue>
+
+    <dialogue id = "2">
+        <speech>Hey! You can't just take that! Who do you think you are?</speech>
+        <duration>3</duration>
+    </dialogue>
+</script>

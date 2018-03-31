@@ -39,7 +39,7 @@ public sealed class NPC : Actor {
 		else
 			throw new Exception("<color=red>no navmesh agent component found on gameobject</color>");
 
-		player = GameObject.FindWithTag("player").GetComponent<Player>();
+		player = GameObject.FindWithTag("Player").GetComponent<Player>();
 		if(player == null)
 			throw new Exception("<color=red>no player found in scene hierarchy</color>");
 	}
