@@ -1,0 +1,23 @@
+# unity's meta files
+*.meta
+
+#  C# assembly files
+*.csproj
+
+# Solution files
+*.sln
+
+# user preferences
+*.userprefs
+
+# VS Code workspace files
+*.code-workspace
+
+# Unity's Library
+Library/
+
+# Unity object folder
+obj/
+
+# VS Code settings folder
+.vscode/
