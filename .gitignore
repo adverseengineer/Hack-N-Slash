@@ -1,0 +1,9 @@
+*.meta
+*.csproj
+*.sln
+*.userprefs
+*.code-workspace
+Library/
+Temp/
+obj/
+.vscode/
