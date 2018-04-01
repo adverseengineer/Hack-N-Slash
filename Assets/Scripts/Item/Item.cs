@@ -6,6 +6,7 @@ public abstract class Item : ScriptableObject
 {
 	public int value;
 	public float weight;
+	public bool stolen;
 
 	public abstract void CalculateValue();
 }

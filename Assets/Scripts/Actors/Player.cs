@@ -29,4 +29,12 @@ public sealed class Player : Actor {
 	private float OneHandedProgress;
 	private float TwoHandedProgress;
 	private float MarksmanProgress;
+
+	[Space(6)]
+	[Header("Reputation")]
+	[Range(-1,1)] public float overallReputation = 0;
+	[Range(-1,1)] public float debugFaction1Reputation = -1;
+	[Range(-1,1)] public float debugFaction2Reputation = -0.33f;
+	[Range(-1,1)] public float debugFaction3Reputation = 0.33f;
+	[Range(-1,1)] public float debugFaction4Reputation = 1;
 }

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <script>
     <dialogue id = "0">
-        <speech>Would you like to browse my wares? Fine dwarven craftsmanship!</speech>
+        <speech>
+            <variation id = "0">Would you like to browse my wares? Fine dwarven craftsmanship!</variation>
+            <variation id = "1">You there! You look like you could use a new sword! Care to browse my wares?</variation>
+            <variation id = "2">Sturdy, rugged dwarven craftsmanship! Stronger than anything you'll get from a Carodonian warsmith!</variation>
+        </speech>
         <duration>3</duration>
         <options>
             <option id = "0">Sure, let's see what you've got.</option>

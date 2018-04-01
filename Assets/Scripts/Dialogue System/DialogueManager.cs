@@ -12,6 +12,6 @@ public class DialogueManager
         XmlDocument doc = new XmlDocument();
         doc.Load("Assets\\Dialogue\\" + path + ".xml");
         XmlNode node = doc.DocumentElement.ChildNodes.Item(index);
-        return node.FirstChild.InnerText;
+        return node.FirstChild.FirstChild.ChildNodes.Item(UnityEngine.Random.Range(0,node.FirstChild.FirstChild.ChildNodes.Count)).InnerText;
     }
 }

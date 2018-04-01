@@ -48,7 +48,7 @@ public class PlayerInteractionManager : MonoBehaviour
 				}
 				else if(hit.transform.gameObject.tag == "NPC")
 				{
-					print(DialogueManager.LoadDialogue("BarrimKikmud", 0));
+					print(DialogueManager.LoadDialogue(hit.transform.gameObject.GetComponent<NPC>().script.name, 0));
 				}
 			}
 		}

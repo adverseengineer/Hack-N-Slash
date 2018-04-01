@@ -12,14 +12,18 @@ public class Spellbook : Weapon
 		Expert = 3,
 		Master = 4
 	};
-	public enum Element
+	public enum Purpose
 	{
-		 Fire = 0,
-		 Ice = 1
+		Enhancement = 0, //green //strengthening themselves or objects
+		Transmutation = 1, //purple //changing the quality or aura of something to match something else
+		Conjuration = 2, //red //creating objects from aura
+		Specialization = 3, //blue //unique effect
+		Manipulation = 4, //grey //controlling animate or inanimate things
+		Emission = 5, //yellow //detaching aura from body
 	};
 
 	public Collection collection;
-	public Element element;
+	public Purpose purpose;
 
 	public sealed override void CalculateValue()
 	{
