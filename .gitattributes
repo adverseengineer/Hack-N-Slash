@@ -12,3 +12,4 @@
 *.mat binary
 *.unity binary
 *.asset binary
+*.prefab binary

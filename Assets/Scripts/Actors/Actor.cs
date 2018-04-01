@@ -65,7 +65,6 @@ public abstract class Actor : MonoBehaviour
 	public int MPRegenRate;//measured in ppm (points per minute)
 
 	[Space(18)]
-
 	public int ATK; //atk - your unarmed attack power. increase by equiping a weapon
 	public int DEF; //def - your unarmored defense. increase by equiping armor or a shield
 	public int SPD; //spd - who hits first in a fight. higher speed means less chance of a counterattack
