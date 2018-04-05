@@ -16,17 +16,19 @@ public abstract class Apparel : Equippable
 	public Collection collection;
 
 	//CHANGED: this value is subject to a lot of change
-	public static int maxArmorRating = 2 * 20 * 20 * 20;
+	public static int maxArmorRating = 1000;
 	public int armorRating;
 
-	public void CalculateArmorRating()
+	public int CalculateArmorRating()
 	{
 		armorRating = Mathf.FloorToInt(durability * baseDefense * heatDefense * coldDefense);
+		return armorRating;
 	}
 
-	public sealed override void CalculateValue()
+	public sealed override int CalculateValue()
 	{
 		//this formula compares the armor rating to the max armor rating possible in-game
 		value = Mathf.FloorToInt(Mathf.Pow(1 + (armorRating/maxArmorRating), 10));
+		return value;
 	}
 }

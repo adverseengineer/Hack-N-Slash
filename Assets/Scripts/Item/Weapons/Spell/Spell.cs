@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Items/Weapons/Spellbook")]
-public class Spellbook : Weapon
+[AddComponentMenu("Items/Weapons/Spell")]
+public class Spell : Weapon
 {
 	public enum Collection
 	{
@@ -12,6 +12,7 @@ public class Spellbook : Weapon
 		Expert = 3,
 		Master = 4
 	};
+
 	public enum Purpose
 	{
 		Enhancement = 0, //green //strengthening themselves or objects
@@ -25,9 +26,10 @@ public class Spellbook : Weapon
 	public Collection collection;
 	public Purpose purpose;
 
-	public sealed override void CalculateValue()
+	public sealed override int CalculateWeaponRating()
 	{
-		//TODO: write item value for Spellbook
-		value = 0;
+		//TODO: finish this formula
+		weaponRating = 0;
+		return weaponRating;
 	}
 }

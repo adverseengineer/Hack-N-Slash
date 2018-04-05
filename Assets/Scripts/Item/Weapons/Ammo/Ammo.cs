@@ -1,13 +1,13 @@
-﻿using UnityEngine;
+using System;
 using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
 
-public abstract class Melee : Weapon
+public abstract class Ammo : Weapon
 {
-	public sealed override int CalculateWeaponRating()
+    public sealed override int CalculateWeaponRating()
 	{
 		weaponRating = Mathf.FloorToInt(durability * criticalChance * criticalMultiplier * dam);
-		return weaponRating;
+        return weaponRating;
 	}
 
 	void OnValidate()

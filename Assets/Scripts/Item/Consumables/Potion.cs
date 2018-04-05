@@ -8,9 +8,10 @@ public sealed class Potion : Consumable
 	public StatusEffect statusEffect2;
 	public StatusEffect statusEffect3;
 
-	public sealed override void CalculateValue()
+	public sealed override int CalculateValue()
 	{
 		//TODO: fix this formula
-		
+		value = 0;
+		return value;
 	}
 }

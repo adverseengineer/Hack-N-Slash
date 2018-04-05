@@ -5,9 +5,15 @@ public abstract class Ranged : Weapon
 {
 	public float effectiveRange;
 
-	public sealed override void CalculateValue()
+	public sealed override int CalculateWeaponRating()
 	{
-		//TODO:Ranged weapon item value formula
-		value = 0;
+		weaponRating = Mathf.FloorToInt(durability * criticalChance * criticalMultiplier * dam * effectiveRange);
+		return weaponRating;
+	}
+
+	void OnValidate()
+	{
+		CalculateWeaponRating();
+		CalculateValue();
 	}
 }

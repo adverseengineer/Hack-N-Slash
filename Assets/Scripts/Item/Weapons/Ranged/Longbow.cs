@@ -5,4 +5,3 @@ public sealed class Longbow : Ranged
 {
     
 }
-

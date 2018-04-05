@@ -8,5 +8,5 @@ public abstract class Item : ScriptableObject
 	public float weight;
 	public bool stolen;
 
-	public abstract void CalculateValue();
+	public abstract int CalculateValue();
 }

@@ -3,12 +3,15 @@ using System.Collections;
 
 public abstract class Artifice : Weapon
 {
-	//bomb
-	//caltrops
-	//beartraps
-	public sealed override void CalculateValue()
+	public sealed override int CalculateWeaponRating()
 	{
-		//TODO: write item value formula for artifices
-		value = 0;
+		weaponRating = Mathf.FloorToInt(durability * criticalChance * criticalMultiplier * dam);
+		return weaponRating;
+	}
+
+	void OnValidate()
+	{
+		CalculateWeaponRating();
+		CalculateValue();
 	}
 }
