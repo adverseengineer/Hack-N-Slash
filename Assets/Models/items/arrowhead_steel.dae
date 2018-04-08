@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.77.0 commit date:2016-04-05, commit time:18:12, hash:abf6f08</authoring_tool>
+    </contributor>
+    <created>2018-04-07T14:42:29</created>
+    <modified>2018-04-07T14:42:29</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_images/>
+  <library_effects>
+    <effect id="material-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">1 1 1 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_materials>
+    <material id="material-material" name="material">
+      <instance_effect url="#material-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="arrowhead_steel-mesh" name="arrowhead_steel">
+      <mesh>
+        <source id="arrowhead_steel-mesh-positions">
+          <float_array id="arrowhead_steel-mesh-positions-array" count="72">27.55901 -1.22864e-5 39.37006 19.48815 -1.52588e-5 -3.05176e-5 -4.57764e-5 7.086605 39.37006 -4.57764e-5 3.543297 -3.07851e-5 -4.57764e-5 -3.36936e-6 157.4803 27.55901 -1.22864e-5 39.37006 -4.57764e-5 -7.086626 39.37006 19.48815 -1.52588e-5 -3.05176e-5 19.48815 -1.52588e-5 -3.05176e-5 -18.30713 -1.52588e-5 -3.05176e-5 -4.57764e-5 3.543297 -3.07851e-5 -4.57764e-5 -3.54332 -3.02501e-5 -4.57764e-5 3.543297 -3.07851e-5 -18.30713 -1.52588e-5 -3.05176e-5 -4.57764e-5 7.086605 39.37006 -27.5591 -1.22864e-5 39.37006 -4.57764e-5 -3.36936e-6 157.4803 -4.57764e-5 -3.36936e-6 157.4803 -4.57764e-5 -3.54332 -3.02501e-5 -4.57764e-5 -7.086626 39.37006 -18.30713 -1.52588e-5 -3.05176e-5 -4.57764e-5 -3.54332 -3.02501e-5 -4.57764e-5 -3.36936e-6 157.4803 -27.5591 -1.22864e-5 39.37006</float_array>
+          <technique_common>
+            <accessor source="#arrowhead_steel-mesh-positions-array" count="24" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="arrowhead_steel-mesh-normals">
+          <float_array id="arrowhead_steel-mesh-normals-array" count="66">0.2387202 -0.9710866 -0.001892149 0.2053347 -0.9758896 -0.07400959 0.249035 -0.9684899 0.002990841 0.249035 0.9684899 0.002990841 0.2387202 0.9710866 -0.001892149 0.2486065 0.9668674 0.05798578 -0.2118957 0.9742686 -0.07681715 -0.2407665 0.9705739 -0.004242122 -0.1892768 0.9779711 -0.08801585 -0.2407665 -0.9705739 -0.004242122 -0.2118957 -0.9742686 -0.07681715 -0.1892768 -0.9779711 -0.08801585 -0.2490361 0.9684942 -1.52596e-4 -0.2486065 0.9668674 0.05798578 0.2486065 -0.9668674 0.05798578 0.2053347 0.9758896 -0.07400959 -0.2486065 -0.9668674 0.05798578 -0.2490361 -0.9684942 -1.52596e-4 0 0 -1 0.1781721 -0.9800384 -0.08820098 0.1781721 0.9800384 -0.08820098 0 0 -1</float_array>
+          <technique_common>
+            <accessor source="#arrowhead_steel-mesh-normals-array" count="22" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="arrowhead_steel-mesh-map-0">
+          <float_array id="arrowhead_steel-mesh-map-0-array" count="84">0.5 0.3600461 0.5692772 0.220092 0.5979678 0.3600461 0.5979678 0.3600461 0.5 0.3600461 0.5 0.779908 0.4349214 0.220092 0.5 0.3600461 0.5 0.220092 0.5 0.3600461 0.4349214 0.220092 0.5 0.220092 0.5 0.3600461 0.4020322 0.3600461 0.5 0.779908 0.5979678 0.3600461 0.5 0.779908 0.5 0.3600461 0.5692772 0.220092 0.5 0.3600461 0.5979678 0.3600461 0.5 0.779908 0.4020322 0.3600461 0.5 0.3600461 0.8242188 0.5125959 0.8242188 0.4874041 0.893496 0.5000001 0.5 0.3600461 0.5 0.220092 0.5692772 0.220092 0.4349214 0.220092 0.4020322 0.3600461 0.5 0.3600461 0.5 0.3600461 0.4020322 0.3600461 0.4349214 0.220092 0.5692772 0.220092 0.5 0.220092 0.5 0.3600461 0.8242188 0.5125959 0.7591401 0.5000001 0.8242188 0.4874041</float_array>
+          <technique_common>
+            <accessor source="#arrowhead_steel-mesh-map-0-array" count="42" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="arrowhead_steel-mesh-vertices">
+          <input semantic="POSITION" source="#arrowhead_steel-mesh-positions"/>
+        </vertices>
+        <polylist material="material-material" count="14">
+          <input semantic="VERTEX" source="#arrowhead_steel-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#arrowhead_steel-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#arrowhead_steel-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 3 3 3 3 3 3 3 3 3 3 3 3 </vcount>
+          <p>6 0 0 7 1 1 5 2 2 0 3 3 2 4 4 4 5 5 13 6 6 14 7 7 12 8 8 19 9 9 20 10 10 21 11 11 14 7 12 15 12 13 16 13 14 5 2 15 17 14 16 6 0 17 1 15 18 2 4 19 0 3 20 22 16 21 23 17 22 19 9 23 11 18 24 10 18 25 8 18 26 6 0 27 18 19 28 7 1 29 13 6 30 15 12 31 14 7 32 19 9 33 23 17 34 20 10 35 1 15 36 3 20 37 2 4 38 11 21 39 9 21 40 10 21 41</p>
+        </polylist>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_controllers/>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="arrowhead_steel" name="arrowhead_steel" type="NODE">
+        <matrix sid="transform">0.0254 0 0 0 0 0.0254 0 0 0 0 0.0254 0 0 0 0 1</matrix>
+        <instance_geometry url="#arrowhead_steel-mesh" name="arrowhead_steel">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="material-material" target="#material-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.77.0 commit date:2016-04-05, commit time:18:12, hash:abf6f08</authoring_tool>
+    </contributor>
+    <created>2018-04-07T19:15:53</created>
+    <modified>2018-04-07T19:15:53</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_images/>
+  <library_geometries>
+    <geometry id="arrowhead_iron-mesh" name="arrowhead_iron">
+      <mesh>
+        <source id="arrowhead_iron-mesh-positions">
+          <float_array id="arrowhead_iron-mesh-positions-array" count="54">33.07086 -4.76837e-7 -5.8666e-7 0 6.34473e-6 90.35433 0 -6.692918 0 0 -6.692918 0 -33.07087 -4.76837e-7 -5.8666e-7 33.07086 -4.76837e-7 -5.8666e-7 33.07086 -4.76837e-7 -5.8666e-7 0 6.692914 -1.09196e-6 0 6.34473e-6 90.35433 0 6.34473e-6 90.35433 -33.07087 -4.76837e-7 -5.8666e-7 0 -6.692918 0 -33.07087 -4.76837e-7 -5.8666e-7 0 6.692914 -1.09196e-6 33.07086 -4.76837e-7 -5.8666e-7 0 6.692914 -1.09196e-6 -33.07087 -4.76837e-7 -5.8666e-7 0 6.34473e-6 90.35433</float_array>
+          <technique_common>
+            <accessor source="#arrowhead_iron-mesh-positions-array" count="18" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="arrowhead_iron-mesh-normals">
+          <float_array id="arrowhead_iron-mesh-normals-array" count="18">0.1978389 -0.9775564 0.07241165 0 0 -1 0.1978388 0.9775564 0.07241147 -0.1978389 -0.9775564 0.07241165 0 0 -1 -0.1978387 0.9775564 0.07241147</float_array>
+          <technique_common>
+            <accessor source="#arrowhead_iron-mesh-normals-array" count="6" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="arrowhead_iron-mesh-map-0">
+          <float_array id="arrowhead_iron-mesh-map-0-array" count="36">0.5000001 1 0.7397629 0 0.7500001 1 0.5754166 0.5 0.5 0.8726472 0.5 0.1273528 1 1 0.7500001 1 0.7602373 0 0.2602373 0 0.5000001 1 0.25 1 0.5 0.8726472 0.4245833 0.5 0.5 0.1273528 0.25 1 0 1 0.2397628 0</float_array>
+          <technique_common>
+            <accessor source="#arrowhead_iron-mesh-map-0-array" count="18" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="arrowhead_iron-mesh-vertices">
+          <input semantic="POSITION" source="#arrowhead_iron-mesh-positions"/>
+        </vertices>
+        <polylist count="6">
+          <input semantic="VERTEX" source="#arrowhead_iron-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#arrowhead_iron-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#arrowhead_iron-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 3 3 3 3 </vcount>
+          <p>0 0 0 1 0 1 2 0 2 3 1 3 4 1 4 5 1 5 6 2 6 7 2 7 8 2 8 9 3 9 10 3 10 11 3 11 12 4 12 13 4 13 14 4 14 15 5 15 16 5 16 17 5 17</p>
+        </polylist>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_controllers/>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="arrowhead_iron" name="arrowhead_iron" type="NODE">
+        <matrix sid="transform">0.0254 0 0 0 0 0.0254 0 0 0 0 0.0254 0 0 0 0 1</matrix>
+        <instance_geometry url="#arrowhead_iron-mesh" name="arrowhead_iron"/>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>
