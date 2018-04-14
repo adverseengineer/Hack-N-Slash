@@ -23,8 +23,6 @@ public class MouseLook : MonoBehaviour
 
 	[Range(0,60)] public uint frameCounter = 10;
 
-	public bool disabled = false;
-
 	[Space(18)]
 	[Header("Zooming")]
 	public float minimumDistanceFromPlayer = 0.3f;
@@ -69,12 +67,8 @@ public class MouseLook : MonoBehaviour
 		rotAverageX = 0f;
 		rotAverageY = 0f;
 
-		//if looking is not disabled, take input
-		if(!disabled)
-		{
-			rotationX += Input.GetAxis("Mouse X") * sensitivityX;
-			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-		}
+		rotationX += Input.GetAxis("Mouse X") * sensitivityX;
+		rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
 
 		rotArrayX.Add(rotationX);
 		rotArrayY.Add(rotationY);
