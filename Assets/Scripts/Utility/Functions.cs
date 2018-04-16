@@ -21,7 +21,6 @@ public static class Functions
 		return result / arg.Count;
 	}
 
-	//TODO: use this function in Melee.cs
 	public static float Stddev(List<float> arg)
 	{
 		float avg = Average(arg);

@@ -15,12 +15,14 @@ public class UIManager : MonoBehaviour
     private bool inventoryVisible = false;
 
 	private bool horizontalAxisHasBeenUsedThisFrame = false;
+	private bool verticalAxisHasBeenUsedThisFrame = false;
 
     private RectTransform itemCategoryPane;
     private RectTransform itemCategoryCursor;
     private RectTransform[] itemCategoryIcons;
 
     private int selectedCategory = 0;
+	private int selectedItem = 0;
 
     private RectTransform playerInfoPane;
     private Text playerGold;
@@ -93,17 +95,34 @@ public class UIManager : MonoBehaviour
         if(inventoryVisible)
         {
             //horizontal changes the selected category, vertical changes the selected item
-            if(Input.GetAxisRaw("Horizontal") != 0 && !horizontalAxisHasBeenUsedThisFrame)
+
+            //if a or d is being held
+            if(Input.GetAxisRaw("Horizontal") != 0)
 			{
-				selectedCategory += (int) Input.GetAxisRaw("Horizontal");
-				horizontalAxisHasBeenUsedThisFrame = true;
+                if(!horizontalAxisHasBeenUsedThisFrame)
+                {
+					selectedCategory += (int) Input.GetAxisRaw("Horizontal");
+				    horizontalAxisHasBeenUsedThisFrame = true;
+                }
 			}
 			else
-			{
 				horizontalAxisHasBeenUsedThisFrame = false;
-			}
 
+			selectedCategory = Mathf.Clamp(selectedCategory, 0, itemCategoryPane.childCount - 1);
 			itemCategoryCursor.SetParent(itemCategoryIcons[selectedCategory], false);
+
+			if(Input.GetAxisRaw("Vertical") != 0)
+			{
+				if(!verticalAxisHasBeenUsedThisFrame)
+				{
+					selectedItem -= (int) Input.GetAxisRaw("Vertical");
+					verticalAxisHasBeenUsedThisFrame = true;
+				}
+			}
+			else
+				verticalAxisHasBeenUsedThisFrame = false;
+
+			print(selectedItem);
 		}
     }
 
