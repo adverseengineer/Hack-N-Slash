@@ -6,5 +6,16 @@ using System.Collections.Generic;
 [CreateAssetMenu]
 public class SaveData : ScriptableObject
 {
-	public Player player;
+	private Player player;
+
+	//save
+	public SaveData()
+	{
+		Debug.Log("creating save");
+	}
+
+	public static void Save()
+	{
+		Debug.Log("saved");
+	}
 }

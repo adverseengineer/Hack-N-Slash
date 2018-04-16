@@ -12,6 +12,16 @@ public class UIManager : MonoBehaviour
     private Canvas HUDCanvas;
     private Canvas inventoryCanvas;
 
+    private bool inventoryVisible = false;
+
+	private bool horizontalAxisHasBeenUsedThisFrame = false;
+
+    private RectTransform itemCategoryPane;
+    private RectTransform itemCategoryCursor;
+    private RectTransform[] itemCategoryIcons;
+
+    private int selectedCategory = 0;
+
     private RectTransform playerInfoPane;
     private Text playerGold;
     private Text playerCarryWeight;
@@ -39,18 +49,35 @@ public class UIManager : MonoBehaviour
 
         playerGold = playerInfoPane.GetChild(0).GetComponent<Text>();
         if(playerGold == null)
-            throw new Exception("<color=red>no player gold text element found");
+            throw new Exception("<color=red>no player gold text element found</color>");
 
         playerCarryWeight = playerInfoPane.GetChild(1).GetComponent<Text>();
         if(playerCarryWeight == null)
             throw new Exception("<color=red>no player carry weight text element found");
 
+        itemCategoryPane = (RectTransform) inventoryCanvas.transform.GetChild(1);
+        if(itemCategoryPane == null)
+            throw new Exception("<color=red>no item category pane found</color>");
+
+        itemCategoryIcons = new RectTransform[itemCategoryPane.childCount];
+        if(itemCategoryIcons.Length == 0)
+            throw new Exception("<color=red>item category icon array is empty</color>");
+        else
+            for(int i = 0; i < itemCategoryPane.childCount; i++)
+                itemCategoryIcons[i] = (RectTransform) itemCategoryPane.GetChild(i);
+
+        //the cursor starts as the child of the first column
+        itemCategoryCursor = (RectTransform) itemCategoryIcons[0].GetChild(0);
+        if(itemCategoryCursor == null)
+            throw new Exception("<color=red>no item category cursor found</color>");
+
         BuildInventory();
     }
 
-    //hide the hud, mini map, and freeze the player
+    //hide the hud, mini map, and freeze the player and cam
     void ToggleInventory()
     {
+        inventoryVisible = true;
         HUDCanvas.enabled = !HUDCanvas.enabled;
         inventoryCanvas.enabled = !inventoryCanvas.enabled;
         miniMapCam.gameObject.SetActive(!miniMapCam.gameObject.activeSelf);
@@ -60,7 +87,24 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Tab)) ToggleInventory();
+        if(Input.GetButtonDown("Inventory"))
+            ToggleInventory();
+
+        if(inventoryVisible)
+        {
+            //horizontal changes the selected category, vertical changes the selected item
+            if(Input.GetAxisRaw("Horizontal") != 0 && !horizontalAxisHasBeenUsedThisFrame)
+			{
+				selectedCategory += (int) Input.GetAxisRaw("Horizontal");
+				horizontalAxisHasBeenUsedThisFrame = true;
+			}
+			else
+			{
+				horizontalAxisHasBeenUsedThisFrame = false;
+			}
+
+			itemCategoryCursor.SetParent(itemCategoryIcons[selectedCategory], false);
+		}
     }
 
     void BuildInventory()

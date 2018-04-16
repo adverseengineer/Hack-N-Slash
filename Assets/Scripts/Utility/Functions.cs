@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Functions
+public static class Functions
 {
 	public static float ClampAngle(float angle, float min, float max)
   	{
