@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
 	private bool horizontalAxisHasBeenUsedThisFrame = false;
 	private bool verticalAxisHasBeenUsedThisFrame = false;
 
+	public GameObject inventoryItemPrefab;
+	private RectTransform itemContentPane;
     private RectTransform itemCategoryPane;
     private RectTransform itemCategoryCursor;
     private RectTransform[] itemCategoryIcons;
@@ -44,6 +46,8 @@ public class UIManager : MonoBehaviour
         inventoryCanvas = transform.GetChild(1).GetComponent<Canvas>();
         if(inventoryCanvas == null)
             throw new Exception("<color=red>attached object is not a canvas</color>");
+        else
+            inventoryCanvas.enabled = false;
 
         playerInfoPane = (RectTransform) inventoryCanvas.transform.GetChild(0);
         if(playerInfoPane == null)
@@ -73,6 +77,10 @@ public class UIManager : MonoBehaviour
         if(itemCategoryCursor == null)
             throw new Exception("<color=red>no item category cursor found</color>");
 
+		itemContentPane = (RectTransform) inventoryCanvas.transform.GetChild(3).GetChild(0).GetChild(0);
+		if(itemContentPane == null)
+			throw new Exception("<color=red>scrolling panel not found</color>");
+
         BuildInventory();
     }
 
@@ -89,14 +97,20 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
+		if(Input.GetKeyDown(KeyCode.R))
+		{
+			BuildInventory();
+		}
+
         if(Input.GetButtonDown("Inventory"))
             ToggleInventory();
 
         if(inventoryVisible)
         {
             //horizontal changes the selected category, vertical changes the selected item
+            //TODO: shift+scroll=switch between categories
 
-            //if a or d is being held
+            //HORIZONTAL (CATEGORY)
             if(Input.GetAxisRaw("Horizontal") != 0)
 			{
                 if(!horizontalAxisHasBeenUsedThisFrame)
@@ -110,7 +124,8 @@ public class UIManager : MonoBehaviour
 
 			selectedCategory = Mathf.Clamp(selectedCategory, 0, itemCategoryPane.childCount - 1);
 			itemCategoryCursor.SetParent(itemCategoryIcons[selectedCategory], false);
-
+            
+			//VERTICAL (ITEM)
 			if(Input.GetAxisRaw("Vertical") != 0)
 			{
 				if(!verticalAxisHasBeenUsedThisFrame)
@@ -128,11 +143,16 @@ public class UIManager : MonoBehaviour
 
     void BuildInventory()
     {
+		foreach (RectTransform child in itemContentPane)
+		{
+            Destroy(child);
+        }
         playerGold.text = "Gold\n" + player.gold;
         playerCarryWeight.text = "Carry Weight\n" + player.currentCarryWeight + "/" + player.carryWeightLimit;
         foreach(Item item in player.inventory)
         {
             print(item.name + "\t<color=blue>" + item.value + "</color>\t<color=green>" + item.weight + "</color>");
+			Instantiate(inventoryItemPrefab, itemContentPane);
         }
     }
 }
