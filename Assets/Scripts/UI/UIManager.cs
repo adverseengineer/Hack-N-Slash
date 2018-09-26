@@ -81,7 +81,7 @@ public class UIManager : MonoBehaviour
 		if(itemContentPane == null)
 			throw new Exception("<color=red>scrolling panel not found</color>");
 
-        BuildInventory();
+        //BuildInventory();
     }
 
     //hide the hud, mini map, and freeze the player and cam
@@ -99,7 +99,7 @@ public class UIManager : MonoBehaviour
     {
 		if(Input.GetKeyDown(KeyCode.R))
 		{
-			BuildInventory();
+			//BuildInventory();
 		}
 
         if(Input.GetButtonDown("Inventory"))
@@ -139,20 +139,5 @@ public class UIManager : MonoBehaviour
 
 			print(selectedItem);
 		}
-    }
-
-    void BuildInventory()
-    {
-		foreach (RectTransform child in itemContentPane)
-		{
-            Destroy(child);
-        }
-        playerGold.text = "Gold\n" + player.gold;
-        playerCarryWeight.text = "Carry Weight\n" + player.currentCarryWeight + "/" + player.carryWeightLimit;
-        foreach(Item item in player.inventory)
-        {
-            print(item.name + "\t<color=blue>" + item.value + "</color>\t<color=green>" + item.weight + "</color>");
-			Instantiate(inventoryItemPrefab, itemContentPane);
-        }
     }
 }

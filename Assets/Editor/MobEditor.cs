@@ -23,5 +23,9 @@ public class MobEditor : Editor
 		Handles.DrawWireDisc(mob.transform.position, Vector3.up, mob.sightDistance);
 		Handles.DrawLine(mob.transform.position, mob.transform.position + viewAngleA * mob.sightDistance);
 		Handles.DrawLine(mob.transform.position, mob.transform.position + viewAngleB * mob.sightDistance);
+
+		//roaming
+		Handles.color = Color.magenta;
+		Handles.DrawWireDisc(mob.roamSpace, Vector3.up, mob.roamDistance);
 	}
 }

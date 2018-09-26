@@ -4,31 +4,16 @@ using System;
 using System.Collections;
 
 [AddComponentMenu("Actors/NPC")]
-public sealed class NPC : Actor
+public sealed class NPC : MonoBehaviour
 {
-	//Berserker		dual wielding shortswords, medium or heavy armor
-	//Knight		longsword and shield, medium armor. just as God intended
-	//Ranger		longbow and arrow, light armor
-	//Artificer		heavy armor, crossbow, caltrops
-	//Thief			two daggers, light or medium armor
-	//Spellsword	longsword and spellbook or scroll, light armor
-	//Druid			light armor, staff and scroll
-	//Tank			heavy armor, warhammer or greatsword
-	//TODO: add more archetypes
+	public String name;
+	public bool isFemale;
+	public static float sightDistance;
+	public static float fov;
 
-	[Space(18)]
-	[Header("Meta")]
 	public TextAsset script;
-	public bool essential;
-	[Range(0,1f)] public float disposition = 0.5f;
 	private NavMeshAgent agent;
 	private Player player;
-
-	[Space(18)]
-	[Header("Detection")]
-	public float hearingDistance;
-	public float sightDistance;
-	[Range(0,180)] public float fov;
 
 	void Start()
 	{
@@ -45,60 +30,20 @@ public sealed class NPC : Actor
 
 	void Update()
 	{
-		StartCoroutine(Idle());
-	}
+		//detect if player is near and in front of the npc
+		Vector3 rayDirection = player.gameObject.transform.localPosition - transform.localPosition;
+		Vector3 NPCDirection = transform.TransformDirection(Vector3.forward);
+		float angleDot = Vector3.Dot(rayDirection, NPCDirection);
+		bool playerInFrontOfNPC = angleDot > 0.0f;
+		bool playerCloseToNPC = rayDirection.sqrMagnitude < sightDistance*sightDistance;
 
-	public IEnumerator Idle()
-	{	
-		while(true)
+		if (playerInFrontOfNPC && playerCloseToNPC)
 		{
-			if(Vector3.Distance(transform.position, player.transform.position) <= sightDistance)
+			RaycastHit hit;
+			if (Physics.Raycast(transform.position, rayDirection, out hit, sightDistance) && hit.collider.gameObject == player.gameObject)
 			{
-				if(true)//player is within fov)
-				{
-					transform.LookAt(player.transform);
-				}
+				//talk to player
 			}
-			yield return new WaitForEndOfFrame();
-		}
-	}
-	public IEnumerator Follow(Transform target, float followDistance)
-	{
-		while(true)
-		{
-			if (Vector3.Distance(agent.destination, target.position) > followDistance)
-        	{
-           		agent.destination = target.position;
-        	}
-			yield return new WaitForEndOfFrame();
-		}
-	}
-	public IEnumerator Search()
-	{
-		while(true)
-		{
-			yield return new WaitForEndOfFrame();
-		}
-	}
-	public IEnumerator Attack()
-	{
-		while(true)
-		{
-			yield return new WaitForEndOfFrame();
-		}
-	}
-	public IEnumerator Retreat()
-	{
-		while(true)
-		{
-			yield return new WaitForEndOfFrame();
-		}
-	}
-	public IEnumerator Converse()
-	{
-		while(true)
-		{
-			yield return new WaitForEndOfFrame();
 		}
 	}
 }

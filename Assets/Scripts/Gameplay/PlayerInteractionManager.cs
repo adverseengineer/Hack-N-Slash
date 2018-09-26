@@ -38,12 +38,12 @@ public class PlayerInteractionManager : MonoBehaviour
 
 		if(Physics.Raycast(romano, out hit, maxDistance, mask))
 		{
-      		//print("Found an object: " + hit.transform.gameObject.name);
+      		print("Found an object: " + hit.transform.gameObject.name);
 			if(Input.GetKeyDown(KeyCode.E))
 			{
 				if(hit.transform.gameObject.tag == "collectible")
 				{
-					player.inventory.Add(hit.transform.gameObject.GetComponent<Collectible>().representedItem);
+					//player.inventory.Add(hit.transform.gameObject.GetComponent<Collectible>().representedItem);
 					hit.transform.gameObject.SetActive(false);
 				}
 				else if(hit.transform.gameObject.tag == "NPC")

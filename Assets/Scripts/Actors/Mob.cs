@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-//using UnityEngine.AI;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -15,10 +13,16 @@ public class Mob : MonoBehaviour
 	public float sightDistance;
 	[Range(0f,100f)]
 	public float hearingDistance;
+	public Vector3 roamSpace;
+	[Range(0f,100f)]
+	public float roamDistance;
+	[Range(0f,1f)]
+	public float chanceToMove;
 
 	private NavMeshAgent agent;
 
-	private Actor target;
+	[SerializeField]
+	private GameObject playerObject;
 
     void OnEnable()
 	{
@@ -41,15 +45,34 @@ public class Mob : MonoBehaviour
 		//if an actor makes a sound or is seen
 			//generate a DetectionEvent
 			//set agent destination to that events location
+
+		Vector3 rayDirection = playerObject.transform.localPosition - transform.localPosition;
+		Vector3 enemyDirection = transform.TransformDirection(Vector3.forward);
+		float angleDot = Vector3.Dot(rayDirection, enemyDirection);
+		bool playerInFrontOfEnemy = angleDot > 0.0f;
+		bool playerCloseToEnemy = rayDirection.sqrMagnitude < sightDistance*sightDistance;
+
+		if (playerInFrontOfEnemy && playerCloseToEnemy)
+		{
+			RaycastHit hit;
+			if (Physics.Raycast(transform.position, rayDirection, out hit, sightDistance) && hit.collider.gameObject == playerObject)
+			{
+				StopCoroutine("Idle");
+			}
+		}
 	}
 
 	public IEnumerator Idle()
 	{
 		while(true)
 		{
-			print("Idle @ " + Time.time);
 			//TODO: idle
-			yield return new WaitForSeconds(3);
+			if(Random.value <= chanceToMove)
+			{
+				Vector2 movement = Random.insideUnitCircle;
+				agent.destination = transform.position + new Vector3(movement.x,0,movement.y);
+			}
+			yield return new WaitForSeconds(1);
 		}
 	}
 
@@ -60,11 +83,9 @@ public class Mob : MonoBehaviour
 		//once there, walk along a circular path X units from the point of interest
 		//if nothing new is detected the whole time, return to patrolling
 
-		//if the player sprints, the sound they make is dependent on equipped armor and weapons
-
-
 		//TODO: investigate
 		agent.destination = location;
+
 		float timeLimit = Time.time + duration;
 		while(true)
 		{

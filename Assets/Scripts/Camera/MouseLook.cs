@@ -22,16 +22,7 @@ public class MouseLook : MonoBehaviour
 	private float rotAverageY = 0f;
 
 	[Range(0,60)] public uint frameCounter = 10;
-
-	[Space(18)]
-	[Header("Zooming")]
-	public float minimumDistanceFromPlayer = 0.3f;
-	public float maximumDistanceFromPlayer = 10f;
-	private float currentDistanceFromPlayer;
-	
 	private Transform child;
-	private Transform grandchild;
-
 	private Quaternion originalRotation;
 	private Quaternion originalChildRotation;
 	private Quaternion xQuaternion = Quaternion.identity;
@@ -42,12 +33,9 @@ public class MouseLook : MonoBehaviour
 	void Start ()
 	{
 		child = transform.GetChild(0);//cam rig
-		grandchild = child.GetChild(0);//cam
 
 		originalRotation = transform.localRotation;
 		originalChildRotation = child.transform.localRotation;
-
-		currentDistanceFromPlayer = grandchild.localPosition.z;
 
 		if (GetComponent<Rigidbody>() != null)
     	{
@@ -57,6 +45,7 @@ public class MouseLook : MonoBehaviour
 
 	void LateUpdate ()
 	{
+		//TODO: this
 		//store the current distance between camera and player
 		//cast a line between the camera and the player
 			//while there is something between them
@@ -92,8 +81,5 @@ public class MouseLook : MonoBehaviour
 
 		transform.localRotation = originalRotation * xQuaternion;
 		transform.GetChild(0).transform.localRotation = originalChildRotation * yQuaternion;
-
-		//zoom
-		grandchild.transform.Translate(Vector3.forward * Input.GetAxis("Scroll") * 5);
 	}
 }
